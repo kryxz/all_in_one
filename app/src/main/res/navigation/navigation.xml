@@ -29,4 +29,29 @@
         android:name="com.lemonlab.all_in_one.SettingsFragment"
         android:label="@string/settingsTitle"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.lemonlab.all_in_one.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" />
+    <fragment
+        android:id="@+id/createFragment"
+        android:name="com.lemonlab.all_in_one.CreateFragment"
+        android:label="fragment_create"
+        tools:layout="@layout/fragment_create" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.lemonlab.all_in_one.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.lemonlab.all_in_one.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" />
+    <fragment
+        android:id="@+id/mustLoginFragment"
+        android:name="com.lemonlab.all_in_one.MustLoginFragment"
+        android:label="fragment_must_login"
+        tools:layout="@layout/fragment_must_login" />
 </navigation>

@@ -2,15 +2,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/forumFragment"
-        android:icon="@drawable/ic_comment"
+        android:icon="@drawable/ic_people"
         android:title="@string/forumTitle" />
+
+    <item
+        android:id="@+id/sendFragment"
+        android:icon="@drawable/ic_send"
+        android:title="@string/sendTitle" />
+
     <item
         android:id="@+id/mainFragment"
         android:icon="@drawable/ic_home"
         android:title="@string/mainTitle" />
     <item
-        android:id="@+id/sendFragment"
-        android:icon="@drawable/ic_send"
-        android:title="@string/sendTitle" />
+        android:id="@+id/createFragment"
+        android:icon="@drawable/ic_create"
+        android:title="@string/createTitle" />
+
+    <item
+        android:id="@+id/chatFragment"
+        android:icon="@drawable/ic_chat"
+        android:title="@string/chatTitle" />
 
 </menu>
