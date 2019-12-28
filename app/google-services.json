@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "772161906487",
+    "firebase_url": "https://all-in-on-6be75.firebaseio.com",
+    "project_id": "all-in-on-6be75",
+    "storage_bucket": "all-in-on-6be75.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:772161906487:android:fa33248e20a41a1242dcb2",
+        "android_client_info": {
+          "package_name": "com.lemonlab.all_in_one"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "772161906487-d4u01vuoq85h7th32fo66nivcknudhk3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqeZMkLMz_vrvc1TEMHLRceHvfZzXlAoQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "772161906487-d4u01vuoq85h7th32fo66nivcknudhk3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
