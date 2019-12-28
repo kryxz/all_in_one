@@ -38,7 +38,7 @@ class MustLoginFragment : Fragment() {
             mustLoginBtn.setOnClickListener {
                 val navOptions = NavOptions.Builder().setPopUpTo(R.id.mainFragment, true).build()
                 view!!.findNavController().navigate(
-                    R.id.loginFragment,
+                    R.id.registerFragment,
                     null, navOptions
                 )
             }

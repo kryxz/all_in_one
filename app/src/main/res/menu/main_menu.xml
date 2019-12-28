@@ -7,4 +7,10 @@
         android:title="@string/forumTitle"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/signOut"
+        android:icon="@drawable/ic_exit"
+        android:title="@string/signOut"
+        app:showAsAction="always" />
+
 </menu>

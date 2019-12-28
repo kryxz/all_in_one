@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.google.firebase.auth.FirebaseAuth
 
 
 class MainFragment : Fragment() {
@@ -36,7 +37,14 @@ class MainFragment : Fragment() {
         // the direction is created in navigation.xml
             view!!.findNavController().navigate(MainFragmentDirections.mainToSettings())
 
+        if(item.itemId == R.id.signOut)
+            signOut()
+
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun signOut(){
+        FirebaseAuth.getInstance().signOut()
     }
 
 
