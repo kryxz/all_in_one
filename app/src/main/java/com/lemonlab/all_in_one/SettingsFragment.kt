@@ -1,0 +1,25 @@
+package com.lemonlab.all_in_one
+
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+
+/*
+    Shows several options the user can change.
+ */
+
+class SettingsFragment : Fragment() {
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_settings, container, false)
+    }
+
+
+}

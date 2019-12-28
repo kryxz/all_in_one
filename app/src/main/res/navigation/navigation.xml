@@ -8,6 +8,25 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.lemonlab.all_in_one.MainFragment"
-        android:label="fragment_main"
-        tools:layout="@layout/fragment_main" />
+        android:label="@string/mainTitle"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/mainToSettings"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sendFragment"
+        android:name="com.lemonlab.all_in_one.SendFragment"
+        android:label="@string/sendTitle"
+        tools:layout="@layout/fragment_send" />
+    <fragment
+        android:id="@+id/forumFragment"
+        android:name="com.lemonlab.all_in_one.ForumFragment"
+        android:label="@string/forumTitle"
+        tools:layout="@layout/fragment_forum" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.lemonlab.all_in_one.SettingsFragment"
+        android:label="@string/settingsTitle"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

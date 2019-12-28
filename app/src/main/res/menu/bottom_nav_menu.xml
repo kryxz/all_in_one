@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/forumFragment"
+        android:icon="@drawable/ic_comment"
+        android:title="@string/forumTitle" />
+    <item
+        android:id="@+id/mainFragment"
+        android:icon="@drawable/ic_home"
+        android:title="@string/mainTitle" />
+    <item
+        android:id="@+id/sendFragment"
+        android:icon="@drawable/ic_send"
+        android:title="@string/sendTitle" />
+
+</menu>

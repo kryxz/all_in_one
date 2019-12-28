@@ -4,7 +4,8 @@ import com.lemonlab.all_in_one.R
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 
-class StatusItem(): Item<ViewHolder>(){
+class StatusItem() : Item<ViewHolder>() {
+
     override fun getLayout(): Int {
         return R.layout.status_item_view;
     }

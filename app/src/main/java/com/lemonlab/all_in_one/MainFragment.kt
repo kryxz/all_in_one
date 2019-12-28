@@ -2,10 +2,9 @@ package com.lemonlab.all_in_one
 
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.navigation.findNavController
 
 
 class MainFragment : Fragment() {
@@ -15,6 +14,7 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
 
@@ -23,5 +23,21 @@ class MainFragment : Fragment() {
 
         super.onViewCreated(view, savedInstanceState)
     }
+
+    // options menu in app bar
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.settingsFragment)
+        // navigate from a fragment to another
+        // the direction is created in navigation.xml
+            view!!.findNavController().navigate(MainFragmentDirections.mainToSettings())
+
+        return super.onOptionsItemSelected(item)
+    }
+
 
 }
