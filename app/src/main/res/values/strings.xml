@@ -17,6 +17,9 @@
     <string name="newHere">ليس لديك حساب؟</string>
     <string name="loginOrRegister">إنشاء حساب/تسجيل الدخول</string>
 
+    <string name="send">إرسال</string>
+    <string name="sendChatTitle">نص الرسالة</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
