@@ -59,7 +59,8 @@ class RegisterFragment : Fragment() {
 
     private fun addUserToFirestore(user: User){
         val db = FirebaseFirestore.getInstance()
-        db.collection("users").add(user)
+        val uid = FirebaseAuth.getInstance().uid
+        db.collection("users").document("$uid").set(user)
     }
 
 }
