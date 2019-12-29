@@ -115,7 +115,7 @@ class ChatFragment : Fragment() {
                             Message(
                                 text = doc.data!!["text"].toString(),
                                 userUid = FirebaseAuth.getInstance().uid.toString(),
-                                username = currentUser!!.name,
+                                username = doc.data!!["username"].toString(),
                                 timestamp =Timestamp(0)//TODO:: Some work here
                             ))
                     )
