@@ -47,7 +47,7 @@ class ChatFragment : Fragment() {
         // get current user from firestore to use it when user send a message
         //TODO:: Add loading ui and disabled all ui until getting user complete
         getCurrentUser()
-        listenToMessages()
+        //listenToMessages()
 
         chat_rv.adapter = adapter
 
@@ -71,6 +71,7 @@ class ChatFragment : Fragment() {
                     val email = document.get("email").toString()
                     currentUser = User(username, email)
                 }
+                listenToMessages()
             }
         }
     }
@@ -87,6 +88,7 @@ class ChatFragment : Fragment() {
         )
 
         adapter.add(chatItem)
+        slideToLastMessage()
 
         val db = FirebaseFirestore.getInstance()
         db.collection("chats").add(message)
@@ -112,8 +114,8 @@ class ChatFragment : Fragment() {
                         ChatItem(
                             Message(
                                 text = doc.data!!["text"].toString(),
-                                userUid = "",
-                                username = "",
+                                userUid = FirebaseAuth.getInstance().uid.toString(),
+                                username = currentUser!!.name,
                                 timestamp =Timestamp(0)//TODO:: Some work here
                             ))
                     )
@@ -133,5 +135,8 @@ class ChatFragment : Fragment() {
         return documents
     }
 
+    private fun slideToLastMessage(){
+        chat_rv.scrollToPosition(adapter.itemCount - 1)
+    }
 
 }

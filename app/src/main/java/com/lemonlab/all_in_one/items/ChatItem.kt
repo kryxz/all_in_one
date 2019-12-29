@@ -13,5 +13,6 @@ class ChatItem(var message: Message): Item<ViewHolder>() {
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.itemView.chat_tv.text = message.text
+        viewHolder.itemView.chat_item_username_tv.text = message.username
     }
 }

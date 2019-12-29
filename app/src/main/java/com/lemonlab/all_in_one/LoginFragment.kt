@@ -40,7 +40,6 @@ class LoginFragment : Fragment() {
 
     private fun logInUser(email:String, password:String){
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).addOnCompleteListener{
-            context!!.showMessage("تم تسجيل الدخول بنجاح")
             view!!.navigateToAndClear(R.id.loginFragment, R.id.mainFragment)
         }
     }
