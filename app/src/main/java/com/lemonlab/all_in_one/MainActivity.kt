@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -20,6 +22,15 @@ class MainActivity : AppCompatActivity() {
         window.decorView.layoutDirection = View.LAYOUT_DIRECTION_RTL
     }
 
+    override fun onStop() {
+        val uid = FirebaseAuth.getInstance().uid
+
+        // check if there user logged in
+        if (!uid.isNullOrEmpty())
+            FirebaseFirestore.getInstance().collection("users").document("$uid")
+                .update("online", "false")
+        super.onStop()
+    }
 
     override fun onNavigateUp(): Boolean =
         navController.navigateUp()

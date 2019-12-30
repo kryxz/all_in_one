@@ -47,5 +47,6 @@ fun View.makeTheUserOnline(){
         FirebaseDatabase.getInstance().getReference("/status/$uid")
             .onDisconnect()     // Set up the disconnect hook
             .setValue("offline")
+
     }
 }
