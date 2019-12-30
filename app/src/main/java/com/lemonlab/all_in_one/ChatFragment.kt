@@ -2,6 +2,7 @@ package com.lemonlab.all_in_one
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,11 +54,17 @@ class ChatFragment : Fragment() {
 
         send_message_btn.setOnClickListener {
             val messageText = chat_edit_text.text.toString()
+            if(messageText.isEmpty()) return@setOnClickListener
             // clear the edit text
             chat_edit_text.text.clear()
             // add the message to rv adapter and store it in the database
             sendMessage(messageText)
         }
+    }
+
+    override fun onResume() {
+        slideToLastMessage()
+        super.onResume()
     }
 
     private fun getCurrentUser(){
@@ -77,6 +84,7 @@ class ChatFragment : Fragment() {
     }
 
     private fun sendMessage(text:String){
+        Log.i("sendMessage", "sending: $text")
         val message = Message(
             text = text,
             username = currentUser!!.name, // temp code for test
@@ -96,6 +104,7 @@ class ChatFragment : Fragment() {
     }
 
     private fun listenToMessages(){
+
         val db = FirebaseFirestore.getInstance()
         val docRef = db.collection("chats").orderBy("timestamp")
         docRef.addSnapshotListener{
@@ -103,6 +112,8 @@ class ChatFragment : Fragment() {
             if (e != null) {
                 return@addSnapshotListener
             }
+
+            if(context == null) return@addSnapshotListener
 
             if(snapshot != null){
                 // clear the adapter
