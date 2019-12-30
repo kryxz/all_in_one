@@ -2,6 +2,7 @@ package com.lemonlab.all_in_one
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -13,6 +14,8 @@ import kotlinx.android.synthetic.main.fragment_create.*
  * A simple [Fragment] subclass.
  */
 class CreateFragment : Fragment() {
+
+    private lateinit var editorButtons:List<View>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +45,11 @@ class CreateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //init
+
+        // get all buttons in the editor
+        editorButtons = listOf(drop_text_btn, brushe_btn, eraser_btn, drop_emoji, drop_sticker)
+
         photoEditorView.source.setImageResource(R.drawable.android_logo)
 
         //Use custom font using latest support library
@@ -54,7 +62,40 @@ class CreateFragment : Fragment() {
             .setDefaultEmojiTypeface(mTextRobotoTf)
             .build()
 
-        mPhotoEditor.setBrushDrawingMode(true)
-        mPhotoEditor.addText(mTextRobotoTf,"Hello", R.color.colorAccent)
+        // drag text text
+        drop_text_btn.setOnClickListener {
+            mPhotoEditor.addText(mTextRobotoTf,"Hello World", R.color.colorAccent)
+            enableButton(it)
+        }
+
+        // enable drawing with black color for text
+        brushe_btn.setOnClickListener {
+            mPhotoEditor.setBrushDrawingMode(true)
+
+        }
+        // for test
+        eraser_btn.setOnClickListener{
+            mPhotoEditor.brushEraser()
+        }
+
+        // for test
+        undo_btn.setOnClickListener {
+            mPhotoEditor.undo()
+        }
+
+        redo_btn.setOnClickListener {
+            mPhotoEditor.redo()
+        }
+    }
+
+    // change the color of btn to selected color
+    private fun enableButton(btn:View){
+        for (button in editorButtons){
+            if(editorButtons == btn){
+                button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.colorPrimaryDark))
+            }else{
+                button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.colorAccent))
+            }
+        }
     }
 }

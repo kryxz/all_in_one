@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.quote_item.view.*
 import kotlin.random.Random
 
 
-enum class Category { Wisdom, Friendship, Sadness, Islam, Other, Morning, Afternoon, Love, Winter }
+enum class Category { Wisdom, Friendship, Sadness, Islam, Other, Morning, Afternoon, Love, Winter}
 
 // used to get the category of the quote using categories.indexOf(category)
 private val categories = listOf(

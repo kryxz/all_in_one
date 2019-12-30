@@ -1,6 +1,7 @@
 package com.lemonlab.all_in_one.extensions
 
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.navigation.NavOptions
@@ -32,7 +33,7 @@ fun Context.showMessage(m:String){
 
 fun makeTheUserOnline() {
     val uid = FirebaseAuth.getInstance().uid
-
+    Log.i("MainFragment", "user uid: $uid")
     // check if there user logged in
     if(!uid.isNullOrEmpty()){
         val db = FirebaseFirestore.getInstance()

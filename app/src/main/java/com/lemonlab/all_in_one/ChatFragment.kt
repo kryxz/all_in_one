@@ -172,7 +172,7 @@ class ChatFragment : Fragment() {
             }
             if(snapshot != null){
                 userOnlinesCounts = snapshot.documents.size
-                context!!.showMessage("online users: $userOnlinesCounts")
+                Log.i("ChatFragment", "userOnlinesCounts: $userOnlinesCounts")
             }
         }
     }

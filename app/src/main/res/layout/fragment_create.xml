@@ -7,32 +7,154 @@
     tools:context=".CreateFragment">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:weightSum="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:padding="10dp"
+            android:layout_width="80dp"
+            android:layout_height="100dp"
+            android:id="@+id/brushe_btn"
+            android:layout_weight="0.2"
             android:background="@color/colorAccent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:paddingBottom="10dp"
+                android:src="@drawable/ic_brush"
+                android:tint="@color/white" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18dp"
+                android:text="Brushe"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:text="bruch" />
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <!-- Item 2 -->
+
+        <LinearLayout
+            android:id="@+id/drop_text_btn"
+            android:layout_width="80dp"
+            android:layout_height="100dp"
+            android:layout_weight="0.2"
+            android:background="@color/colorAccent"
+            android:orientation="vertical"
+            android:padding="10dp">
+
             <ImageView
+                android:id="@+id/imageView2"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:tint="@color/white"
-                android:src="@drawable/ic_brush" />
+                android:paddingBottom="10dp"
+                android:src="@drawable/ic_text"
+                android:tint="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Text"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <!-- Item 3 -->
+
+        <LinearLayout
+            android:id="@+id/eraser_btn"
+            android:layout_width="80dp"
+            android:layout_height="100dp"
+            android:layout_weight="0.2"
+            android:background="@color/colorAccent"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:paddingBottom="10dp"
+                android:src="@drawable/ic_eraser"
+                android:tint="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Eraser"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <!-- Item 4 -->
+
+        <LinearLayout
+            android:id="@+id/drop_sticker"
+            android:layout_width="80dp"
+            android:layout_height="100dp"
+            android:layout_weight="0.2"
+            android:background="@color/colorAccent"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:paddingBottom="10dp"
+                android:src="@drawable/ic_sticker"
+                android:tint="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sticker"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <!-- Item 5 -->
+
+        <LinearLayout
+            android:id="@+id/drop_emoji"
+            android:layout_width="80dp"
+            android:layout_height="100dp"
+            android:layout_weight="0.2"
+            android:background="@color/colorAccent"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:paddingBottom="10dp"
+                android:src="@drawable/ic_emoji"
+                android:tint="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Emoji"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
 
         </LinearLayout>
 
@@ -48,6 +170,30 @@
 
 
     </ja.burhanrashid52.photoeditor.PhotoEditorView>
+
+    <ImageView
+        android:id="@+id/undo_btn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/lightColorAccent"
+        android:src="@drawable/ic_undo"
+        android:tint="@color/colorAccent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/redo_btn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:background="@color/lightColorAccent"
+        android:src="@drawable/ic_redo"
+        android:tint="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="@+id/undo_btn"
+        app:layout_constraintStart_toEndOf="@+id/undo_btn"
+        app:layout_constraintTop_toTopOf="@+id/undo_btn" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
