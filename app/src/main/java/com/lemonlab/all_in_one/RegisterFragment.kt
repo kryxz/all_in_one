@@ -46,11 +46,10 @@ class RegisterFragment : Fragment() {
     }
 
     private fun registerNewUser(email: String, password: String, name:String){
-        val user = User(name = name, email = email)
+        val user = User(name = name, email = email, online = true)
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener{
                 addUserToFirestore(user)
-                context!!.showMessage("تم تسجيل الدخول بنجاح")
                 view!!.navigateToAndClear(R.id.registerFragment, R.id.mainFragment)
             }.addOnFailureListener{
                 context!!.showMessage("حدثت مشكلة اثناء الاتصال")

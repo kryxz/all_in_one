@@ -6,6 +6,8 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.lemonlab.all_in_one.extensions.makeTheUserOnline
 
 
 class MainFragment : Fragment() {
@@ -21,8 +23,10 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // View created successfully. Call any methods here.
-
         super.onViewCreated(view, savedInstanceState)
+
+        view.makeTheUserOnline()
+
     }
 
     // options menu in app bar
@@ -46,6 +50,4 @@ class MainFragment : Fragment() {
     private fun signOut(){
         FirebaseAuth.getInstance().signOut()
     }
-
-
 }

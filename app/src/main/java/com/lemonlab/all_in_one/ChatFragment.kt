@@ -30,6 +30,7 @@ class ChatFragment : Fragment() {
 
     private val adapter: GroupAdapter<ViewHolder> = GroupAdapter()
     private var currentUser: User? = null
+    private var userOnlinesCounts: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +49,7 @@ class ChatFragment : Fragment() {
         // get current user from firestore to use it when user send a message
         //TODO:: Add loading ui and disabled all ui until getting user complete
         getCurrentUser()
+        getUsersOnline()
 
         chat_rv.adapter = adapter
         slideToLastMessage()
@@ -67,6 +69,11 @@ class ChatFragment : Fragment() {
         super.onResume()
     }
 
+    override fun onPause() {
+        adapter.clear()
+        super.onPause()
+    }
+
     private fun getCurrentUser(){
         val db = FirebaseFirestore.getInstance()
         val uid = FirebaseAuth.getInstance().uid
@@ -76,7 +83,9 @@ class ChatFragment : Fragment() {
                 if(document != null && document.exists()){
                     val username = document.get("name").toString()
                     val email = document.get("email").toString()
-                    currentUser = User(username, email)
+                    val userStatus = document.get("online").toString()
+                    var online = userStatus == "true"
+                    currentUser = User(username, email, online)
                 }
                 listenToMessages()
             }
@@ -152,6 +161,20 @@ class ChatFragment : Fragment() {
     private fun slideToLastMessage(){
         if(adapter.itemCount >= 1)
         chat_rv.scrollToPosition(adapter.itemCount - 1)
+    }
+
+    private fun getUsersOnline(){
+        val db = FirebaseFirestore.getInstance()
+        db.collection("users").whereEqualTo("status","online").addSnapshotListener{
+                snapshot, e ->
+            if (e != null) {
+                return@addSnapshotListener
+            }
+            if(snapshot != null){
+                userOnlinesCounts = snapshot.documents.size
+                context!!.showMessage("online users: $userOnlinesCounts")
+            }
+        }
     }
 
 }
