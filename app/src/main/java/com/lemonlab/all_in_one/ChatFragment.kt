@@ -165,7 +165,7 @@ class ChatFragment : Fragment() {
 
     private fun getUsersOnline(){
         val db = FirebaseFirestore.getInstance()
-        db.collection("users").whereEqualTo("status","online").addSnapshotListener{
+        db.collection("users").whereEqualTo("online","true").addSnapshotListener{
                 snapshot, e ->
             if (e != null) {
                 return@addSnapshotListener

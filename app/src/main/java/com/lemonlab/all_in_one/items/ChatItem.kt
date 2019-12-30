@@ -19,8 +19,7 @@ class ChatItem(var message: Message, var context: Context): Item<ViewHolder>() {
         viewHolder.itemView.chat_tv.text = message.text
         viewHolder.itemView.chat_item_username_tv.text = message.username
         val uid = FirebaseAuth.getInstance().uid
-        Log.i("chatItem", "uid: $uid")
-        Log.i("chatItem", "message.userUid: ${message.userUid}")
+
         if(message.userUid.equals(uid.toString())){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 viewHolder.itemView.chat_item_username_tv.setTextColor(context.getColor(R.color.green))
