@@ -8,6 +8,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.lemonlab.all_in_one.extensions.makeTheUserOnline
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -22,16 +23,20 @@ class MainActivity : AppCompatActivity() {
         window.decorView.layoutDirection = View.LAYOUT_DIRECTION_RTL
     }
 
-    override fun onStop() {
+    override fun onPause() {
         val uid = FirebaseAuth.getInstance().uid
 
         // check if there user logged in
         if (!uid.isNullOrEmpty())
             FirebaseFirestore.getInstance().collection("users").document("$uid")
                 .update("online", "false")
-        super.onStop()
+        super.onPause()
     }
 
+    override fun onResume() {
+        makeTheUserOnline()
+        super.onResume()
+    }
     override fun onNavigateUp(): Boolean =
         navController.navigateUp()
 

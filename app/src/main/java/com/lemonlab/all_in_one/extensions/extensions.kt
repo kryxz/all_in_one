@@ -30,7 +30,7 @@ fun Context.showMessage(m:String){
     Toast.makeText(this, m,Toast.LENGTH_LONG).show()
 }
 
-fun View.makeTheUserOnline(){
+fun makeTheUserOnline() {
     val uid = FirebaseAuth.getInstance().uid
 
     // check if there user logged in

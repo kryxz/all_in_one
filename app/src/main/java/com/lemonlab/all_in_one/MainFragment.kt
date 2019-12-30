@@ -28,7 +28,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // View created successfully. Call any methods here.
         init()
-        view.makeTheUserOnline()
+        makeTheUserOnline()
         super.onViewCreated(view, savedInstanceState)
     }
 
