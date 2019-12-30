@@ -13,6 +13,9 @@
         <action
             android:id="@+id/mainToSettings"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/mainToQuotes"
+            app:destination="@id/localQuotesFragment" />
     </fragment>
     <fragment
         android:id="@+id/sendFragment"
@@ -54,4 +57,19 @@
         android:name="com.lemonlab.all_in_one.MustLoginFragment"
         android:label="fragment_must_login"
         tools:layout="@layout/fragment_must_login" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.lemonlab.all_in_one.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/localQuotesFragment"
+        android:name="com.lemonlab.all_in_one.LocalQuotesFragment"
+        android:label="fragment_local_quotes"
+        tools:layout="@layout/fragment_local_quotes">
+        <argument
+            android:name="category"
+            android:defaultValue="Wisdom"
+            app:argType="com.lemonlab.all_in_one.items.Category" />
+    </fragment>
 </navigation>

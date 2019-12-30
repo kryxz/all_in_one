@@ -23,6 +23,9 @@ class MainActivity : AppCompatActivity() {
         window.decorView.layoutDirection = View.LAYOUT_DIRECTION_RTL
     }
 
+    // TODO Implement back button for certain fragments(LocalQuotes, Profile, Settings, etc)
+
+
     override fun onPause() {
         val uid = FirebaseAuth.getInstance().uid
 
@@ -37,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         makeTheUserOnline()
         super.onResume()
     }
+
     override fun onNavigateUp(): Boolean =
         navController.navigateUp()
 

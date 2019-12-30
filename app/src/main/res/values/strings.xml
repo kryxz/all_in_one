@@ -24,14 +24,30 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+
     <string name="wisdom">أقوال وحكم</string>
     <string name="friendship">عن الصداقة</string>
     <string name="sadness">عن الحزن</string>
+    <string name="islam">مواعظ إسلاميّة</string>
+    <string name="other">منوّعات</string>
+    <string name="morning">رسائلٌ صباحيّة</string>
+    <string name="afternoon">رسائلٌ مسائيّة</string>
+    <string name="love">عن الحُب</string>
+    <string name="winter">عن الشتاء</string>
+
+    <string name="text_sample">عندما انطفأت شعلة النار، بدأ يحدِّق في النجوم عبر النافذة. كانت رحلة العودة ستتم من غير رفاق طريق.</string>
+
 
     <string-array name="category">
         <item>أقوال وحكم</item>
         <item>عن الصداقة</item>
         <item>عن الحزن</item>
+        <item>مواعظ إسلاميّة</item>
+        <item>منوّعات</item>
+        <item>رسائلٌ صباحيّة</item>
+        <item>رسائلٌ مسائيّة</item>
+        <item>>عن الحُب</item>
+        <item>>عن الشتاء</item>
     </string-array>
 
 
