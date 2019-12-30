@@ -23,4 +23,16 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="wisdom">أقوال وحكم</string>
+    <string name="friendship">عن الصداقة</string>
+    <string name="sadness">عن الحزن</string>
+
+    <string-array name="category">
+        <item>أقوال وحكم</item>
+        <item>عن الصداقة</item>
+        <item>عن الحزن</item>
+    </string-array>
+
+
 </resources>

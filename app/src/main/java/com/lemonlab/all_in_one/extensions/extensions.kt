@@ -20,7 +20,7 @@ fun View.checkUser() {
 
 fun View.navigateToAndClear(destinationId:Int, newdes:Int){
     val navOptions = NavOptions.Builder().setPopUpTo(destinationId, true).build()
-    this!!.findNavController().navigate(
+    this.findNavController().navigate(
         newdes,
         null, navOptions
     )
