@@ -43,6 +43,8 @@ dependencies {
     // PhotoEditor
     implementation 'ja.burhanrashid52:photoeditor:1.0.0'
 
+    // bottom bar
+    implementation 'com.github.devlight.navigationtabstrip:navigationtabstrip:1.0.4'
 
     // FireBase
     // implementation 'com.google.firebase:firebase-ads:18.3.0'

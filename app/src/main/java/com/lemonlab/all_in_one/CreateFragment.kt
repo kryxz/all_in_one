@@ -1,11 +1,13 @@
 package com.lemonlab.all_in_one
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import com.gigamole.navigationtabstrip.NavigationTabStrip
 import ja.burhanrashid52.photoeditor.PhotoEditor
 import kotlinx.android.synthetic.main.fragment_create.*
 
@@ -47,9 +49,6 @@ class CreateFragment : Fragment() {
 
         //init
 
-        // get all buttons in the editor
-        editorButtons = listOf(drop_text_btn, brushe_btn, eraser_btn, drop_emoji, drop_sticker)
-
         photoEditorView.source.setImageResource(R.drawable.android_logo)
 
         //Use custom font using latest support library
@@ -62,20 +61,29 @@ class CreateFragment : Fragment() {
             .setDefaultEmojiTypeface(mTextRobotoTf)
             .build()
 
-        // drag text text
-        drop_text_btn.setOnClickListener {
-            mPhotoEditor.addText(mTextRobotoTf,"Hello World", R.color.colorAccent)
-            enableButton(it)
-        }
+        navigationTabStrip.onTabStripSelectedIndexListener = object:
+            NavigationTabStrip.OnTabStripSelectedIndexListener{
+            override fun onEndTabSelected(title: String?, index: Int) {
 
-        // enable drawing with black color for text
-        brushe_btn.setOnClickListener {
-            mPhotoEditor.setBrushDrawingMode(true)
+            }
 
-        }
-        // for test
-        eraser_btn.setOnClickListener{
-            mPhotoEditor.brushEraser()
+            override fun onStartTabSelected(title: String?, index: Int) {
+                Log.i("CreateFragment", "clicked: $index")
+                when(index){
+                    0 -> {
+                        mPhotoEditor.setBrushDrawingMode(true)
+                    }
+
+                    1 ->{
+                        mPhotoEditor.brushEraser()
+                    }
+
+                    2 ->{
+                        mPhotoEditor.addText("Hello World", ContextCompat.getColor(context!!, R.color.colorAccent))
+                    }
+                }
+            }
+
         }
 
         // for test

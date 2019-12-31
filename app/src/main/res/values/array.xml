@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="titles"> <!-- Photo Editor Titles (to use it in xml file)-->
+        <item>"Bruch"</item>
+        <item>"Eraser"</item>
+        <item>"Text"</item>
+        <item>"Emoji"</item>
+        <item>"Sticker"</item>
+    </array>
+</resources>
