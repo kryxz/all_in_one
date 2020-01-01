@@ -41,6 +41,7 @@ class LocalQuotesFragment : Fragment() {
         quotes_rv.adapter = adapter
     }
 
+
     private fun getStatuses(category: Category): List<String> {
         return when (category) {
             Category.Wisdom -> resources.getStringArray(R.array.wisdom).toList()
