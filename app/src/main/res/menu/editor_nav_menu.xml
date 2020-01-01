@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bruchTool"
+        android:icon="@drawable/ic_brush"
+        android:title="@string/editorNavBruch" />
+
+    <item
+        android:id="@+id/textTool"
+        android:icon="@drawable/ic_text"
+        android:title="@string/editorNavText" />
+
+    <item
+        android:id="@+id/eraserTool"
+        android:icon="@drawable/ic_eraser"
+        android:title="@string/editorNavEraser" />
+    <item
+        android:id="@+id/emojiTool"
+        android:icon="@drawable/ic_emoji"
+        android:title="@string/editorNavEmoji" />
+
+    <item
+        android:id="@+id/stickerTool"
+        android:icon="@drawable/ic_sticker"
+        android:title="@string/editorNavSticker" />
+
+</menu>

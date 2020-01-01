@@ -137,37 +137,30 @@ class CreateFragment : Fragment() {
             .setDefaultEmojiTypeface(mTextRobotoTf)
             .build()
 
-        navigationTabStrip.onTabStripSelectedIndexListener = object :
-            NavigationTabStrip.OnTabStripSelectedIndexListener {
+        photoEditorBottomBar.setOnNavigationItemSelectedListener {
+            Log.i("CreateFragment", "item id: $it.itemId")
+            when (it.itemId) {
+                R.id.bruchTool -> {
+                    photoEditor.setBrushDrawingMode(true)
+                }
 
-            override fun onEndTabSelected(title: String?, index: Int) {
+                R.id.eraserTool-> {
+                    photoEditor.brushEraser()
+                }
 
-            }
+                R.id.textTool -> {
+                    photoEditor.addText(
+                        "Hello!",
+                        currentEditorColor
+                    )
+                }
 
-            override fun onStartTabSelected(title: String?, index: Int) {
-                Log.i("CreateFragment", "clicked: $index")
-                when (index) {
-                    0 -> {
-                        photoEditor.setBrushDrawingMode(true)
-                    }
-
-                    1 -> {
-                        photoEditor.brushEraser()
-                    }
-
-                    2 -> {
-                        photoEditor.addText(
-                            "Hello!",
-                            currentEditorColor
-                        )
-
-                    }
-                    3 ->{
-                        showColorPicker()
-                    }
+                // for test
+                R.id.emojiTool ->{
+                    showColorPicker()
                 }
             }
-
+            true
         }
         dialog(photoEditor)
         // for test
@@ -180,7 +173,7 @@ class CreateFragment : Fragment() {
         }
     }
 
-    fun showColorPicker(){
+    private fun showColorPicker(){
         val dialogBuilder = AlertDialog.Builder(context!!).create()
 
         val dialogView = layoutInflater.inflate(

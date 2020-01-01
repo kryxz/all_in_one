@@ -17,24 +17,17 @@
     </ja.burhanrashid52.photoeditor.PhotoEditorView>
 
 
-    <com.gigamole.navigationtabstrip.NavigationTabStrip
-        android:id="@+id/navigationTabStrip"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/photoEditorBottomBar"
         android:layout_width="match_parent"
-        android:background="@color/lightColorAccent"
-        android:layout_height="55dp"
+        android:layout_height="wrap_content"
+        android:background="@color/grey"
+        app:itemIconTint="@color/colorPrimaryDark"
+        app:itemTextColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_gravity="center"
-        app:nts_active_color="@color/colorAccent"
-        app:nts_color="@color/colorAccent"
-        app:nts_corners_radius="10dp"
-        app:nts_inactive_color="@color/white"
-        app:nts_size="20sp"
-        app:nts_type="point"
-        app:nts_gravity="top"
-        app:nts_titles="@array/titles"
-        app:nts_weight="10dp"/>
+        app:menu="@menu/editor_nav_menu" />
 
     <ImageView
         android:id="@+id/undo_btn"
