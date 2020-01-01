@@ -13,7 +13,10 @@ import com.gigamole.navigationtabstrip.NavigationTabStrip
 import ja.burhanrashid52.photoeditor.OnPhotoEditorListener
 import ja.burhanrashid52.photoeditor.PhotoEditor
 import ja.burhanrashid52.photoeditor.ViewType
+import kotlinx.android.synthetic.main.color_picker.*
+import kotlinx.android.synthetic.main.color_picker.view.*
 import kotlinx.android.synthetic.main.fragment_create.*
+import kotlinx.android.synthetic.main.input_text.view.*
 
 
 /**
@@ -21,7 +24,7 @@ import kotlinx.android.synthetic.main.fragment_create.*
  */
 class CreateFragment : Fragment() {
 
-    private lateinit var editorButtons: List<View>
+    var currentEditorColor = R.color.colorAccent
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,9 +76,9 @@ class CreateFragment : Fragment() {
         with(dialogBuilder) {
             val attrs = window!!.attributes
             with(attrs) {
-                gravity = Gravity.TOP or Gravity.START
+                gravity = Gravity.CENTER or Gravity.START
                 x = 400 //x position
-                y = 250 //y position
+                y = 0 //y position
             }
         }
 
@@ -88,8 +91,10 @@ class CreateFragment : Fragment() {
 
                 photoEditor.editText(rootView!!, text, colorCode)
                 dialogBuilder.show()
+                dialogView.inputTextField.setText(text)
                 dialogBuilder.setOnDismissListener {
                     val newText = inputText.text.toString()
+                    dialogView.inputTextField.text!!.clear()
                     photoEditor.editText(rootView, newText, colorCode)
                 }
 
@@ -120,13 +125,13 @@ class CreateFragment : Fragment() {
 
         //init
 
-        photoEditorView.source.setImageResource(R.drawable.android_logo)
+        photoEditorView.source.setImageResource(R.drawable.test_image)
 
         //Use custom font using latest support library
         val mTextRobotoTf = ResourcesCompat.getFont(context!!, R.font.aram)
 
 
-        val mPhotoEditor = PhotoEditor.Builder(context!!, photoEditorView)
+        val photoEditor = PhotoEditor.Builder(context!!, photoEditorView)
             .setPinchTextScalable(true)
             .setDefaultTextTypeface(mTextRobotoTf)
             .setDefaultEmojiTypeface(mTextRobotoTf)
@@ -143,47 +148,51 @@ class CreateFragment : Fragment() {
                 Log.i("CreateFragment", "clicked: $index")
                 when (index) {
                     0 -> {
-                        mPhotoEditor.setBrushDrawingMode(true)
+                        photoEditor.setBrushDrawingMode(true)
                     }
 
                     1 -> {
-                        mPhotoEditor.brushEraser()
+                        photoEditor.brushEraser()
                     }
 
                     2 -> {
-                        mPhotoEditor.addText(
+                        photoEditor.addText(
                             "Hello!",
-                            ContextCompat.getColor(context!!, R.color.colorAccent)
+                            currentEditorColor
                         )
+
+                    }
+                    3 ->{
+                        showColorPicker()
                     }
                 }
             }
 
         }
-        dialog(mPhotoEditor)
+        dialog(photoEditor)
         // for test
         undo_btn.setOnClickListener {
-            mPhotoEditor.undo()
+            photoEditor.undo()
         }
 
         redo_btn.setOnClickListener {
-            mPhotoEditor.redo()
+            photoEditor.redo()
         }
     }
 
-    // change the color of btn to selected color
-    private fun enableButton(btn: View) {
-        for (button in editorButtons) {
-            if (editorButtons == btn) {
-                button.setBackgroundColor(
-                    ContextCompat.getColor(
-                        context!!,
-                        R.color.colorPrimaryDark
-                    )
-                )
-            } else {
-                button.setBackgroundColor(ContextCompat.getColor(context!!, R.color.colorAccent))
-            }
+    fun showColorPicker(){
+        val dialogBuilder = AlertDialog.Builder(context!!).create()
+
+        val dialogView = layoutInflater.inflate(
+            R.layout.color_picker,
+            view!!.findViewById(R.id.settingsFragment)
+        )
+
+        dialogBuilder.setView(dialogView)
+        dialogBuilder.show()
+
+        dialogBuilder.setOnDismissListener {
+            currentEditorColor = dialogView.color_picker.color
         }
     }
 }

@@ -46,6 +46,9 @@ dependencies {
     // bottom bar
     implementation 'com.github.devlight.navigationtabstrip:navigationtabstrip:1.0.4'
 
+    // pickers
+    implementation 'com.larswerkman:HoloColorPicker:1.5'
+
     // FireBase
     // implementation 'com.google.firebase:firebase-ads:18.3.0'
     implementation 'com.google.firebase:firebase-messaging:20.1.0'

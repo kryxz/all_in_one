@@ -8,16 +8,10 @@
     android:orientation="vertical">
 
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/inputTextField"
-        android:layout_width="match_parent"
+    <com.larswerkman.holocolorpicker.ColorPicker
+        android:id="@+id/color_picker"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@null"
-        android:hint="اكتب هنا"
-        android:textAlignment="center"
-        android:textSize="32sp"
-        android:padding="8dp"
-        android:textColor="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

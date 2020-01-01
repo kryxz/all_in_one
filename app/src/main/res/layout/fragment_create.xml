@@ -14,8 +14,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
     </ja.burhanrashid52.photoeditor.PhotoEditorView>
+
 
     <com.gigamole.navigationtabstrip.NavigationTabStrip
         android:id="@+id/navigationTabStrip"
