@@ -1,10 +1,12 @@
 package com.lemonlab.all_in_one.items
 
 import android.content.*
-import android.graphics.Color
+import android.os.Handler
 import android.text.SpannableString
 import android.text.style.BackgroundColorSpan
 import android.view.View
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.ContextCompat
 import com.lemonlab.all_in_one.R
 import com.lemonlab.all_in_one.extensions.showMessage
 import com.lemonlab.all_in_one.items.CategoryPics.Companion.allPics
@@ -14,7 +16,7 @@ import kotlinx.android.synthetic.main.quote_item.view.*
 import kotlin.random.Random
 
 
-enum class Category { Wisdom, Friendship, Sadness, Islam, Other, Morning, Afternoon, Love, Winter}
+enum class Category { Wisdom, Friendship, Sadness, Islam, Other, Morning, Afternoon, Love, Winter }
 
 // used to get the category of the quote using categories.indexOf(category)
 private val categories = listOf(
@@ -32,6 +34,7 @@ private val categories = listOf(
 // pictures for each category. Will add more later.
 class CategoryPics {
     companion object {
+        const val size = 2
         private val wisdom = listOf(R.drawable.coffee_book, R.drawable.hourglass)
         private val friendship = listOf(R.drawable.friend_girls, R.drawable.friend_guys)
         private val sadness = listOf(R.drawable.guy_sad, R.drawable.girl_sad)
@@ -64,7 +67,7 @@ class QuoteItem(
 
         // set text and background picture.
         view.quote_text_tv.text = highlightText(text)
-        view.text_image.setImageResource(getPics(category)[Random.nextInt(2)])
+        view.text_image.setImageResource(getPics(category)[Random.nextInt(CategoryPics.size)])
 
         // listens to button clicks and calls a specific function!
         listenButtons(
@@ -87,14 +90,17 @@ class QuoteItem(
                     R.id.quote_share_btn ->
                         shareText(text)
 
+
                     R.id.quote_whats_share_btn ->
                         shareWhatsApp(text)
+
 
                     R.id.quote_favorite_btn ->
                         favorite()
 
                     R.id.quote_content_btn ->
-                        copyItem(context, text)
+                        copyItem(context, text, button as AppCompatImageView)
+
 
                 }
             }
@@ -105,12 +111,17 @@ class QuoteItem(
     private fun getPics(category: Category) =
         allPics[categories.indexOf(category)]
 
+
     // copies item to clipboard and shows a message!
-    private fun copyItem(context: Context, text: String) {
+    private fun copyItem(context: Context, text: String, button: AppCompatImageView) {
         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText("text", text)
         clipboard.setPrimaryClip(clip)
-        context.showMessage("Copied")
+        context.showMessage(context.getString(R.string.copied))
+        with(button) {
+            setImageResource(R.drawable.ic_done)
+            Handler().postDelayed({ setImageResource(R.drawable.ic_copy) }, 500)
+        }
     }
 
     // shares quote test
@@ -132,7 +143,7 @@ class QuoteItem(
         try {
             context.startActivity(sendIntent)
         } catch (e: ActivityNotFoundException) {
-            context.showMessage("App Not Found!")
+            context.showMessage(context.getString(R.string.appNotFound))
         }
     }
 
@@ -145,7 +156,12 @@ class QuoteItem(
     // Highlights text background.
     private fun highlightText(text: String): SpannableString {
         val str = SpannableString(text)
-        str.setSpan(BackgroundColorSpan(Color.YELLOW), 0, text.length, 0)
+        str.setSpan(
+            BackgroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimaryDark)),
+            0,
+            text.length,
+            0
+        )
         return str
     }
 

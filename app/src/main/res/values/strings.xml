@@ -20,6 +20,8 @@
     <string name="send">إرسال</string>
     <string name="sendChatTitle">نص الرسالة</string>
     <string name="camera">تصوير صورة</string>
+    <string name="copied">تم النسخ</string>
+    <string name="appNotFound">تعذّر العثور على التطبيق</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -37,6 +39,18 @@
 
     <string name="text_sample">عندما انطفأت شعلة النار، بدأ يحدِّق في النجوم عبر النافذة. كانت رحلة العودة ستتم من غير رفاق طريق.</string>
 
+
+    <string-array name="categoryEn">
+        <item>Wisdom</item>
+        <item>Friendship</item>
+        <item>Sadness</item>
+        <item>Islam</item>
+        <item>Other</item>
+        <item>Morning</item>
+        <item>Afternoon</item>
+        <item>>Love</item>
+        <item>>Winter</item>
+    </string-array>
 
     <string-array name="category">
         <item>أقوال وحكم</item>

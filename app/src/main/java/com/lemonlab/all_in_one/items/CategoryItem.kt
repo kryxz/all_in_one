@@ -1,7 +1,6 @@
 package com.lemonlab.all_in_one.items
 
 import android.content.Context
-import android.widget.Toast
 import androidx.navigation.findNavController
 import com.lemonlab.all_in_one.MainFragmentDirections
 import com.lemonlab.all_in_one.R
@@ -26,7 +25,6 @@ class CategoryItem(
         view.category_image.setImageResource(imageID)
 
         view.setOnClickListener {
-            Toast.makeText(context, category.toString(), Toast.LENGTH_LONG).show()
             it.findNavController()
                 .navigate(MainFragmentDirections.mainToQuotes().setCategory(category))
         }
