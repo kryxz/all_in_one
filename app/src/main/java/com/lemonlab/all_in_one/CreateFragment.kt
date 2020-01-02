@@ -15,10 +15,12 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import com.lemonlab.all_in_one.extensions.createImageFile
 import dev.sasikanth.colorsheet.ColorSheet
 import ja.burhanrashid52.photoeditor.OnPhotoEditorListener
 import ja.burhanrashid52.photoeditor.PhotoEditor
@@ -26,6 +28,7 @@ import ja.burhanrashid52.photoeditor.ViewType
 import kotlinx.android.synthetic.main.color_picker.view.*
 import kotlinx.android.synthetic.main.fragment_create.*
 import kotlinx.android.synthetic.main.input_text.view.*
+import java.lang.Exception
 
 
 /**
@@ -38,6 +41,7 @@ class CreateFragment : Fragment() {
 
     private var currentEditorColor = ColorSheet.NO_COLOR
     private var colors:IntArray? = null
+    private var photoEditor:PhotoEditor? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,6 +64,19 @@ class CreateFragment : Fragment() {
 
         if (item.itemId == R.id.createLibrary){
             selectImage()
+        }
+
+        if(item.itemId == R.id.createSave){
+            photoEditor!!.saveAsFile(activity!!.createImageFile().path, object: PhotoEditor.OnSaveListener{
+                override fun onSuccess(imagePath: String) {
+                    Toast.makeText(context!!, "تم حفظ الصورة بنجاح", Toast.LENGTH_LONG).show()
+                }
+
+                override fun onFailure(exception: Exception) {
+                    Toast.makeText(context!!, "تعذر حفظ الصورة", Toast.LENGTH_LONG).show()
+                }
+
+            })
         }
 
         return super.onOptionsItemSelected(item)
@@ -157,7 +174,7 @@ class CreateFragment : Fragment() {
         val mTextRobotoTf = ResourcesCompat.getFont(context!!, R.font.aram)
 
 
-        val photoEditor = PhotoEditor.Builder(context!!, photoEditorView)
+        photoEditor = PhotoEditor.Builder(context!!, photoEditorView)
             .setPinchTextScalable(true)
             .setDefaultTextTypeface(mTextRobotoTf)
             .setDefaultEmojiTypeface(mTextRobotoTf)
@@ -166,16 +183,16 @@ class CreateFragment : Fragment() {
         photoEditorBottomBar.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.bruchTool -> {
-                    photoEditor.setBrushDrawingMode(true)
-                    photoEditor.brushColor = currentEditorColor
+                    photoEditor!!.setBrushDrawingMode(true)
+                    photoEditor!!.brushColor = currentEditorColor
                 }
 
                 R.id.eraserTool-> {
-                    photoEditor.brushEraser()
+                    photoEditor!!.brushEraser()
                 }
 
                 R.id.textTool -> {
-                    photoEditor.addText(
+                    photoEditor!!.addText(
                         "Hello!",
                         currentEditorColor
                     )
@@ -189,15 +206,15 @@ class CreateFragment : Fragment() {
             true
         }
 
-        dialog(photoEditor) // pass the editor to the edit text dialog
+        dialog(photoEditor!!) // pass the editor to the edit text dialog
 
         // undo and redo
         undo_btn.setOnClickListener {
-            photoEditor.undo()
+            photoEditor!!.undo()
         }
 
         redo_btn.setOnClickListener {
-            photoEditor.redo()
+            photoEditor!!.redo()
         }
     }
 

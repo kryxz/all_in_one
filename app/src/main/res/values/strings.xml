@@ -28,6 +28,7 @@
     <string name="appNotFound">تعذّر العثور على التطبيق</string>
     <string name="textDeleted">تم حذف المحتوى</string>
     <string name="undo">تراجع</string>
+    <string name="saveImage">حفظ الصورة</string>
 
     <!-- Photo editor Nav Menu Titles-->
 

@@ -5,10 +5,16 @@
         android:id="@+id/createCamera"
         android:icon="@drawable/ic_cam"
         android:title="@string/camera"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/createLibrary"
         android:icon="@drawable/ic_photo_library"
         android:title="@string/camera"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/createSave"
+        android:icon="@drawable/ic_down_arrow"
+        android:title="@string/saveImage"
+        app:showAsAction="ifRoom" />
 </menu>
