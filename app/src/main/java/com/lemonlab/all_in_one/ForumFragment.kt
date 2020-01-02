@@ -2,6 +2,7 @@ package com.lemonlab.all_in_one
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +25,10 @@ import kotlin.collections.ArrayList
  */
 
 
+@Suppress("UNCHECKED_CAST") // TODO:
 class ForumFragment : Fragment() {
+
+    var posts:List<ForumPost>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +42,7 @@ class ForumFragment : Fragment() {
         view.checkUser()
         createPost()
         getPosts()
+
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -60,7 +65,7 @@ class ForumFragment : Fragment() {
 
             if (context == null) return@addSnapshotListener
 
-            if (snapshot != null) {
+            if (snapshot != null && !snapshot.isEmpty) {
                 // clear the adapter
                 adapter.clear()
                 // get all messages and clear the old
@@ -72,7 +77,7 @@ class ForumFragment : Fragment() {
                     val timestamp = doc.get("timestamp", Date::class.java)!!
 
                     val comments: ArrayList<Comment>? = if (doc.data!!["comments"] != null)
-                        doc.get("comments") as ArrayList<Comment>
+                        doc.get("comments") as ArrayList<Comment>?
                     else
                         ArrayList()
 
@@ -89,6 +94,14 @@ class ForumFragment : Fragment() {
                         else
                             ArrayList()
 
+                    val reportIDs: ArrayList<String>? =
+                        if (doc.data!!["reportIDs"] != null)
+                            doc.get("reportIDs")!! as ArrayList<String>
+                        else
+                            ArrayList()
+
+                    val reports = doc.data!!["reports"].toString().toInt()
+
                     val postID = doc.id
                     val likes = doc.data!!["likes"].toString().toInt()
                     val dislikes = doc.data!!["dislikes"].toString().toInt()
@@ -101,7 +114,9 @@ class ForumFragment : Fragment() {
                         likesIDs = likesIDs,
                         dislikesIDs = dislikesIDs,
                         likes = likes,
-                        dislikes = dislikes
+                        dislikes = dislikes,
+                        reports = reports,
+                        reportIDs = reportIDs
                     )
                     adapter.add(ForumPostItem(post, context!!, postID))
                 }
@@ -111,4 +126,6 @@ class ForumFragment : Fragment() {
             }
         }
     }
+
+
 }

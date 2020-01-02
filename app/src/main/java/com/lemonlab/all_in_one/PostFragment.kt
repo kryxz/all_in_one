@@ -130,7 +130,9 @@ class PostFragment : Fragment() {
                 likesIDs = null,
                 dislikesIDs = null,
                 likes = 0,
-                dislikes = 0
+                dislikes = 0,
+                reports = 0,
+                reportIDs = null
             )
             val db = FirebaseFirestore.getInstance()
             forumPostingProgressBar.visibility = View.VISIBLE
