@@ -5,6 +5,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -47,6 +49,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpNavigation() {
         bottom_nav.setupWithNavController(navController)
+
+        val fragmentsWithNoBackButton = setOf<Int>(
+            R.id.mainFragment,
+            R.id.sendFragment, R.id.forumFragment, R.id.createFragment, R.id.chatFragment
+        )
+
+        NavigationUI.setupActionBarWithNavController(
+            this, navController,
+            AppBarConfiguration.Builder(fragmentsWithNoBackButton).build()
+        )
 
         // hide bottom nav if user is in register or login fragments.
         navController.addOnDestinationChangedListener { controller, destination, arguments ->

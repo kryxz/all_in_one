@@ -31,6 +31,8 @@
     <string name="saveImage">حفظ الصورة</string>
     <string name="okay">حسنًا</string>
     <string name="comments">التعليقات</string>
+    <string name="view_post">عرض المنشور</string>
+    <string name="profile">الملف الشخصي</string>
 
     <!-- Photo editor Nav Menu Titles-->
 

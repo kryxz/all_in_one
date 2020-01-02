@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.lemonlab.all_in_one.items.Category
 import com.lemonlab.all_in_one.items.QuoteItem
@@ -39,8 +40,13 @@ class LocalQuotesFragment : Fragment() {
             adapter.add(QuoteItem(context!!, quote, category))
 
         quotes_rv.adapter = adapter
+
     }
 
+    private fun setTitle(text: String) {
+        (activity as AppCompatActivity).supportActionBar!!.title = text
+
+    }
 
     private fun getStatuses(category: Category): List<String> {
         return when (category) {
