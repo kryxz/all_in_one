@@ -13,12 +13,12 @@
         android:layout_marginTop="32dp"
         android:text="@string/loginTitle"
         android:textColor="@color/colorAccent"
-        android:textSize="32dp"
+        android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/useremail_edittext"
         android:layout_width="0dp"
         android:layout_height="50dp"
@@ -38,7 +38,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_tv" />
 
-    <EditText
+    <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/user_password_edittext"
         android:layout_width="0dp"
         android:layout_height="50dp"
@@ -61,20 +61,20 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/newHere"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:textColor="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="@+id/user_password_edittext"
         app:layout_constraintStart_toStartOf="@+id/user_password_edittext"
         app:layout_constraintTop_toBottomOf="@+id/user_password_edittext" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/log_in_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/loginTitle"
         android:textColor="@color/white"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:padding="4dp"
         android:background="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -11,7 +11,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.lemonlab.all_in_one.extensions.checkUser
-import com.lemonlab.all_in_one.extensions.showMessage
 import com.lemonlab.all_in_one.items.ChatItem
 import com.lemonlab.all_in_one.model.Message
 import com.lemonlab.all_in_one.model.User
@@ -30,7 +29,7 @@ class ChatFragment : Fragment() {
 
     private val adapter: GroupAdapter<ViewHolder> = GroupAdapter()
     private var currentUser: User? = null
-    private var userOnlinesCounts: Int = 0
+    private var onlineUsersCount: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -84,7 +83,7 @@ class ChatFragment : Fragment() {
                     val username = document.get("name").toString()
                     val email = document.get("email").toString()
                     val userStatus = document.get("online").toString()
-                    var online = userStatus == "true"
+                    val online = userStatus == "true"
                     currentUser = User(username, email, online)
                 }
                 listenToMessages()
@@ -171,8 +170,8 @@ class ChatFragment : Fragment() {
                 return@addSnapshotListener
             }
             if(snapshot != null){
-                userOnlinesCounts = snapshot.documents.size
-                Log.i("ChatFragment", "userOnlinesCounts: $userOnlinesCounts")
+                onlineUsersCount = snapshot.documents.size
+                Log.i("ChatFragment", "userOnlinesCounts: $onlineUsersCount")
             }
         }
     }

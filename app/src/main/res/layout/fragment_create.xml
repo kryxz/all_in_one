@@ -30,7 +30,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/editor_nav_menu" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/undo_btn"
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -42,7 +42,7 @@
         app:layout_constraintHorizontal_bias="0.044"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/redo_btn"
         android:layout_width="40dp"
         android:layout_height="40dp"

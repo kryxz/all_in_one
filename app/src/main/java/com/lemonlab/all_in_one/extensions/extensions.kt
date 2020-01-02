@@ -2,14 +2,12 @@ package com.lemonlab.all_in_one.extensions
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Environment
 import android.text.SpannableString
 import android.text.style.BackgroundColorSpan
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController

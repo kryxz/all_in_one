@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".RegisterFragment">
 
-    <EditText
+    <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/username_edit_text"
         android:layout_width="0dp"
         android:layout_height="50dp"
@@ -17,7 +17,8 @@
         android:ems="10"
         android:hint="@string/username"
         android:inputType="textPersonName"
-        android:paddingRight="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:text=""
         android:textColor="@color/white"
         android:textColorHint="@color/grey"
@@ -27,19 +28,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_tv" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/registerTitle"
-        android:textSize="32dp"
+        android:textSize="32sp"
         android:textColor="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/useremail_edittext"
         android:layout_width="0dp"
         android:layout_height="50dp"
@@ -49,7 +50,8 @@
         android:inputType="textPersonName"
         android:text=""
         android:textDirection="rtl"
-        android:paddingRight="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:background="@drawable/rounded_edittext_register_login"
         android:textColorHint="@color/grey"
         android:textColor="@color/white"
@@ -58,13 +60,14 @@
         app:layout_constraintStart_toStartOf="@+id/username_edit_text"
         app:layout_constraintTop_toBottomOf="@+id/username_edit_text" />
 
-    <EditText
+    <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/user_password_edittext"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
         android:ems="10"
-        android:paddingRight="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:textDirection="rtl"
         android:background="@drawable/rounded_edittext_register_login"
         android:textColorHint="@color/grey"
@@ -76,25 +79,25 @@
         app:layout_constraintStart_toStartOf="@+id/useremail_edittext"
         app:layout_constraintTop_toBottomOf="@+id/useremail_edittext" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/log_in_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/alreadyHere"
         android:textColor="@color/colorAccent"
-        android:textSize="18dp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/user_password_edittext"
         app:layout_constraintStart_toStartOf="@+id/user_password_edittext"
         app:layout_constraintTop_toBottomOf="@+id/user_password_edittext" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/register_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/registerTitle"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:background="@color/colorAccent"
         android:textColor="@color/white"
         android:padding="4dp"

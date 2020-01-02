@@ -3,21 +3,16 @@ package com.lemonlab.all_in_one
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.lemonlab.all_in_one.extensions.createImageFile
@@ -25,10 +20,8 @@ import dev.sasikanth.colorsheet.ColorSheet
 import ja.burhanrashid52.photoeditor.OnPhotoEditorListener
 import ja.burhanrashid52.photoeditor.PhotoEditor
 import ja.burhanrashid52.photoeditor.ViewType
-import kotlinx.android.synthetic.main.color_picker.view.*
 import kotlinx.android.synthetic.main.fragment_create.*
 import kotlinx.android.synthetic.main.input_text.view.*
-import java.lang.Exception
 
 
 /**
@@ -36,12 +29,7 @@ import java.lang.Exception
  */
 class CreateFragment : Fragment() {
 
-    private val PICK_IMAGE_CODE = 1
-    private val IMAGE_CAPTURE_CODE = 2
-
-    private var currentEditorColor = ColorSheet.NO_COLOR
-    private var colors:IntArray? = null
-    private var photoEditor:PhotoEditor? = null
+    private lateinit var photoEditor: PhotoEditor
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,21 +50,31 @@ class CreateFragment : Fragment() {
         if (item.itemId == R.id.createCamera)
             selectCameraImage()
 
-        if (item.itemId == R.id.createLibrary){
+        if (item.itemId == R.id.createLibrary) {
             selectImage()
         }
 
-        if(item.itemId == R.id.createSave){
-            photoEditor!!.saveAsFile(activity!!.createImageFile().path, object: PhotoEditor.OnSaveListener{
-                override fun onSuccess(imagePath: String) {
-                    Toast.makeText(context!!, "تم حفظ الصورة بنجاح", Toast.LENGTH_LONG).show()
-                }
+        if (item.itemId == R.id.createSave) {
+            photoEditor.saveAsFile(
+                activity!!.createImageFile().path,
+                object : PhotoEditor.OnSaveListener {
+                    override fun onSuccess(imagePath: String) {
+                        Toast.makeText(
+                            context!!,
+                            getString(R.string.image_saved),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
 
-                override fun onFailure(exception: Exception) {
-                    Toast.makeText(context!!, "تعذر حفظ الصورة", Toast.LENGTH_LONG).show()
-                }
+                    override fun onFailure(exception: Exception) {
+                        Toast.makeText(
+                            context!!,
+                            getString(R.string.couldnt_save_image),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
 
-            })
+                })
         }
 
         return super.onOptionsItemSelected(item)
@@ -85,10 +83,9 @@ class CreateFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(resultCode == Activity.RESULT_OK && requestCode == PICK_IMAGE_CODE){
+        if (resultCode == Activity.RESULT_OK && requestCode == 1) {
             photoEditorView.source.setImageURI(data!!.data)
-        }
-        else if(resultCode == Activity.RESULT_OK && requestCode == IMAGE_CAPTURE_CODE){
+        } else if (resultCode == Activity.RESULT_OK && requestCode == 2) {
             val imageBitmap = data!!.extras!!.get("data") as Bitmap
             photoEditorView.source.setImageBitmap(imageBitmap)
         }
@@ -120,8 +117,8 @@ class CreateFragment : Fragment() {
             val attrs = window!!.attributes
             with(attrs) {
                 gravity = Gravity.CENTER or Gravity.START
-                x = 400 //x position
-                y = 0 //y position
+                x = 400 // x position
+                y = 0 // y position
             }
         }
 
@@ -161,10 +158,20 @@ class CreateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         editor()
         super.onViewCreated(view, savedInstanceState)
-        colors = resources.getIntArray(R.array.colors)
     }
 
     private fun editor() {
+
+        var currentEditorColor = ColorSheet.NO_COLOR
+
+        fun showColorPicker() {
+            ColorSheet().colorPicker(
+                colors = resources.getIntArray(R.array.colors),
+                listener = { color ->
+                    currentEditorColor = color
+                })
+                .show(fragmentManager!!)
+        }
 
         //init
 
@@ -182,93 +189,84 @@ class CreateFragment : Fragment() {
 
         photoEditorBottomBar.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.bruchTool -> {
-                    photoEditor!!.setBrushDrawingMode(true)
-                    photoEditor!!.brushColor = currentEditorColor
+                R.id.brushTool -> {
+                    photoEditor.setBrushDrawingMode(true)
+                    photoEditor.brushColor = currentEditorColor
                 }
 
-                R.id.eraserTool-> {
-                    photoEditor!!.brushEraser()
+                R.id.eraserTool -> {
+                    photoEditor.brushEraser()
                 }
 
                 R.id.textTool -> {
-                    photoEditor!!.addText(
+                    photoEditor.addText(
                         "Hello!",
                         currentEditorColor
                     )
                 }
 
                 // for test
-                R.id.emojiTool ->{
+                R.id.emojiTool -> {
                     showColorPicker()
                 }
             }
             true
         }
 
-        dialog(photoEditor!!) // pass the editor to the edit text dialog
+        dialog(photoEditor) // pass the editor to the edit text dialog
 
         // undo and redo
         undo_btn.setOnClickListener {
-            photoEditor!!.undo()
+            photoEditor.undo()
         }
 
         redo_btn.setOnClickListener {
-            photoEditor!!.redo()
+            photoEditor.redo()
         }
     }
 
-    private fun showColorPicker(){
-        ColorSheet().colorPicker(
-            colors = colors!!,
-            listener = { color ->
-                currentEditorColor = color
-            })
-            .show(fragmentManager!!)
-    }
 
-    private fun selectImage(){
+    private fun selectImage() {
         // Request permissions to storage
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (activity!!.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) ==
-                PackageManager.PERMISSION_DENIED){
+                PackageManager.PERMISSION_DENIED
+            ) {
                 val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
                 requestPermissions(permissions, 1)
-            }
-            else{
+            } else {
                 pickImageFromGallery()
             }
-        }
-        else{
+        } else {
             //system OS is < Marshmallow
             pickImageFromGallery()
         }
     }
 
 
-    private fun pickImageFromGallery(){
+    private fun pickImageFromGallery() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
-        startActivityForResult(intent, PICK_IMAGE_CODE)
+        startActivityForResult(intent, 1)
     }
 
-    private fun selectCameraImage(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+    private fun selectCameraImage() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (activity!!.checkSelfPermission(Manifest.permission.CAMERA)
                 == PackageManager.PERMISSION_DENIED ||
                 activity!!.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_DENIED){
+                == PackageManager.PERMISSION_DENIED
+            ) {
                 //permission was not enabled
-                val permission = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                val permission =
+                    arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 //show popup to request permission
                 requestPermissions(permission, 1000)
-            }
-            else{
+            } else {
                 //permission already granted
                 openCamera()
             }
-        }
-        else{
+        } else {
             //system os is < marshmallow
             openCamera()
         }
@@ -277,7 +275,7 @@ class CreateFragment : Fragment() {
     private fun openCamera() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             takePictureIntent.resolveActivity(activity!!.packageManager)?.also {
-                startActivityForResult(takePictureIntent, IMAGE_CAPTURE_CODE)
+                startActivityForResult(takePictureIntent, 2)
             }
         }
     }

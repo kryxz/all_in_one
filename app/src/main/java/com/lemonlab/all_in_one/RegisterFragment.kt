@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.lemonlab.all_in_one.extensions.navigateToAndClear
@@ -30,7 +29,7 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // register a new user in firebase and store its information in firestore
+        // register a new user in FireBase and store its information in firestore
         view.register_btn.setOnClickListener{
             val email = view.useremail_edittext.text.toString()
             val password = view.user_password_edittext.text.toString()
@@ -49,14 +48,14 @@ class RegisterFragment : Fragment() {
         val user = User(name = name, email = email, online = true)
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener{
-                addUserToFirestore(user)
+                addUserToFireStore(user)
                 view!!.navigateToAndClear(R.id.registerFragment, R.id.mainFragment)
             }.addOnFailureListener{
                 context!!.showMessage("حدثت مشكلة اثناء الاتصال")
             }
     }
 
-    private fun addUserToFirestore(user: User){
+    private fun addUserToFireStore(user: User) {
         val db = FirebaseFirestore.getInstance()
         val uid = FirebaseAuth.getInstance().uid
         db.collection("users").document("$uid").set(user)

@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.lemonlab.all_in_one.extensions.navigateToAndClear
-import com.lemonlab.all_in_one.extensions.showMessage
 import kotlinx.android.synthetic.main.fragment_login.view.*
 
 /**
@@ -30,7 +29,7 @@ class LoginFragment : Fragment() {
         view.log_in_btn.setOnClickListener {
             val email = view.useremail_edittext.text.toString()
             val password = view.user_password_edittext.text.toString()
-            logInUser(email = email, password = password);
+            logInUser(email = email, password = password)
         }
 
         view.sign_up_tv.setOnClickListener {

@@ -120,7 +120,7 @@ class CategoryPics {
             R.drawable.winter_man
         )
 
-        val allPics =
+        private val allPics =
             listOf(wisdom, friendship, sadness, islam, other, morning, afternoon, love, winter)
 
         // returns a list of pictures ids for a category
@@ -186,7 +186,6 @@ class QuoteItem(
                 }
             }
     }
-
 
 
     // copies item to clipboard and shows a message!
