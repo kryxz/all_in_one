@@ -1,9 +1,17 @@
 package com.lemonlab.all_in_one
 
+import android.Manifest
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.ContentValues
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
+import android.provider.MediaStore
 import android.view.*
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.res.ResourcesCompat
@@ -21,7 +29,9 @@ import kotlinx.android.synthetic.main.input_text.view.*
  */
 class CreateFragment : Fragment() {
 
-    var currentEditorColor = R.color.colorAccent
+    private val PICK_IMAGE_CODE = 1
+    private val IMAGE_CAPTURE_CODE = 2
+    private var currentEditorColor = R.color.colorAccent
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,12 +50,25 @@ class CreateFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.createCamera)
-            return true
+            selectCameraImage()
 
-        if (item.itemId == R.id.createLibrary)
-            return true
+        if (item.itemId == R.id.createLibrary){
+            selectImage()
+        }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(resultCode == Activity.RESULT_OK && requestCode == PICK_IMAGE_CODE){
+            photoEditorView.source.setImageURI(data!!.data)
+        }
+        else if(resultCode == Activity.RESULT_OK && requestCode == IMAGE_CAPTURE_CODE){
+            val imageBitmap = data!!.extras!!.get("data") as Bitmap
+            photoEditorView.source.setImageBitmap(imageBitmap)
+        }
     }
 
     private fun dialog(photoEditor: PhotoEditor) {
@@ -135,7 +158,6 @@ class CreateFragment : Fragment() {
             .build()
 
         photoEditorBottomBar.setOnNavigationItemSelectedListener {
-            Log.i("CreateFragment", "item id: $it.itemId")
             when (it.itemId) {
                 R.id.bruchTool -> {
                     photoEditor.setBrushDrawingMode(true)
@@ -185,4 +207,61 @@ class CreateFragment : Fragment() {
             currentEditorColor = dialogView.color_picker.color
         }
     }
+
+    private fun selectImage(){
+        // Request permissions to storage
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if (activity!!.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) ==
+                PackageManager.PERMISSION_DENIED){
+                val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+                requestPermissions(permissions, 1)
+            }
+            else{
+                pickImageFromGallery()
+            }
+        }
+        else{
+            //system OS is < Marshmallow
+            pickImageFromGallery()
+        }
+    }
+
+
+    private fun pickImageFromGallery(){
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, PICK_IMAGE_CODE)
+    }
+
+    private fun selectCameraImage(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if (activity!!.checkSelfPermission(Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_DENIED ||
+                activity!!.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_DENIED){
+                //permission was not enabled
+                val permission = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                //show popup to request permission
+                requestPermissions(permission, 1000)
+            }
+            else{
+                //permission already granted
+                openCamera()
+            }
+        }
+        else{
+            //system os is < marshmallow
+            openCamera()
+        }
+    }
+
+    private fun openCamera() {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            takePictureIntent.resolveActivity(activity!!.packageManager)?.also {
+                startActivityForResult(takePictureIntent, IMAGE_CAPTURE_CODE)
+            }
+        }
+    }
+
+
 }

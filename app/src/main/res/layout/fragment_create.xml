@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layoutDirection="ltr"
     tools:context=".CreateFragment">
 
     <ja.burhanrashid52.photoeditor.PhotoEditorView
@@ -22,8 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/grey"
-        app:itemIconTint="@color/colorPrimaryDark"
-        app:itemTextColor="@color/white"
+        app:itemIconTint="@color/black"
+        app:itemTextColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,25 +32,23 @@
 
     <ImageView
         android:id="@+id/undo_btn"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/lightColorAccent"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="4dp"
         android:src="@drawable/ic_undo"
-        android:tint="@color/colorAccent"
+        android:tint="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/photoEditorBottomBar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.044"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/redo_btn"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:background="@color/lightColorAccent"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
         android:src="@drawable/ic_redo"
-        android:tint="@color/colorAccent"
+        android:tint="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/undo_btn"
         app:layout_constraintStart_toEndOf="@+id/undo_btn"
         app:layout_constraintTop_toTopOf="@+id/undo_btn" />

@@ -1,11 +1,15 @@
 package com.lemonlab.all_in_one.extensions
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.os.Environment
 import android.text.SpannableString
 import android.text.style.BackgroundColorSpan
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
@@ -13,6 +17,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.lemonlab.all_in_one.R
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 fun View.checkUser() {
@@ -66,4 +73,15 @@ fun Context.highlightText(text: String): SpannableString {
         0
     )
     return str
+}
+
+fun Activity.createImageFile(): File {
+    // Create an image file name
+    val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
+    val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+    return File.createTempFile(
+        "JPEG_${timeStamp}_",
+        ".jpg",
+        storageDir /* directory */
+    )
 }

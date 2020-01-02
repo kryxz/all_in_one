@@ -31,11 +31,11 @@
 
     <!-- Photo editor Nav Menu Titles-->
 
-    <string name="editorNavBrush">Brush</string>
-    <string name="editorNavText">Text</string>
-    <string name="editorNavEraser">Eraser</string>
-    <string name="editorNavEmoji">Emoji</string>
-    <string name="editorNavSticker">Sticker</string>
+    <string name="editorNavBrush">BRUSH</string>
+    <string name="editorNavText">TEXT</string>
+    <string name="editorNavEraser">ERASER</string>
+    <string name="editorNavEmoji">EMOJI</string>
+    <string name="editorNavSticker">STICKER</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
