@@ -2,14 +2,12 @@ package com.lemonlab.all_in_one.items
 
 import android.content.*
 import android.os.Handler
-import android.text.SpannableString
-import android.text.style.BackgroundColorSpan
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.core.content.ContextCompat
 import com.lemonlab.all_in_one.R
+import com.lemonlab.all_in_one.extensions.highlightText
 import com.lemonlab.all_in_one.extensions.showMessage
-import com.lemonlab.all_in_one.items.CategoryPics.Companion.allPics
+import com.lemonlab.all_in_one.items.CategoryPics.Companion.getPics
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.quote_item.view.*
@@ -19,7 +17,7 @@ import kotlin.random.Random
 enum class Category { Wisdom, Friendship, Sadness, Islam, Other, Morning, Afternoon, Love, Winter }
 
 // used to get the category of the quote using categories.indexOf(category)
-private val categories = listOf(
+val categories = listOf(
     Category.Wisdom,
     Category.Friendship,
     Category.Sadness,
@@ -34,40 +32,123 @@ private val categories = listOf(
 // pictures for each category. Will add more later.
 class CategoryPics {
     companion object {
-        const val size = 2
-        private val wisdom = listOf(R.drawable.coffee_book, R.drawable.hourglass)
-        private val friendship = listOf(R.drawable.friend_girls, R.drawable.friend_guys)
-        private val sadness = listOf(R.drawable.guy_sad, R.drawable.girl_sad)
-        private val islam = listOf(R.drawable.man_islam, R.drawable.mosque_islam)
-        private val other = listOf(R.drawable.hand_other, R.drawable.flower_other)
-        private val morning = listOf(R.drawable.city_morning, R.drawable.field_morning)
-        private val afternoon = listOf(R.drawable.man_afternoon, R.drawable.sign_afternoon)
-        private val love = listOf(R.drawable.bicycle_love, R.drawable.couple_love)
-        private val winter = listOf(R.drawable.winter_girl, R.drawable.winter_snow)
+        const val size = 6
+
+        private val wisdom = listOf(
+            R.drawable.coffee_book,
+            R.drawable.hourglass,
+            R.drawable.book_dark,
+            R.drawable.three_books,
+            R.drawable.book,
+            R.drawable.notepad_ideas
+        )
+
+        private val friendship = listOf(
+            R.drawable.friend_girls,
+            R.drawable.friend_guys,
+            R.drawable.friends_kids,
+            R.drawable.friends_sea,
+            R.drawable.friends_smile,
+            R.drawable.friends_star
+        )
+
+
+        private val sadness = listOf(
+            R.drawable.guy_sad,
+            R.drawable.girl_sad,
+            R.drawable.sadness_cap,
+            R.drawable.sadness_girl,
+            R.drawable.sadness_sea,
+            R.drawable.sadness_think
+        )
+
+
+        private val islam = listOf(
+            R.drawable.man_islam,
+            R.drawable.mosque_islam,
+            R.drawable.islam_camels,
+            R.drawable.islam_madina,
+            R.drawable.islam_sunset,
+            R.drawable.islam_masjid
+        )
+
+        private val other = listOf(
+            R.drawable.hand_other,
+            R.drawable.flower_other,
+            R.drawable.artist_other,
+            R.drawable.museum_other,
+            R.drawable.painting_other,
+            R.drawable.women_other
+        )
+
+        private val morning = listOf(
+            R.drawable.city_morning,
+            R.drawable.field_morning,
+            R.drawable.morning_coffee,
+            R.drawable.morning_grass,
+            R.drawable.morning_woman,
+            R.drawable.morning_latte
+        )
+
+
+        private val afternoon = listOf(
+            R.drawable.man_afternoon,
+            R.drawable.sign_afternoon,
+            R.drawable.afternoon_lantern,
+            R.drawable.afternoon_light,
+            R.drawable.afternoon_man,
+            R.drawable.afternoon_umbrella
+        )
+
+
+        private val love = listOf(
+            R.drawable.bicycle_love,
+            R.drawable.couple_love,
+            R.drawable.love_abstract,
+            R.drawable.love_birds,
+            R.drawable.love_hands,
+            R.drawable.love_sun
+        )
+
+
+        private val winter = listOf(
+            R.drawable.winter_girl,
+            R.drawable.winter_snow,
+            R.drawable.winter_sunset,
+            R.drawable.winter_bench,
+            R.drawable.winter_coffee,
+            R.drawable.winter_man
+        )
 
         val allPics =
             listOf(wisdom, friendship, sadness, islam, other, morning, afternoon, love, winter)
+
+        // returns a list of pictures ids for a category
+        fun getPics(category: Category) =
+            allPics[categories.indexOf(category)]
     }
+
 }
 
 
 class QuoteItem(
     private val context: Context,
     private val text: String,
-    private val category: Category
+    category: Category
 ) :
     Item<ViewHolder>() {
     override fun getLayout() =
         R.layout.quote_item
 
+    private val pic = getPics(category)[Random.nextInt(CategoryPics.size)]
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
         // used instead of viewHolder.itemView.etc
         val view = viewHolder.itemView
 
         // set text and background picture.
-        view.quote_text_tv.text = highlightText(text)
-        view.text_image.setImageResource(getPics(category)[Random.nextInt(CategoryPics.size)])
+        view.quote_text_tv.text = context.highlightText(text)
+        view.text_image.setImageResource(pic)
 
         // listens to button clicks and calls a specific function!
         listenButtons(
@@ -106,10 +187,6 @@ class QuoteItem(
             }
     }
 
-
-    // returns a list of ids for appropriate category.
-    private fun getPics(category: Category) =
-        allPics[categories.indexOf(category)]
 
 
     // copies item to clipboard and shows a message!
@@ -153,16 +230,5 @@ class QuoteItem(
 
     }
 
-    // Highlights text background.
-    private fun highlightText(text: String): SpannableString {
-        val str = SpannableString(text)
-        str.setSpan(
-            BackgroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimaryDark)),
-            0,
-            text.length,
-            0
-        )
-        return str
-    }
 
 }

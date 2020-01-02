@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.lemonlab.all_in_one.extensions.checkUser
+import kotlinx.android.synthetic.main.fragment_forum.*
 
 
 /*
@@ -26,8 +28,15 @@ class ForumFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         view.checkUser()
+        createPost()
         super.onViewCreated(view, savedInstanceState)
     }
 
 
+    private fun createPost() {
+        create_post_btn.setOnClickListener {
+            it.findNavController().navigate(ForumFragmentDirections.createNewPost())
+        }
+
+    }
 }

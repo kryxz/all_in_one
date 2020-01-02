@@ -1,9 +1,12 @@
 package com.lemonlab.all_in_one.extensions
 
 import android.content.Context
+import android.text.SpannableString
+import android.text.style.BackgroundColorSpan
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
@@ -50,4 +53,17 @@ fun makeTheUserOnline() {
             .setValue("offline")
 
     }
+}
+
+
+// Highlights text background.
+fun Context.highlightText(text: String): SpannableString {
+    val str = SpannableString(text)
+    str.setSpan(
+        BackgroundColorSpan(ContextCompat.getColor(this, R.color.colorPrimaryDark)),
+        0,
+        text.length,
+        0
+    )
+    return str
 }

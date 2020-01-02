@@ -26,7 +26,11 @@
         android:id="@+id/forumFragment"
         android:name="com.lemonlab.all_in_one.ForumFragment"
         android:label="@string/forumTitle"
-        tools:layout="@layout/fragment_forum" />
+        tools:layout="@layout/fragment_forum">
+        <action
+            android:id="@+id/createNewPost"
+            app:destination="@id/postFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.lemonlab.all_in_one.SettingsFragment"
@@ -72,4 +76,9 @@
             android:defaultValue="Wisdom"
             app:argType="com.lemonlab.all_in_one.items.Category" />
     </fragment>
+    <fragment
+        android:id="@+id/postFragment"
+        android:name="com.lemonlab.all_in_one.PostFragment"
+        android:label="fragment_post"
+        tools:layout="@layout/fragment_post" />
 </navigation>

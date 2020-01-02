@@ -18,14 +18,20 @@
     <string name="loginOrRegister">إنشاء حساب/تسجيل الدخول</string>
 
     <string name="send">إرسال</string>
+    <string name="preview">معاينة المنشور</string>
+    <string name="post">نشر</string>
+    <string name="deleteText">حذف النص</string>
     <string name="sendChatTitle">نص الرسالة</string>
     <string name="camera">تصوير صورة</string>
     <string name="copied">تم النسخ</string>
+    <string name="createPost">منشور جديد!</string>
     <string name="appNotFound">تعذّر العثور على التطبيق</string>
+    <string name="textDeleted">تم حذف المحتوى</string>
+    <string name="undo">تراجع</string>
 
     <!-- Photo editor Nav Menu Titles-->
 
-    <string name="editorNavBruch">Bruch</string>
+    <string name="editorNavBrush">Brush</string>
     <string name="editorNavText">Text</string>
     <string name="editorNavEraser">Eraser</string>
     <string name="editorNavEmoji">Emoji</string>

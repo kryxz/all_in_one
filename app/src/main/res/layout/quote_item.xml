@@ -7,6 +7,7 @@
     android:padding="8dp"
     android:orientation="vertical">
 
+
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,10 +38,10 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:gravity="center"
-                android:padding="16dp"
+                android:padding="8dp"
                 android:text="@string/text_sample"
                 android:textColor="@color/white"
-                android:textSize="22sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/text_image"
@@ -61,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_share"
+            android:src="@drawable/ic_whatsapp"
             android:tint="@color/green" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -89,4 +90,12 @@
             android:src="@drawable/ic_favorite_empty" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_margin="4dp"
+        android:background="@color/colorPrimaryDark"
+        android:padding="4dp" />
+
 </androidx.appcompat.widget.LinearLayoutCompat>

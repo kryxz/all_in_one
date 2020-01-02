@@ -6,14 +6,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.appcompat.widget.AppCompatEditText
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
-import com.gigamole.navigationtabstrip.NavigationTabStrip
 import ja.burhanrashid52.photoeditor.OnPhotoEditorListener
 import ja.burhanrashid52.photoeditor.PhotoEditor
 import ja.burhanrashid52.photoeditor.ViewType
-import kotlinx.android.synthetic.main.color_picker.*
 import kotlinx.android.synthetic.main.color_picker.view.*
 import kotlinx.android.synthetic.main.fragment_create.*
 import kotlinx.android.synthetic.main.input_text.view.*

@@ -3,7 +3,7 @@
     <item
         android:id="@+id/bruchTool"
         android:icon="@drawable/ic_brush"
-        android:title="@string/editorNavBruch" />
+        android:title="@string/editorNavBrush" />
 
     <item
         android:id="@+id/textTool"

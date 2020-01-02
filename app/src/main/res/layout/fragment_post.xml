@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="ltr"
+    android:orientation="vertical"
+    tools:context=".PostFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="@string/createPost"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/forum_post_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/edit_text_rounded"
+                android:drawableEnd="@drawable/ic_create"
+                android:gravity="center"
+                android:hint="@string/app_name"
+                android:maxLength="64"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textDirection="rtl"
+                android:textSize="26sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_margin="8dp"
+                android:background="@color/black"
+                android:padding="2dp" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/forum_post_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/edit_text_rounded"
+                android:drawableEnd="@drawable/ic_textsms"
+                android:drawablePadding="4dp"
+                android:hint="@string/text_sample"
+                android:lineSpacingExtra="4pt"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textDirection="rtl"
+                android:textSize="20sp" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/textAboveImageButtonStyle"
+                    android:text="@string/deleteText" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/textAboveImageButtonStyle"
+                    android:text="@string/post" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/textAboveImageButtonStyle"
+                    android:text="@string/preview" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/clear_post_text_btn"
+                    style="@style/CreatePostImageButtonStyle"
+                    android:src="@drawable/ic_delete_x" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/post_to_forum_btn"
+                    style="@style/CreatePostImageButtonStyle"
+                    android:src="@drawable/ic_send" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/preview_forum_post_btn"
+                    style="@style/CreatePostImageButtonStyle"
+                    android:src="@drawable/ic_eye" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:drawableEnd="@drawable/ic_check_circle"
+                android:drawablePadding="8dp"
+                android:hint="@string/text_sample"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:drawableEnd="@drawable/ic_check_circle"
+                android:drawablePadding="8dp"
+                android:hint="@string/text_sample"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_margin="8dp"
+                android:background="@color/black"
+                android:padding="2dp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

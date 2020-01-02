@@ -12,7 +12,6 @@ import com.lemonlab.all_in_one.items.CategoryItem
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_main.*
-import kotlin.random.Random
 
 
 class MainFragment : Fragment() {
@@ -56,10 +55,9 @@ class MainFragment : Fragment() {
     }
 
 
-    private fun makeItem(image1: Int, image2: Int, text: String, category: Category): CategoryItem {
+    private fun makeItem(text: String, category: Category): CategoryItem {
         return CategoryItem(
             context!!,
-            listOf(image1, image2)[Random.nextInt(2)],
             text, category
         )
     }
@@ -68,72 +66,54 @@ class MainFragment : Fragment() {
         val adapter = GroupAdapter<ViewHolder>()
         adapter.add(
             makeItem(
-                R.drawable.hourglass,
-                R.drawable.coffee_book,
                 getString(R.string.wisdom),
                 Category.Wisdom
             )
         )
         adapter.add(
             makeItem(
-                R.drawable.friend_guys,
-                R.drawable.friend_girls,
                 getString(R.string.friendship),
                 Category.Friendship
             )
         )
         adapter.add(
             makeItem(
-                R.drawable.guy_sad,
-                R.drawable.girl_sad,
                 getString(R.string.sadness),
                 Category.Sadness
             )
         )
         adapter.add(
             makeItem(
-                R.drawable.man_islam,
-                R.drawable.mosque_islam,
                 getString(R.string.islam),
                 Category.Islam
             )
         )
         adapter.add(
             makeItem(
-                R.drawable.hand_other,
-                R.drawable.flower_other,
                 getString(R.string.other),
                 Category.Other
             )
         )
         adapter.add(
             makeItem(
-                R.drawable.city_morning,
-                R.drawable.field_morning,
                 getString(R.string.morning),
                 Category.Morning
             )
         )
         adapter.add(
             makeItem(
-                R.drawable.sign_afternoon,
-                R.drawable.man_afternoon,
                 getString(R.string.afternoon),
                 Category.Afternoon
             )
         )
         adapter.add(
             makeItem(
-                R.drawable.bicycle_love,
-                R.drawable.couple_love,
                 getString(R.string.love),
                 Category.Love
             )
         )
         adapter.add(
             makeItem(
-                R.drawable.winter_girl,
-                R.drawable.winter_snow,
                 getString(R.string.winter),
                 Category.Winter
             )
