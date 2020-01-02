@@ -7,15 +7,19 @@ import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.*
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import dev.sasikanth.colorsheet.ColorSheet
 import ja.burhanrashid52.photoeditor.OnPhotoEditorListener
 import ja.burhanrashid52.photoeditor.PhotoEditor
 import ja.burhanrashid52.photoeditor.ViewType
@@ -31,7 +35,9 @@ class CreateFragment : Fragment() {
 
     private val PICK_IMAGE_CODE = 1
     private val IMAGE_CAPTURE_CODE = 2
-    private var currentEditorColor = R.color.colorAccent
+
+    private var currentEditorColor = ColorSheet.NO_COLOR
+    private var colors:IntArray? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -138,7 +144,7 @@ class CreateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         editor()
         super.onViewCreated(view, savedInstanceState)
-
+        colors = resources.getIntArray(R.array.colors)
     }
 
     private fun editor() {
@@ -161,6 +167,7 @@ class CreateFragment : Fragment() {
             when (it.itemId) {
                 R.id.bruchTool -> {
                     photoEditor.setBrushDrawingMode(true)
+                    photoEditor.brushColor = currentEditorColor
                 }
 
                 R.id.eraserTool-> {
@@ -181,8 +188,10 @@ class CreateFragment : Fragment() {
             }
             true
         }
-        dialog(photoEditor)
-        // for test
+
+        dialog(photoEditor) // pass the editor to the edit text dialog
+
+        // undo and redo
         undo_btn.setOnClickListener {
             photoEditor.undo()
         }
@@ -193,19 +202,12 @@ class CreateFragment : Fragment() {
     }
 
     private fun showColorPicker(){
-        val dialogBuilder = AlertDialog.Builder(context!!).create()
-
-        val dialogView = layoutInflater.inflate(
-            R.layout.color_picker,
-            view!!.findViewById(R.id.settingsFragment)
-        )
-
-        dialogBuilder.setView(dialogView)
-        dialogBuilder.show()
-
-        dialogBuilder.setOnDismissListener {
-            currentEditorColor = dialogView.color_picker.color
-        }
+        ColorSheet().colorPicker(
+            colors = colors!!,
+            listener = { color ->
+                currentEditorColor = color
+            })
+            .show(fragmentManager!!)
     }
 
     private fun selectImage(){

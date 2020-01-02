@@ -6,6 +6,11 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <!-- Color Picker -->
+        <item name="colorSheetTitleFont">@font/aram</item>
+        <item name="colorSheetTitleLineHeightHint">100dp</item> // in sp
+        <item name="colorSheetTitleLetterSpacing">0</item>
     </style>
 
     <style name="textAboveImageButtonStyle">

@@ -44,7 +44,7 @@ dependencies {
     implementation 'ja.burhanrashid52:photoeditor:1.0.0'
 
     // pickers
-    implementation 'com.larswerkman:HoloColorPicker:1.5'
+    implementation "dev.sasikanth:colorsheet:1.0.1"
 
     // FireBase
     // implementation 'com.google.firebase:firebase-ads:18.3.0'

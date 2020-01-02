@@ -9,6 +9,16 @@
         <item>"Sticker"</item>
     </array>
 
+    <array name="colors">
+        <item>#F44336</item>
+        <item>#E91E63</item>
+        <item>#3F51B5</item>
+        <item>#1E88E5</item>
+        <item>#F4511E</item>
+        <item>#546E7A</item>
+        <item>#43A047</item>
+    </array>
+
     <string-array name="wisdom">
         <item>الخيال شيءٌ ضروريٌّ في الشعر، لكنّه يكون وبالاً في السياسة</item>
         <item>لا تتأخر عن كلمة الحق بحجة أنها                                                                                                   لا تُسمع فما من بذرة طيبة إلا ولهَا أرض خصبة
