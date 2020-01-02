@@ -57,7 +57,7 @@ class ChatFragment : Fragment() {
             val messageText = chat_edit_text.text.toString()
             if(messageText.isEmpty()) return@setOnClickListener
             // clear the edit text
-            chat_edit_text.text.clear()
+            chat_edit_text.text!!.clear()
             // add the message to rv adapter and store it in the database
             sendMessage(messageText)
         }

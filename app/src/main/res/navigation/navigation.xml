@@ -30,6 +30,9 @@
         <action
             android:id="@+id/createNewPost"
             app:destination="@id/postFragment" />
+        <action
+            android:id="@+id/forumToThisPost"
+            app:destination="@id/viewPostFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -81,4 +84,13 @@
         android:name="com.lemonlab.all_in_one.PostFragment"
         android:label="fragment_post"
         tools:layout="@layout/fragment_post" />
+    <fragment
+        android:id="@+id/viewPostFragment"
+        android:name="com.lemonlab.all_in_one.ViewPostFragment"
+        android:label="fragment_view_post"
+        tools:layout="@layout/fragment_view_post">
+        <argument
+            android:name="postID"
+            app:argType="string" />
+    </fragment>
 </navigation>

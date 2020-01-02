@@ -29,6 +29,8 @@
     <string name="textDeleted">تم حذف المحتوى</string>
     <string name="undo">تراجع</string>
     <string name="saveImage">حفظ الصورة</string>
+    <string name="okay">حسنًا</string>
+    <string name="comments">التعليقات</string>
 
     <!-- Photo editor Nav Menu Titles-->
 
@@ -56,6 +58,9 @@
     <string name="couldnt_save_image">تعذر حفظ الصورة</string>
     <string name="image_saved">تم حفظ الصورة بنجاح</string>
     <string name="type_here">اكتب هنا</string>
+    <string name="postSent">تم إرسال منشورك بنجاح!</string>
+    <string name="fillFields">املأ جميع الحقول</string>
+    <string name="date_sample">2020/20/12 16:00</string>
 
 
     <string-array name="categoryEn">
