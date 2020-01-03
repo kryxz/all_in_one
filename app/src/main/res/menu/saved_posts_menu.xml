@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:title="@string/cancel"
         android:id="@+id/closeSavedPosts"
         android:icon="@drawable/ic_exit"
+        android:title="@string/cancel"
         app:showAsAction="always" />
 
 </menu>

@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:title="@string/saved_posts"
         android:id="@+id/savedPostsBtn"
         android:icon="@drawable/ic_bookmark"
+        android:title="@string/saved_posts"
         app:showAsAction="always" />
 
 </menu>

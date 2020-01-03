@@ -6,7 +6,6 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.lemonlab.all_in_one.ForumFragmentArgs
 import com.lemonlab.all_in_one.ForumFragmentDirections
 import com.lemonlab.all_in_one.R
 import com.lemonlab.all_in_one.extensions.recreateFragment
