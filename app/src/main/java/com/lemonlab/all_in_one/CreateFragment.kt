@@ -15,14 +15,20 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Visibility
 import com.lemonlab.all_in_one.extensions.createImageFile
+import com.lemonlab.all_in_one.items.StickerItem
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.ViewHolder
 import dev.sasikanth.colorsheet.ColorSheet
 import ja.burhanrashid52.photoeditor.OnPhotoEditorListener
 import ja.burhanrashid52.photoeditor.PhotoEditor
 import ja.burhanrashid52.photoeditor.ViewType
 import kotlinx.android.synthetic.main.fragment_create.*
 import kotlinx.android.synthetic.main.input_text.view.*
+import kotlinx.android.synthetic.main.stickers_view.view.*
 
 
 /**
@@ -217,7 +223,7 @@ class CreateFragment : Fragment() {
                     photoEditor.brushEraser()
 
                     // hide other tools
-                    hidBrushTools()
+                    hideBrushTools()
                 }
 
                 R.id.textTool -> {
@@ -227,15 +233,15 @@ class CreateFragment : Fragment() {
                     )
 
                     // hide other tools
-                    hidBrushTools()
+                    hideBrushTools()
                 }
 
                 // for test
                 R.id.emojiTool -> {
-                    showColorPicker()
-
+                    //showColorPicker()
+                    showEmojiDialog()
                     // hide other tools
-                    hidBrushTools()
+                    hideBrushTools()
                 }
             }
             true
@@ -353,9 +359,36 @@ class CreateFragment : Fragment() {
         }
     }
 
-    private fun hidBrushTools(){
+    private fun hideBrushTools(){
         increment_brush_size_btn.visibility = View.INVISIBLE
         decrement_brush_size_btn.visibility = View.INVISIBLE
+    }
+    
+    private fun showEmojiDialog(){
+
+        // get the view
+        val stickerDialogView = layoutInflater.inflate(
+            R.layout.stickers_view,
+            view!!.findViewById(R.id.createFragment)
+        )
+
+        val stickerRv = stickerDialogView.findViewById(R.id.sticker_rv) as RecyclerView
+        stickerRv.layoutManager = LinearLayoutManager(context!!,LinearLayoutManager.VERTICAL,false)
+
+        // stickers adapter
+        val adapter = GroupAdapter<ViewHolder>()
+
+        // get all images and add it into the adapter
+        adapter.add(StickerItem(context!!))
+        adapter.add(StickerItem(context!!))
+        adapter.add(StickerItem(context!!))
+
+        stickerRv.adapter = adapter
+
+        // create and show the dialog
+        val dialogBuilder = AlertDialog.Builder(context!!).create()
+        dialogBuilder.setView(stickerDialogView)
+        dialogBuilder.show()
     }
 
 }
