@@ -16,6 +16,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.*
 import android.widget.ImageView
+import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
@@ -38,6 +39,7 @@ import ja.burhanrashid52.photoeditor.PhotoEditor
 import ja.burhanrashid52.photoeditor.ViewType
 import kotlinx.android.synthetic.main.fragment_create.*
 import kotlinx.android.synthetic.main.input_text.view.*
+import kotlinx.android.synthetic.main.stickers_view.view.*
 
 
 /**
@@ -253,6 +255,13 @@ class CreateFragment : Fragment() {
                     hideBrushTools()
                 }
 
+                R.id.colorPickerTool -> {
+                    // hide other tools
+                    hideBrushTools()
+
+                    showColorPicker()
+                }
+
                 // for test
                 R.id.emojiTool -> {
                     //showColorPicker()
@@ -273,11 +282,6 @@ class CreateFragment : Fragment() {
 
         redo_btn.setOnClickListener {
             photoEditor.redo()
-        }
-
-        // color picker
-        color_picker_btn.setOnClickListener {
-            showColorPicker()
         }
     }
 
@@ -395,23 +399,49 @@ class CreateFragment : Fragment() {
         )
 
         val stickerRv = stickerDialogView.findViewById(R.id.sticker_rv) as RecyclerView
-        stickerRv.layoutManager = GridLayoutManager(context!!,3)
 
-        // stickers adapter
-        val adapter = GroupAdapter<ViewHolder>()
 
         // create and show the dialog
         val dialogBuilder = AlertDialog.Builder(context!!).create()
         dialogBuilder.setView(stickerDialogView)
 
-        //TODO:: Add all stickers int the adapter
-        val emojiCodes = PhotoEditor.getEmojis(context!!)
-        for(code in emojiCodes){
-            adapter.add(StickerItem(context!!, code, ::getDataFromStickerItem,
-                dialog = dialogBuilder))
-        }
-        stickerRv.adapter = adapter
+        fun updateTheAdapter(spanCount: Int){
 
+            // set the span cont to rv
+            stickerRv.layoutManager = GridLayoutManager(context!!,spanCount)
+
+            // stickers adapter
+            val adapter = GroupAdapter<ViewHolder>()
+
+            val emojiCodes = PhotoEditor.getEmojis(context!!)
+            for(code in emojiCodes){
+                adapter.add(StickerItem(context!!, code, ::getDataFromStickerItem,
+                    dialog = dialogBuilder, spanCount = spanCount))
+            }
+
+            stickerRv.adapter = adapter
+        }
+
+        // listen to seek bar to change the span size for sticker rv
+        stickerDialogView.seek_sticker.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if(progress >= 3){
+                    updateTheAdapter(progress)
+                }
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                //
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                //
+            }
+
+        })
+
+        // get emoji and add it to the adapter then show the dialog
+        updateTheAdapter(3)
         dialogBuilder.show()
     }
 

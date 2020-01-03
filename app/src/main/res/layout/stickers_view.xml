@@ -13,6 +13,15 @@
         android:textAlignment="center"
         android:textSize="20sp" />
 
+    <SeekBar
+        android:id="@+id/seek_sticker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:max="10"
+        android:progress="3"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/sticker_rv"
         android:layout_width="match_parent"

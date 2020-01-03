@@ -20,7 +20,7 @@
         android:title="@string/editorNavEmoji" />
 
     <item
-        android:id="@+id/stickerTool"
-        android:icon="@drawable/ic_stickers"
-        android:title="@string/editorNavSticker" />
+        android:id="@+id/colorPickerTool"
+        android:icon="@drawable/ic_color_picker"
+        android:title="@string/editorNavColors" />
 </menu>

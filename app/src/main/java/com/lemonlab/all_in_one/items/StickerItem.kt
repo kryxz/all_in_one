@@ -10,12 +10,17 @@ import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.sticker_item_view.view.*
 
 class StickerItem(var context: Context, private var emojiCode:String, private var action: (TextView)-> Unit,
-                  private var dialog:AlertDialog): Item<ViewHolder>(){
+                  private var dialog:AlertDialog,
+                  private var spanCount:Int): Item<ViewHolder>(){
+
     override fun getLayout(): Int {
         return R.layout.sticker_item_view
     }
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
+        // change text size using span count
+        val size = 100
+        viewHolder.itemView.sticker_image_view.textSize = size - (((spanCount - 1)/10f) * size)
 
         viewHolder.itemView.sticker_image_view.text = emojiCode
 
