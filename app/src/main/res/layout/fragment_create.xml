@@ -53,5 +53,28 @@
         app:layout_constraintStart_toEndOf="@+id/undo_btn"
         app:layout_constraintTop_toTopOf="@+id/undo_btn" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/increment_brush_size_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:visibility="invisible"
+        android:layout_marginBottom="4dp"
+        android:src="@drawable/ic_plus_2"
+        android:tint="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/photoEditorBottomBar"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/decrement_brush_size_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:visibility="invisible"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/ic_mins_2"
+        android:tint="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/increment_brush_size_btn"
+        app:layout_constraintEnd_toStartOf="@+id/increment_brush_size_btn"
+        app:layout_constraintTop_toTopOf="@+id/increment_brush_size_btn" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

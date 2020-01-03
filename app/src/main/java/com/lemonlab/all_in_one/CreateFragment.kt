@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.transition.Visibility
 import com.lemonlab.all_in_one.extensions.createImageFile
 import dev.sasikanth.colorsheet.ColorSheet
 import ja.burhanrashid52.photoeditor.OnPhotoEditorListener
@@ -29,7 +30,11 @@ import kotlinx.android.synthetic.main.input_text.view.*
  */
 class CreateFragment : Fragment() {
 
+    private val MAX_BRUSH_SIZE = 128f
+    private val MIN_BRUSH_SIZE = 12f
+
     private lateinit var photoEditor: PhotoEditor
+    private var currentEditorBackground:Int = R.drawable.editor_image0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,6 +57,10 @@ class CreateFragment : Fragment() {
 
         if (item.itemId == R.id.createLibrary) {
             selectImage()
+        }
+
+        if (item.itemId == R.id.changeBackground){
+            changeEditorImage()
         }
 
         if (item.itemId == R.id.createSave) {
@@ -169,6 +178,8 @@ class CreateFragment : Fragment() {
                 colors = resources.getIntArray(R.array.colors),
                 listener = { color ->
                     currentEditorColor = color
+                    // change brush color
+                    photoEditor.brushColor = currentEditorColor
                 })
                 .show(fragmentManager!!)
         }
@@ -192,10 +203,21 @@ class CreateFragment : Fragment() {
                 R.id.brushTool -> {
                     photoEditor.setBrushDrawingMode(true)
                     photoEditor.brushColor = currentEditorColor
+
+                    // show buttons related to brush tool
+                    increment_brush_size_btn.visibility = View.VISIBLE
+                    decrement_brush_size_btn.visibility = View.VISIBLE
+
+                    // start the listeners
+                    incrementBrushSize()
+                    decrementBrushSize()
                 }
 
                 R.id.eraserTool -> {
                     photoEditor.brushEraser()
+
+                    // hide other tools
+                    hidBrushTools()
                 }
 
                 R.id.textTool -> {
@@ -203,11 +225,17 @@ class CreateFragment : Fragment() {
                         "Hello!",
                         currentEditorColor
                     )
+
+                    // hide other tools
+                    hidBrushTools()
                 }
 
                 // for test
                 R.id.emojiTool -> {
                     showColorPicker()
+
+                    // hide other tools
+                    hidBrushTools()
                 }
             }
             true
@@ -280,5 +308,54 @@ class CreateFragment : Fragment() {
         }
     }
 
+    private fun changeEditorImage(){
+
+        // get images from drawables
+        val images = listOf(R.drawable.editor_image0,
+            R.drawable.editor_image1,
+            R.drawable.editor_image2,
+            R.drawable.editor_image3,
+            R.drawable.editor_image4,
+            R.drawable.editor_image5,
+            R.drawable.editor_image6,
+            R.drawable.editor_image7,
+            R.drawable.editor_image8,
+            R.drawable.editor_image9,
+            R.drawable.editor_image10,
+            R.drawable.editor_image11,
+            R.drawable.editor_image12,
+            R.drawable.editor_image13,
+            R.drawable.editor_image14,
+            R.drawable.editor_image15)
+
+        // get the current index
+        var index = images.indexOf(currentEditorBackground)
+
+        // go to next image
+        index = (index + 1) % images.size
+        currentEditorBackground = images[index]
+
+        // change editor background
+        photoEditorView.source.setImageResource(images[index])
+    }
+
+    private fun incrementBrushSize(){
+        increment_brush_size_btn.setOnClickListener {
+            if(photoEditor.brushSize + 4f <= MAX_BRUSH_SIZE)
+                photoEditor.brushSize += 4f
+        }
+    }
+
+    private fun decrementBrushSize(){
+        decrement_brush_size_btn.setOnClickListener {
+            if(photoEditor.brushSize - 4f >= MIN_BRUSH_SIZE)
+                photoEditor.brushSize -= 4f
+        }
+    }
+
+    private fun hidBrushTools(){
+        increment_brush_size_btn.visibility = View.INVISIBLE
+        decrement_brush_size_btn.visibility = View.INVISIBLE
+    }
 
 }
