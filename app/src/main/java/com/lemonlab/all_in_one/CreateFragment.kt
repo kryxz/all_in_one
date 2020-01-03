@@ -17,7 +17,6 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.Visibility
 import com.lemonlab.all_in_one.extensions.createImageFile
 import com.lemonlab.all_in_one.items.StickerItem
 import com.xwray.groupie.GroupAdapter
@@ -28,7 +27,6 @@ import ja.burhanrashid52.photoeditor.PhotoEditor
 import ja.burhanrashid52.photoeditor.ViewType
 import kotlinx.android.synthetic.main.fragment_create.*
 import kotlinx.android.synthetic.main.input_text.view.*
-import kotlinx.android.synthetic.main.stickers_view.view.*
 
 
 /**
@@ -389,6 +387,7 @@ class CreateFragment : Fragment() {
         val dialogBuilder = AlertDialog.Builder(context!!).create()
         dialogBuilder.setView(stickerDialogView)
         dialogBuilder.show()
+
     }
 
 }
