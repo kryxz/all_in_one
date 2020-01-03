@@ -6,15 +6,21 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.*
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.toBitmap
+import androidx.core.view.drawToBitmap
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lemonlab.all_in_one.extensions.createImageFile
@@ -371,23 +377,29 @@ class CreateFragment : Fragment() {
         )
 
         val stickerRv = stickerDialogView.findViewById(R.id.sticker_rv) as RecyclerView
-        stickerRv.layoutManager = LinearLayoutManager(context!!,LinearLayoutManager.VERTICAL,false)
+        stickerRv.layoutManager = GridLayoutManager(context!!,3)
 
         // stickers adapter
         val adapter = GroupAdapter<ViewHolder>()
 
-        // get all images and add it into the adapter
-        adapter.add(StickerItem(context!!))
-        adapter.add(StickerItem(context!!))
-        adapter.add(StickerItem(context!!))
-
-        stickerRv.adapter = adapter
-
         // create and show the dialog
         val dialogBuilder = AlertDialog.Builder(context!!).create()
         dialogBuilder.setView(stickerDialogView)
+
+        //TODO:: Add all stickers int the adapter
+        adapter.add(StickerItem(context!!, ::getDataFromStickerItem,
+            dialog = dialogBuilder))
+        stickerRv.adapter = adapter
+
         dialogBuilder.show()
 
+    }
+
+    // function to get data from Sticker Item when user click on it
+    private fun getDataFromStickerItem(imageView: ImageView){
+        val drawable = imageView.drawable
+        var bitmap = (drawable.current as BitmapDrawable).bitmap
+        photoEditor.addImage(bitmap)
     }
 
 }
