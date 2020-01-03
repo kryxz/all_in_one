@@ -57,10 +57,11 @@
         android:id="@+id/increment_brush_size_btn"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:visibility="invisible"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="4dp"
         android:src="@drawable/ic_plus_2"
         android:tint="@color/black"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/photoEditorBottomBar"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -76,5 +77,15 @@
         app:layout_constraintEnd_toStartOf="@+id/increment_brush_size_btn"
         app:layout_constraintTop_toTopOf="@+id/increment_brush_size_btn" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/color_picker_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:tint="@color/black"
+        android:src="@drawable/ic_color_picker"
+        app:layout_constraintBottom_toBottomOf="@+id/decrement_brush_size_btn"
+        app:layout_constraintEnd_toStartOf="@+id/decrement_brush_size_btn"
+        app:layout_constraintTop_toTopOf="@+id/decrement_brush_size_btn" />" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

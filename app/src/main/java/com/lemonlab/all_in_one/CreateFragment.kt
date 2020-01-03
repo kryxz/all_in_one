@@ -5,7 +5,9 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
+import android.graphics.ColorFilter
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
@@ -17,9 +19,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.drawToBitmap
+import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -70,34 +74,42 @@ class CreateFragment : Fragment() {
             selectImage()
         }
 
-        if (item.itemId == R.id.changeBackground){
+        if (item.itemId == R.id.createChangeBackground){
             changeEditorImage()
         }
 
         if (item.itemId == R.id.createSave) {
-            photoEditor.saveAsFile(
-                activity!!.createImageFile().path,
-                object : PhotoEditor.OnSaveListener {
-                    override fun onSuccess(imagePath: String) {
-                        Toast.makeText(
-                            context!!,
-                            getString(R.string.image_saved),
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-
-                    override fun onFailure(exception: Exception) {
-                        Toast.makeText(
-                            context!!,
-                            getString(R.string.couldnt_save_image),
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-
-                })
+            // save image in the gallery
+            saveEditorImage()
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun saveEditorImage(){
+
+        photoEditor.saveAsFile(
+            activity!!.createImageFile().path, // get image file path
+            object : PhotoEditor.OnSaveListener {
+                override fun onSuccess(imagePath: String) {
+                    // show message to user
+                    Toast.makeText(
+                        context!!,
+                        getString(R.string.image_saved),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+                override fun onFailure(exception: Exception) {
+                    // show message to user
+                    Toast.makeText(
+                        context!!,
+                        getString(R.string.couldnt_save_image),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+            })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -261,6 +273,11 @@ class CreateFragment : Fragment() {
 
         redo_btn.setOnClickListener {
             photoEditor.redo()
+        }
+
+        // color picker
+        color_picker_btn.setOnClickListener {
+            showColorPicker()
         }
     }
 

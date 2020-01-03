@@ -8,21 +8,21 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/createChangeBackground"
+        android:icon="@drawable/ic_sticker"
+        app:showAsAction="ifRoom"
+        android:title="@string/changeBackground" />
+
+    <item
         android:id="@+id/createSave"
         android:icon="@drawable/ic_down_arrow"
         android:title="@string/saveImage"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/changeBackground"
-        android:icon="@drawable/ic_sticker"
-        app:showAsAction="ifRoom"
-        android:title="@string/changeBackground" />
-
-    <item
         android:id="@+id/createLibrary"
         android:icon="@drawable/ic_photo_library"
-        android:title="@string/camera"
+        android:title="@string/selectImage"
         app:showAsAction="ifRoom" />
 
 </menu>
