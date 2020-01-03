@@ -33,6 +33,8 @@
     <string name="comments">التعليقات</string>
     <string name="view_post">عرض المنشور</string>
     <string name="profile">الملف الشخصي</string>
+    <string name="changeBackground">تغير الخلفية</string>
+    <string name="selectImage">اختيار صورة</string>
 
     <!-- Photo editor Nav Menu Titles-->
 

@@ -21,7 +21,6 @@
 
     <item
         android:id="@+id/stickerTool"
-        android:icon="@drawable/ic_sticker"
+        android:icon="@drawable/ic_stickers"
         android:title="@string/editorNavSticker" />
-
 </menu>
