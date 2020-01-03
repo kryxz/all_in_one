@@ -3,11 +3,13 @@ package com.lemonlab.all_in_one
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.ColorFilter
+import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
@@ -30,6 +32,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lemonlab.all_in_one.extensions.createImageFile
+import com.lemonlab.all_in_one.items.FontItem
 import com.lemonlab.all_in_one.items.StickerItem
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
@@ -37,6 +40,7 @@ import dev.sasikanth.colorsheet.ColorSheet
 import ja.burhanrashid52.photoeditor.OnPhotoEditorListener
 import ja.burhanrashid52.photoeditor.PhotoEditor
 import ja.burhanrashid52.photoeditor.ViewType
+import kotlinx.android.synthetic.main.fonts_selector_view.view.*
 import kotlinx.android.synthetic.main.fragment_create.*
 import kotlinx.android.synthetic.main.input_text.view.*
 import kotlinx.android.synthetic.main.stickers_view.view.*
@@ -52,6 +56,7 @@ class CreateFragment : Fragment() {
 
     private lateinit var photoEditor: PhotoEditor
     private var currentEditorBackground:Int = R.drawable.editor_image0
+    private var currentFontTypeFace:Typeface? = null // TODO:: Change the first color
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -211,18 +216,24 @@ class CreateFragment : Fragment() {
 
         //init
 
+        // the used font when user add text for first time
+        currentFontTypeFace = ResourcesCompat.getFont(context!!, R.font.amiri_regular)
+
+        // the used background when user open the editor
         photoEditorView.source.setImageResource(R.drawable.test_image)
 
         //Use custom font using latest support library
         val mTextRobotoTf = ResourcesCompat.getFont(context!!, R.font.aram)
 
 
+        // create the photo editor using library
         photoEditor = PhotoEditor.Builder(context!!, photoEditorView)
             .setPinchTextScalable(true)
             .setDefaultTextTypeface(mTextRobotoTf)
             .setDefaultEmojiTypeface(mTextRobotoTf)
             .build()
 
+        // listen to editor nav bar items
         photoEditorBottomBar.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.brushTool -> {
@@ -247,6 +258,7 @@ class CreateFragment : Fragment() {
 
                 R.id.textTool -> {
                     photoEditor.addText(
+                        currentFontTypeFace!!,
                         "Hello!",
                         currentEditorColor
                     )
@@ -264,8 +276,9 @@ class CreateFragment : Fragment() {
 
                 // for test
                 R.id.emojiTool -> {
-                    //showColorPicker()
-                    showEmojiDialog()
+                    //showEmojiDialog()
+                    // TODO:: CHANGE TIIIIIIIIIIIIIIS
+                    showFontsDialog()
                     // hide other tools
                     hideBrushTools()
                 }
@@ -448,6 +461,54 @@ class CreateFragment : Fragment() {
     // function to get data from Sticker Item when user click on it
     private fun getDataFromStickerItem(textView: TextView){
         photoEditor.addEmoji(textView.text.toString())
+    }
+
+    private fun showFontsDialog(){
+        // get the view
+        val fontsDialogView = layoutInflater.inflate(
+            R.layout.fonts_selector_view,
+            view!!.findViewById(R.id.createFragment)
+        )
+
+        // get the rv
+        val fontsRv = fontsDialogView.fonts_rv
+        fontsRv.layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
+
+        // set the adapter
+        val adapter = GroupAdapter<ViewHolder>()
+
+        // get the fonts from assets
+        val fontsTypeFaces = listOf(
+            ResourcesCompat.getFont(context!!, R.font.amiri_regular),
+            ResourcesCompat.getFont(context!!, R.font.aram),
+            ResourcesCompat.getFont(context!!, R.font.baloobhaijaan_regular),
+            ResourcesCompat.getFont(context!!, R.font.cairo_regular),
+            ResourcesCompat.getFont(context!!, R.font.lalezar_regular),
+            ResourcesCompat.getFont(context!!, R.font.rakkas_regular),
+            ResourcesCompat.getFont(context!!, R.font.tajawal_regular),
+            ResourcesCompat.getFont(context!!, R.font.vibes_regular)
+        )
+
+        // create the view and show it
+        val dialog = AlertDialog.Builder(context!!).create()
+        dialog.setView(fontsDialogView)
+
+        // add all fonts to the adapter
+        for(font in fontsTypeFaces){
+            adapter.add(FontItem(fontFace = font!!, action = ::getDataFromFontsDialog,
+                dialog = dialog))
+        }
+
+
+        dialog.show()
+
+        // set the adapter
+        fontsRv.adapter = adapter
+    }
+
+    // function to get data from Font Item when user click on it
+    private fun getDataFromFontsDialog(typeface: Typeface){
+        currentFontTypeFace = typeface
     }
 
 }
