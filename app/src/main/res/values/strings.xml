@@ -62,6 +62,8 @@
     <string name="love">عن الحُب</string>
     <string name="winter">عن الشتاء</string>
 
+    <string name="saved_posts">المنشورات المحفوظة</string>
+
     <string name="text_sample">عندما انطفأت شعلة النار، بدأ يحدِّق في النجوم عبر النافذة. كانت رحلة العودة ستتم من غير رفاق طريق.</string>
     <string name="couldnt_save_image">تعذر حفظ الصورة</string>
     <string name="image_saved">تم حفظ الصورة بنجاح</string>
@@ -75,6 +77,8 @@
     <string name="report_post">الإبلاغ عن المنشور</string>
     <string name="report_post_confirm">هل أنت متأكد أن المنشور غير لائق؟</string>
     <string name="report_sent">تم استلام الإبلاغ</string>
+    <string name="added_favorites">تمّت الإضافة إلى المفضّلة</string>
+    <string name="delete_post_favorites">حذف العنصر من المفضلّة</string>
 
 
     <string-array name="categoryEn">
@@ -85,8 +89,8 @@
         <item>Other</item>
         <item>Morning</item>
         <item>Afternoon</item>
-        <item>>Love</item>
-        <item>>Winter</item>
+        <item>Love</item>
+        <item>Winter</item>
     </string-array>
 
     <string-array name="category">
@@ -97,8 +101,8 @@
         <item>منوّعات</item>
         <item>رسائلٌ صباحيّة</item>
         <item>رسائلٌ مسائيّة</item>
-        <item>>عن الحُب</item>
-        <item>>عن الشتاء</item>
+        <item>عن الحُب</item>
+        <item>عن الشتاء</item>
     </string-array>
 
 

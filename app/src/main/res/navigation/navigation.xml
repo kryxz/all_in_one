@@ -33,6 +33,13 @@
         <action
             android:id="@+id/forumToThisPost"
             app:destination="@id/viewPostFragment" />
+        <argument
+            android:name="seeBookmarks"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <action
+            android:id="@+id/forumToSaved"
+            app:destination="@id/forumFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"

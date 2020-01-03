@@ -58,9 +58,10 @@ dependencies {
 
     // room
     def room_version = "2.2.3"
-
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation "androidx.room:room-ktx:$room_version"
 
     // test
     // testImplementation 'junit:junit:4.12'

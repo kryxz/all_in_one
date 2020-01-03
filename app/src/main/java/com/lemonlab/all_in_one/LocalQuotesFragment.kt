@@ -1,13 +1,16 @@
 package com.lemonlab.all_in_one
 
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.lemonlab.all_in_one.extensions.setFragmentTitle
 import com.lemonlab.all_in_one.items.Category
+import com.lemonlab.all_in_one.items.Favorites
 import com.lemonlab.all_in_one.items.QuoteItem
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
@@ -34,19 +37,25 @@ class LocalQuotesFragment : Fragment() {
     }
 
     private fun initAdapter(category: Category) {
+        // set title
+        val categoryIndex =
+            resources.getStringArray(R.array.categoryEn).indexOf(category.toString())
+        activity!!.setFragmentTitle(resources.getStringArray(R.array.category)[categoryIndex])
+
+
         val adapter = GroupAdapter<ViewHolder>()
         val list = getStatuses(category)
         for (quote in list)
             adapter.add(QuoteItem(context!!, quote, category))
 
+        Favorites().getFavorites(context!!, category)
         quotes_rv.adapter = adapter
 
-    }
-
-    private fun setTitle(text: String) {
-        (activity as AppCompatActivity).supportActionBar!!.title = text
 
     }
+
+
+
 
     private fun getStatuses(category: Category): List<String> {
         return when (category) {

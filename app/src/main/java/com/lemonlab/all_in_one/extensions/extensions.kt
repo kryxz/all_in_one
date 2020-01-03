@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
@@ -87,6 +88,12 @@ fun Activity.createImageFile(): File {
         storageDir /* directory */
     )
 }
+
+
+fun Activity.setFragmentTitle(text: String) {
+    (this as AppCompatActivity).supportActionBar!!.title = text
+}
+
 
 fun View.recreateFragment(fragmentID: Int) {
     findNavController().navigate(

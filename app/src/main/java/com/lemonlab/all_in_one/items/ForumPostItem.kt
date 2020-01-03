@@ -6,20 +6,28 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.lemonlab.all_in_one.ForumFragmentArgs
 import com.lemonlab.all_in_one.ForumFragmentDirections
 import com.lemonlab.all_in_one.R
 import com.lemonlab.all_in_one.extensions.recreateFragment
 import com.lemonlab.all_in_one.extensions.showMessage
 import com.lemonlab.all_in_one.extensions.showYesNoDialog
 import com.lemonlab.all_in_one.model.ForumPost
+import com.lemonlab.all_in_one.model.SavedPosts
+import com.lemonlab.all_in_one.model.SavedPostsRoomDatabase
+import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.forum_post_item.view.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 
 class ForumPostItem(
     private val forumPost: ForumPost,
     private val context: Context,
-    private val postID: String
+    private val postID: String,
+    private val adapter: GroupAdapter<ViewHolder>
 ) :
     Item<ViewHolder>() {
 
@@ -27,11 +35,33 @@ class ForumPostItem(
     override fun getLayout() =
         R.layout.forum_post_item
 
+
+    private fun getSaved() {
+        GlobalScope.launch {
+            val savedPostsDao = SavedPostsRoomDatabase.getDatabase(context).SavedPostsDao()
+            savedPosts = savedPostsDao.getSavedPosts()
+            this.coroutineContext.cancel()
+        }
+    }
+
+    companion object {
+        var savedPosts = listOf<String>()
+
+    }
+
+    override fun createViewHolder(itemView: View): ViewHolder {
+        getSaved()
+        return super.createViewHolder(itemView)
+    }
+
+
     override fun bind(viewHolder: ViewHolder, position: Int) {
         val view = viewHolder.itemView
-        view.setOnClickListener {
+
+        view.forum_post_card.setOnClickListener {
             it.findNavController().navigate(ForumFragmentDirections.forumToThisPost(postID))
         }
+
         with(view) {
             // add … to text
 
@@ -44,6 +74,17 @@ class ForumPostItem(
             forum_post_item_text.text = previewText
             forum_post_item_title.text = forumPost.title
 
+            if (savedPosts.contains(postID))
+                forum_post_item_save.setImageResource(R.drawable.ic_bookmark)
+
+            buttonsListener(
+                listOf<AppCompatImageView>(
+                    forum_post_item_save,
+                    forum_post_item_like,
+                    forum_post_item_dislike,
+                    forum_post_item_report
+                )
+            )
 
             // delete function logic
             with(forum_post_item_delete) {
@@ -73,19 +114,29 @@ class ForumPostItem(
 
                 }
             }
-            buttonsListener(
-                listOf<AppCompatImageView>(
-                    forum_post_item_save,
-                    forum_post_item_like,
-                    forum_post_item_dislike,
-                    forum_post_item_report
-                )
-            )
         }
 
 
     }
 
+
+    private fun savePost(postID: String, saveButton: AppCompatImageView) {
+        GlobalScope.launch {
+            val savedPostsDao = SavedPostsRoomDatabase.getDatabase(context).SavedPostsDao()
+            if (savedPosts.contains(postID)) {
+                savedPostsDao.deletePost(SavedPosts(postID))
+                saveButton.setImageResource(R.drawable.ic_bookmark_border)
+            } else {
+                savedPostsDao.insertPost(SavedPosts(postID))
+                saveButton.setImageResource(R.drawable.ic_bookmark)
+            }
+
+            getSaved()
+            this.coroutineContext.cancel()
+        }
+
+
+    }
 
     private fun buttonsListener(buttons: List<AppCompatImageView>) {
         val thisUserID = FirebaseAuth.getInstance().uid.toString()
@@ -99,9 +150,8 @@ class ForumPostItem(
         for (button in buttons) {
             button.setOnClickListener {
                 when (button.id) {
-                    // TODO implement this function
                     R.id.forum_post_item_save -> {
-
+                        savePost(forumPost.postID, it as AppCompatImageView)
                     }
 
                     // like button

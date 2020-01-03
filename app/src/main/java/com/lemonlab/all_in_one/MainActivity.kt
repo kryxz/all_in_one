@@ -50,9 +50,13 @@ class MainActivity : AppCompatActivity() {
     private fun setUpNavigation() {
         bottom_nav.setupWithNavController(navController)
 
-        val fragmentsWithNoBackButton = setOf<Int>(
+        val fragmentsWithNoBackButton = setOf(
             R.id.mainFragment,
-            R.id.sendFragment, R.id.forumFragment, R.id.createFragment, R.id.chatFragment
+            R.id.sendFragment,
+            R.id.forumFragment,
+            R.id.createFragment,
+            R.id.chatFragment,
+            R.id.mustLoginFragment
         )
 
         NavigationUI.setupActionBarWithNavController(

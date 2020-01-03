@@ -163,8 +163,16 @@ class ViewPostFragment : Fragment() {
         view_post_dislike.setText(post.dislikesIDs!!.size.toString())
         view_post_like.setText(post.likesIDs!!.size.toString())
 
-        // TODO change view_post_save icon to ic_bookmark if user already saved the post.
-        // TODO add buttons functionality
+
+        // get user name from fireStore
+        val userRef = FirebaseFirestore.getInstance().collection("users").document(post.userID)
+        // get name only once.
+        userRef.get().addOnSuccessListener {
+            if (context == null || it == null || view == null) return@addOnSuccessListener
+
+            view_post_postedBy.text = it.data!!["name"].toString()
+
+        }
 
         with(view_post_delete) {
             val currentUserUid = FirebaseAuth.getInstance().uid
@@ -185,15 +193,6 @@ class ViewPostFragment : Fragment() {
                 )
 
             }
-        }
-
-        // get user name from fireStore
-        val userRef = FirebaseFirestore.getInstance().collection("users").document(post.userID)
-        // get name only once.
-        userRef.get().addOnSuccessListener {
-            if (context == null || it == null || view == null) return@addOnSuccessListener
-            view_post_postedBy.text = it.data!!["name"].toString()
-
         }
 
     }

@@ -8,9 +8,14 @@ import com.lemonlab.all_in_one.R
 import com.lemonlab.all_in_one.extensions.highlightText
 import com.lemonlab.all_in_one.extensions.showMessage
 import com.lemonlab.all_in_one.items.CategoryPics.Companion.getPics
+import com.lemonlab.all_in_one.model.Favorite
+import com.lemonlab.all_in_one.model.FavoritesRoomDatabase
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.quote_item.view.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 
@@ -130,11 +135,28 @@ class CategoryPics {
 
 }
 
+class Favorites {
+    fun getFavorites(context: Context, category: Category) {
+        GlobalScope.launch {
+            favorites = listOf()
+            val favoriteDao = FavoritesRoomDatabase.getDatabase(context).FavoriteDao()
+            favorites = favoriteDao.getFavoritesByCategory(category)
+            // GlobalScope launches coroutines that last as long as the app is running, so we should stop it.
+            // this is probably a bad practice. Might change it later.
+            this.coroutineContext.cancel()
+        }
+    }
+
+    companion object {
+        var favorites: List<Int> = listOf()
+    }
+
+}
 
 class QuoteItem(
     private val context: Context,
     private val text: String,
-    category: Category
+    private val category: Category
 ) :
     Item<ViewHolder>() {
     override fun getLayout() =
@@ -150,6 +172,10 @@ class QuoteItem(
         view.quote_text_tv.text = context.highlightText(text)
         view.text_image.setImageResource(pic)
 
+        // set full heart if item is already in favorites.
+        if (Favorites.favorites.contains(position))
+            view.quote_favorite_btn.setImageResource(R.drawable.ic_favorite)
+
         // listens to button clicks and calls a specific function!
         listenButtons(
             listOf<View>(
@@ -157,12 +183,14 @@ class QuoteItem(
                 view.quote_whats_share_btn,
                 view.quote_favorite_btn,
                 view.quote_content_btn
-            ), view.quote_text_tv.text.toString()
+            ),
+            view.quote_text_tv.text.toString(),
+            position
         )
 
     }
 
-    private fun listenButtons(views: List<View>, text: String) {
+    private fun listenButtons(views: List<View>, text: String, pos: Int) {
         // does the appropriate action depending on which button was clicked!
         for (button in views)
             button.setOnClickListener {
@@ -177,7 +205,7 @@ class QuoteItem(
 
 
                     R.id.quote_favorite_btn ->
-                        favorite()
+                        favorite(pos, it as AppCompatImageView)
 
                     R.id.quote_content_btn ->
                         copyItem(context, text, button as AppCompatImageView)
@@ -224,8 +252,24 @@ class QuoteItem(
     }
 
 
-    private fun favorite() {
-        // TODO:: Implement a database to store favorites.
+    private fun favorite(position: Int, favButton: AppCompatImageView) {
+        GlobalScope.launch {
+            val favoriteDao = FavoritesRoomDatabase.getDatabase(context).FavoriteDao()
+
+            if (Favorites.favorites.contains(position)) {
+                favButton.setImageResource(R.drawable.ic_favorite_empty)
+                favoriteDao.deleteFavorite(Favorite(category = category, index = position))
+
+            } else {
+                favButton.setImageResource(R.drawable.ic_favorite)
+                favoriteDao.insertFavorite(Favorite(category = category, index = position))
+            }
+            Favorites().getFavorites(context, category)
+            // GlobalScope launches coroutines that last as long as the app is running, so we should stop it.
+            // this is probably a bad practice. Might change it later.
+            this.coroutineContext.cancel()
+        }
+
 
     }
 

@@ -2,6 +2,7 @@ package com.lemonlab.all_in_one
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -9,9 +10,13 @@ import com.google.firebase.auth.FirebaseAuth
 import com.lemonlab.all_in_one.extensions.makeTheUserOnline
 import com.lemonlab.all_in_one.items.Category
 import com.lemonlab.all_in_one.items.CategoryItem
+import com.lemonlab.all_in_one.model.Favorite
+import com.lemonlab.all_in_one.model.FavoritesRoomDatabase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class MainFragment : Fragment() {
