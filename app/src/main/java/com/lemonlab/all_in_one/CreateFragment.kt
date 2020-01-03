@@ -14,6 +14,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.*
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.res.ResourcesCompat
@@ -387,19 +388,19 @@ class CreateFragment : Fragment() {
         dialogBuilder.setView(stickerDialogView)
 
         //TODO:: Add all stickers int the adapter
-        adapter.add(StickerItem(context!!, ::getDataFromStickerItem,
-            dialog = dialogBuilder))
+        val emojiCodes = PhotoEditor.getEmojis(context!!)
+        for(code in emojiCodes){
+            adapter.add(StickerItem(context!!, code, ::getDataFromStickerItem,
+                dialog = dialogBuilder))
+        }
         stickerRv.adapter = adapter
 
         dialogBuilder.show()
-
     }
 
     // function to get data from Sticker Item when user click on it
-    private fun getDataFromStickerItem(imageView: ImageView){
-        val drawable = imageView.drawable
-        var bitmap = (drawable.current as BitmapDrawable).bitmap
-        photoEditor.addImage(bitmap)
+    private fun getDataFromStickerItem(textView: TextView){
+        photoEditor.addEmoji(textView.text.toString())
     }
 
 }
