@@ -2,7 +2,6 @@ package com.lemonlab.all_in_one
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,10 +24,9 @@ import kotlin.collections.ArrayList
  */
 
 
-@Suppress("UNCHECKED_CAST") // TODO:
 class ForumFragment : Fragment() {
 
-    var posts:List<ForumPost>? = null
+    var posts: List<ForumPost>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,6 +52,7 @@ class ForumFragment : Fragment() {
 
     }
 
+    @Suppress("UNCHECKED_CAST") // TODO:
     private fun getPosts() {
         val adapter = GroupAdapter<ViewHolder>()
         val db = FirebaseFirestore.getInstance()
@@ -103,8 +102,8 @@ class ForumFragment : Fragment() {
                     val reports = doc.data!!["reports"].toString().toInt()
 
                     val postID = doc.id
-                    val likes = doc.data!!["likes"].toString().toInt()
-                    val dislikes = doc.data!!["dislikes"].toString().toInt()
+                    //    val likes = doc.data!!["likes"].toString().toInt()
+                    //   val dislikes = doc.data!!["dislikes"].toString().toInt()
                     val post = ForumPost(
                         title = title,
                         text = text,
@@ -113,10 +112,11 @@ class ForumFragment : Fragment() {
                         comments = comments,
                         likesIDs = likesIDs,
                         dislikesIDs = dislikesIDs,
-                        likes = likes,
-                        dislikes = dislikes,
+                        //likes = likes,
+                        //  dislikes = dislikes,
                         reports = reports,
-                        reportIDs = reportIDs
+                        reportIDs = reportIDs,
+                        postID = postID
                     )
                     adapter.add(ForumPostItem(post, context!!, postID))
                 }

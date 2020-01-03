@@ -1,13 +1,17 @@
 package com.lemonlab.all_in_one.extensions
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Environment
 import android.text.SpannableString
 import android.text.style.BackgroundColorSpan
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
@@ -27,7 +31,7 @@ fun View.checkUser() {
         this.findNavController().navigate(R.id.mustLoginFragment)
 }
 
-fun View.navigateToAndClear(destinationId:Int, newdes:Int){
+fun View.navigateToAndClear(destinationId: Int, newdes: Int) {
     val navOptions = NavOptions.Builder().setPopUpTo(destinationId, true).build()
     this.findNavController().navigate(
         newdes,
@@ -35,15 +39,15 @@ fun View.navigateToAndClear(destinationId:Int, newdes:Int){
     )
 }
 
-fun Context.showMessage(m:String){
-    Toast.makeText(this, m,Toast.LENGTH_LONG).show()
+fun Context.showMessage(m: String) {
+    Toast.makeText(this, m, Toast.LENGTH_LONG).show()
 }
 
 fun makeTheUserOnline() {
     val uid = FirebaseAuth.getInstance().uid
     Log.i("MainFragment", "user uid: $uid")
     // check if there user logged in
-    if(!uid.isNullOrEmpty()){
+    if (!uid.isNullOrEmpty()) {
         val db = FirebaseFirestore.getInstance()
 
         db.collection("users").document("$uid")
@@ -82,4 +86,49 @@ fun Activity.createImageFile(): File {
         ".jpg",
         storageDir /* directory */
     )
+}
+
+fun View.recreateFragment(fragmentID: Int) {
+    findNavController().navigate(
+        fragmentID,
+        null,
+        NavOptions.Builder()
+            .setPopUpTo(fragmentID, true)
+            .build()
+    )
+}
+
+fun Context.showYesNoDialog(
+    functionToPerform: () -> Unit,
+    functionIfCancel: () -> Unit,
+    dialogTitle: String,
+    dialogMessage: String
+) {
+
+    val dialogBuilder = AlertDialog.Builder(this).create()
+    val dialogView = with(LayoutInflater.from(this)) {
+        inflate(
+            R.layout.yes_no_dialog,
+            null
+        )
+    }
+
+    dialogView.findViewById<AppCompatTextView>(R.id.dialogTitle).text = dialogTitle
+    dialogView.findViewById<AppCompatTextView>(R.id.dialogMessageText).text = dialogMessage
+
+    dialogView.findViewById<AppCompatButton>(R.id.dialogCancelButton).setOnClickListener {
+        functionIfCancel()
+        dialogBuilder.dismiss()
+    }
+
+    dialogView.findViewById<AppCompatButton>(R.id.dialogConfirmButton).setOnClickListener {
+        functionToPerform()
+        dialogBuilder.dismiss()
+    }
+
+    with(dialogBuilder) {
+        setView(dialogView)
+        show()
+    }
+
 }

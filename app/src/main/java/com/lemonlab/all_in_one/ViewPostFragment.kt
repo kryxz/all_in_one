@@ -8,8 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.lemonlab.all_in_one.extensions.showMessage
+import com.lemonlab.all_in_one.extensions.showYesNoDialog
 import com.lemonlab.all_in_one.model.Comment
 import com.lemonlab.all_in_one.model.ForumPost
 import kotlinx.android.synthetic.main.fragment_view_post.*
@@ -23,9 +26,9 @@ import kotlin.collections.ArrayList
 
 class ViewPostFragment : Fragment() {
 
-    val MAX_REPORTS:Int = 5
+    private val maxReports = 5
 
-    var postID:String? = null
+    private var postID: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,12 +46,20 @@ class ViewPostFragment : Fragment() {
 
     private fun getPostData(postID: String) {
         val postRef = FirebaseFirestore.getInstance().collection("posts").document(postID)
+
         postRef.addSnapshotListener { snapshot, e ->
             if (e != null) {
                 return@addSnapshotListener
             }
 
-            if (context == null || snapshot == null) return@addSnapshotListener
+            if (context == null ||
+                snapshot == null
+            ) return@addSnapshotListener
+
+            if (snapshot.data == null) {
+                setDeleted()
+                return@addSnapshotListener
+            }
             val title = snapshot.data!!["title"].toString()
             val text = snapshot.data!!["text"].toString()
             val userID = snapshot.data!!["userID"].toString()
@@ -77,10 +88,10 @@ class ViewPostFragment : Fragment() {
                 else
                     ArrayList()
 
-            val likes = snapshot.data!!["likes"].toString().toInt()
-            val dislikes = snapshot.data!!["dislikes"].toString().toInt()
+            //    val likes = snapshot.data!!["likes"].toString().toInt()
+            //   val dislikes = snapshot.data!!["dislikes"].toString().toInt()
             val reports = snapshot.data!!["reports"].toString().toInt()
-            val _post = ForumPost(
+            val thePost = ForumPost(
                 title = title,
                 text = text,
                 userID = userID,
@@ -88,120 +99,124 @@ class ViewPostFragment : Fragment() {
                 comments = comments,
                 dislikesIDs = dislikesIDs,
                 likesIDs = likesIDs,
-                likes = likes,
-                dislikes = dislikes,
+                //     likes = likes,
+                //     dislikes = dislikes,
                 reports = reports,
-                reportIDs = reportIDs
+                reportIDs = reportIDs,
+                postID = snapshot.id
             )
 
             // update the uid
-            setData(_post)
+            setData(thePost)
 
-            // listen to click event then update the data in firestore
-            likesDislikes(_post, postID)
-            sendReport(_post, postID)
-            deletePost(_post, postID)
-            sendComment(_post, postID)
+            // listen to click event then update the data in fireStore
+            likesDislikes(thePost)
+            sendReport(thePost)
+            deletePost(thePost, postID)
+            sendComment(thePost, postID)
         }
 
     }
 
-    private fun likesDislikes(post: ForumPost, postID: String) {
-        val postRef = FirebaseFirestore.getInstance().collection("posts").document(postID)
+    private fun likesDislikes(post: ForumPost) {
         val thisUserID = FirebaseAuth.getInstance().uid.toString()
-
-        fun removeLike() {
-            post.likes -= 1
-            post.likesIDs!!.remove(thisUserID)
-        }
-
-        fun removeDislike() {
-            post.dislikes -= 1
-            post.dislikesIDs!!.remove(thisUserID)
-        }
-
-        fun addLike() {
-            post.likes += 1
-            post.likesIDs!!.add(thisUserID)
-        }
-
-        fun addDislike() {
-            post.dislikes += 1
-            post.dislikesIDs!!.add(thisUserID)
-        }
 
         view_post_dislike.setOnClickListener {
             // if disliked, cancel dislike
-            when {
-                post.likesIDs!!.contains(thisUserID) -> {
-                    removeLike()
-                    addDislike()
-                }
-                !post.dislikesIDs!!.contains(thisUserID) -> {
-                    addDislike()
-                }
-            }
-
-            postRef.set(post)
+            post.disLike(thisUserID)
         }
 
 
         view_post_like.setOnClickListener {
             // if liked, cancel like
-            when {
-                post.dislikesIDs!!.contains(thisUserID) -> {
-                    removeDislike()
-                    addLike()
-                }
-                !post.likesIDs!!.contains(thisUserID) -> {
-                    addLike()
-                }
-            }
+            post.like(thisUserID)
 
-            postRef.set(post)
         }
 
+    }
+
+    private fun setDeleted() {
+        // clear text
+        post_view_item_title.text = getString(R.string.post_deleted)
+        post_view_item_text.text = getString(R.string.post_deleted)
+
+        // hide user name
+        view_post_postedBy.text = getString(R.string.post_deleted)
+
+        view_post_postedWhen.text = ""
+        // disable all buttons
+        view_post_dislike.setOnClickListener(null)
+        view_post_like.setOnClickListener(null)
+        view_post_delete.setOnClickListener(null)
+        view_post_report.setOnClickListener(null)
+        view_post_save.setOnClickListener(null)
+
+        // disable comments
+        view_post_send_comment_btn.setOnClickListener(null)
+        view_post_comment_text.isEnabled = false
     }
 
     private fun setData(post: ForumPost) {
         post_view_item_title.text = post.title
         post_view_item_text.text = post.text
         view_post_postedWhen.text = post.timestamp.toString()
-        view_post_dislike.setText(post.dislikes.toString())
-        view_post_like.setText(post.likes.toString())
+        view_post_dislike.setText(post.dislikesIDs!!.size.toString())
+        view_post_like.setText(post.likesIDs!!.size.toString())
 
         // TODO change view_post_save icon to ic_bookmark if user already saved the post.
         // TODO add buttons functionality
 
+        with(view_post_delete) {
+            val currentUserUid = FirebaseAuth.getInstance().uid
+            if (currentUserUid != post.userID) return
+            fun deletePost() {
+                FirebaseFirestore.getInstance().collection("posts").document(postID.toString())
+                    .delete()
+                view!!.findNavController().navigateUp()
+                context.showMessage(getString(R.string.post_deleted))
+            }
+            visibility = View.VISIBLE
+            setOnClickListener {
+
+                context.showYesNoDialog(
+                    functionToPerform = ::deletePost, functionIfCancel = {},
+                    dialogTitle = getString(R.string.delete_post),
+                    dialogMessage = getString(R.string.are_you_sure)
+                )
+
+            }
+        }
+
         // get user name from fireStore
         val userRef = FirebaseFirestore.getInstance().collection("users").document(post.userID)
-        userRef.addSnapshotListener { snapshot, e ->
-            if (e != null) {
-                return@addSnapshotListener
-            }
-
-            if (context == null || snapshot == null) return@addSnapshotListener
-
-            view_post_postedBy.text = snapshot.data!!["name"].toString()
+        // get name only once.
+        userRef.get().addOnSuccessListener {
+            if (context == null || it == null || view == null) return@addOnSuccessListener
+            view_post_postedBy.text = it.data!!["name"].toString()
 
         }
+
     }
 
-    private fun sendReport(post: ForumPost, id:String) {
+    private fun sendReport(post: ForumPost) {
+        val thisUserID = FirebaseAuth.getInstance().uid.toString()
+        fun addReport() {
+            post.report(thisUserID)
+            context!!.showMessage(getString(R.string.report_sent))
+        }
 
         view_post_report.setOnClickListener {
-            if(!post.reportIDs!!.contains(id)){
-                post.reports += 1
-                post.reportIDs!!.add(id)
-            }
-
-            val db = FirebaseFirestore.getInstance()
-            db.collection("posts").document(id).set(post)
+            context!!.showYesNoDialog(
+                ::addReport,
+                {},
+                getString(R.string.report_post),
+                getString(R.string.report_post_confirm)
+            )
         }
     }
 
-    private fun deletePost(post: ForumPost, postId:String){
-        if(post.reports >= MAX_REPORTS){
+    private fun deletePost(post: ForumPost, postId: String) {
+        if (post.reports >= maxReports) {
             FirebaseFirestore.getInstance().collection("posts").document(postId)
                 .delete()
 
@@ -209,12 +224,12 @@ class ViewPostFragment : Fragment() {
         }
     }
 
-    private fun sendComment(post: ForumPost, id:String){
+    private fun sendComment(post: ForumPost, id: String) {
 
-        // add the comment to firestore
+        // add the comment to fireStore
         view_post_send_comment_btn.setOnClickListener {
 
-            if(view_post_comment_text.text.isNullOrEmpty()) return@setOnClickListener
+            if (view_post_comment_text.text.isNullOrEmpty()) return@setOnClickListener
 
             val currentUserUid = FirebaseAuth.getInstance().uid
 

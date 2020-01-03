@@ -120,6 +120,8 @@
                 android:drawablePadding="8dp"
                 android:hint="@string/text_sample"
                 android:padding="8dp"
+                android:focusable="false"
+                android:inputType="none"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
@@ -131,6 +133,8 @@
                 android:drawablePadding="8dp"
                 android:hint="@string/text_sample"
                 android:padding="8dp"
+                android:focusable="false"
+                android:inputType="none"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 

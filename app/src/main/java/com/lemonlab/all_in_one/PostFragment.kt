@@ -97,9 +97,12 @@ class PostFragment : Fragment() {
             // get and set text
             val postText = forum_post_text.text.toString()
             val titleText = forum_post_title.text.toString()
-            val previewText = StringBuilder()
-            previewText.append(postText.substring(0, 63))
-            previewText.append("…")
+
+            val previewText = if (postText.length > 64)
+                StringBuilder().append(postText.substring(0, 63)).append("…").toString()
+            else
+                postText
+
             postTextView.text = previewText
             titleTextView.text = titleText
 
@@ -129,10 +132,11 @@ class PostFragment : Fragment() {
                 comments = null,
                 likesIDs = null,
                 dislikesIDs = null,
-                likes = 0,
-                dislikes = 0,
+                //likes = 0,
+                //   dislikes = 0,
                 reports = 0,
-                reportIDs = null
+                reportIDs = null,
+                postID = ""
             )
             val db = FirebaseFirestore.getInstance()
             forumPostingProgressBar.visibility = View.VISIBLE
@@ -142,7 +146,8 @@ class PostFragment : Fragment() {
                 forum_post_text.text!!.clear()
                 forum_post_title.text!!.clear()
                 context!!.showMessage(getString(R.string.postSent))
-
+                forumPost.postID = it.id
+                db.collection("posts").document(it.id).set(forumPost)
                 // go back
                 view!!.findNavController().navigateUp()
             }
