@@ -112,7 +112,7 @@
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <androidx.appcompat.widget.AppCompatEditText
+            <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
@@ -120,12 +120,11 @@
                 android:drawablePadding="8dp"
                 android:hint="@string/text_sample"
                 android:padding="8dp"
-                android:focusable="false"
-                android:inputType="none"
+                android:textIsSelectable="false"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
-            <androidx.appcompat.widget.AppCompatEditText
+            <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
@@ -133,8 +132,7 @@
                 android:drawablePadding="8dp"
                 android:hint="@string/text_sample"
                 android:padding="8dp"
-                android:focusable="false"
-                android:inputType="none"
+                android:textIsSelectable="false"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
