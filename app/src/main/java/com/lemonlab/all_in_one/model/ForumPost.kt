@@ -10,8 +10,14 @@ data class ForumPost(
     var reports: Int, var reportIDs: ArrayList<String>?, var postID: String
 ) {
 
-    private fun updatePost() =
-        FirebaseFirestore.getInstance().collection("posts").document(postID).set(this)
+    private fun updatePost() {
+        val postRef = FirebaseFirestore.getInstance().collection("posts").document(postID)
+        postRef.get().addOnSuccessListener {
+            if (it.data != null)
+                postRef.set(this)
+        }
+    }
+
 
     fun report(userID: String) {
         if (reportIDs!!.contains(userID)) return
