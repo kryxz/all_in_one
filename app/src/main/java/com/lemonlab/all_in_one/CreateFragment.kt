@@ -40,10 +40,11 @@ import kotlinx.android.synthetic.main.stickers_view.view.*
 /**
  * A simple [Fragment] subclass.
  */
+
 class CreateFragment : Fragment() {
 
-    private val MAX_BRUSH_SIZE = 128f
-    private val MIN_BRUSH_SIZE = 12f
+    private val maxBrushSize = 128f
+    private val minBrushSize = 12f
 
     private lateinit var photoEditor: PhotoEditor
     private var currentEditorBackground:Int = R.drawable.editor_image0
@@ -380,14 +381,14 @@ class CreateFragment : Fragment() {
 
     private fun incrementBrushSize(){
         increment_brush_size_btn.setOnClickListener {
-            if(photoEditor.brushSize + 4f <= MAX_BRUSH_SIZE)
+            if (photoEditor.brushSize + 4f <= maxBrushSize)
                 photoEditor.brushSize += 4f
         }
     }
 
     private fun decrementBrushSize(){
         decrement_brush_size_btn.setOnClickListener {
-            if(photoEditor.brushSize - 4f >= MIN_BRUSH_SIZE)
+            if (photoEditor.brushSize - 4f >= minBrushSize)
                 photoEditor.brushSize -= 4f
         }
     }

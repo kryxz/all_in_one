@@ -24,34 +24,42 @@ class SavedPost(
 ) :
     Item<ViewHolder>() {
 
+    override fun getLayout() = R.layout.saved_post_item
+
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
         val view = viewHolder.itemView
-        view.setOnClickListener {
+
+        view.saved_post_item_title.text = forumPost.title
+
+
+
+        view.saved_post_item_title.setOnClickListener {
             it.findNavController().navigate(ForumFragmentDirections.forumToThisPost(postID))
         }
 
-        view.saved_post_item_title.text = forumPost.title
-        view.setOnLongClickListener {
-            context.showYesNoDialog(
-                {
-                    GlobalScope.launch {
-                        val savedPostsDao =
-                            SavedPostsRoomDatabase.getDatabase(context).SavedPostsDao()
-                        savedPostsDao.deletePost(SavedPosts(postID))
-                        this.cancel()
-                    }
-                    adapter.remove(this@SavedPost)
-                    adapter.notifyDataSetChanged()
-                },
-                {},
-                context.getString(R.string.delete_post_favorites),
-                context.getString(R.string.are_you_sure)
-            )
-
-            true
+        view.saved_post_item_delete.setOnClickListener {
+            showDialog()
         }
     }
 
-    override fun getLayout() = R.layout.saved_post_item
+
+    private fun showDialog() {
+        context.showYesNoDialog(
+            {
+                GlobalScope.launch {
+                    val savedPostsDao =
+                        SavedPostsRoomDatabase.getDatabase(context).SavedPostsDao()
+                    savedPostsDao.deletePost(SavedPosts(postID))
+                    this.cancel()
+                }
+                adapter.remove(this@SavedPost)
+                adapter.notifyDataSetChanged()
+            },
+            {},
+            context.getString(R.string.delete_post_favorites),
+            context.getString(R.string.are_you_sure)
+        )
+    }
+
 }

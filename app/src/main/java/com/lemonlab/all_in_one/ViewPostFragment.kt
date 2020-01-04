@@ -26,9 +26,6 @@ import kotlin.collections.ArrayList
 
 class ViewPostFragment : Fragment() {
 
-    private val maxReports = 5
-
-    private var postID: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,8 +36,8 @@ class ViewPostFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        postID = ViewPostFragmentArgs.fromBundle(arguments!!).postID
-        getPostData(postID!!)
+        val postID = ViewPostFragmentArgs.fromBundle(arguments!!).postID
+        getPostData(postID)
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -106,20 +103,28 @@ class ViewPostFragment : Fragment() {
                 postID = snapshot.id
             )
 
-            // update the uid
+            // update ui
             setData(thePost)
 
-            // listen to click event then update the data in fireStore
-            likesDislikes(thePost)
-            sendReport(thePost)
-            deletePost(thePost, postID)
-            sendComment(thePost, postID)
+
+            init(thePost)
         }
 
     }
 
-    private fun likesDislikes(post: ForumPost) {
+    private fun init(post: ForumPost) {
+
         val thisUserID = FirebaseAuth.getInstance().uid.toString()
+
+        // checks if post should be deleted.
+        checkReports(post)
+
+
+        // button click listeners. Updates post in database.
+        view_post_send_comment_btn.setOnClickListener {
+            if (view_post_comment_text.text.isNullOrEmpty()) return@setOnClickListener
+            sendComment(post)
+        }
 
         view_post_dislike.setOnClickListener {
             // if disliked, cancel dislike
@@ -133,7 +138,21 @@ class ViewPostFragment : Fragment() {
 
         }
 
+        view_post_report.setOnClickListener {
+            // shows a yes/no dialog.
+            context!!.showYesNoDialog(
+                {
+                    post.report(thisUserID)
+                    context!!.showMessage(getString(R.string.report_sent))
+                },
+                {},
+                getString(R.string.report_post),
+                getString(R.string.report_post_confirm)
+            )
+        }
+
     }
+
 
     private fun setDeleted() {
         // clear text
@@ -178,7 +197,7 @@ class ViewPostFragment : Fragment() {
             val currentUserUid = FirebaseAuth.getInstance().uid
             if (currentUserUid != post.userID) return
             fun deletePost() {
-                FirebaseFirestore.getInstance().collection("posts").document(postID.toString())
+                FirebaseFirestore.getInstance().collection("posts").document(post.postID)
                     .delete()
                 view!!.findNavController().navigateUp()
                 context.showMessage(getString(R.string.post_deleted))
@@ -197,52 +216,31 @@ class ViewPostFragment : Fragment() {
 
     }
 
-    private fun sendReport(post: ForumPost) {
-        val thisUserID = FirebaseAuth.getInstance().uid.toString()
-        fun addReport() {
-            post.report(thisUserID)
-            context!!.showMessage(getString(R.string.report_sent))
-        }
-
-        view_post_report.setOnClickListener {
-            context!!.showYesNoDialog(
-                ::addReport,
-                {},
-                getString(R.string.report_post),
-                getString(R.string.report_post_confirm)
-            )
-        }
-    }
-
-    private fun deletePost(post: ForumPost, postId: String) {
+    private fun checkReports(post: ForumPost) {
+        val maxReports = 5
         if (post.reports >= maxReports) {
-            FirebaseFirestore.getInstance().collection("posts").document(postId)
+            FirebaseFirestore.getInstance().collection("posts").document(post.postID)
                 .delete()
-
-            // TODO:: Close this fragment
         }
     }
 
-    private fun sendComment(post: ForumPost, id: String) {
+    private fun sendComment(post: ForumPost) {
 
         // add the comment to fireStore
-        view_post_send_comment_btn.setOnClickListener {
 
-            if (view_post_comment_text.text.isNullOrEmpty()) return@setOnClickListener
+        val currentUserUid = FirebaseAuth.getInstance().uid
 
-            val currentUserUid = FirebaseAuth.getInstance().uid
+        val comment = Comment(
+            text = view_post_comment_text.text.toString(),
+            userID = currentUserUid!!
+        )
 
-            val comment = Comment(
-                text = view_post_comment_text.text.toString(),
-                userID = currentUserUid!!
-            )
+        val db = FirebaseFirestore.getInstance()
+        post.comments!!.add(comment)
 
-            val db = FirebaseFirestore.getInstance()
-            post.comments!!.add(comment)
+        // update the document
+        db.collection("posts").document(post.postID).set(post)
 
-            // update the document
-            db.collection("posts").document(id).set(post)
-        }
     }
 
 }

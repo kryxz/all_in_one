@@ -25,7 +25,6 @@ Users can send and receive messages here.
 
 class ChatFragment : Fragment() {
 
-    private val MAX_MESSAGES = 51
 
     private val adapter: GroupAdapter<ViewHolder> = GroupAdapter()
     private var currentUser: User? = null
@@ -45,7 +44,7 @@ class ChatFragment : Fragment() {
 
         // init
 
-        // get current user from firestore to use it when user send a message
+        // get current user from fireStore to use it when user send a message
         //TODO:: Add loading ui and disabled all ui until getting user complete
         getCurrentUser()
         getUsersOnline()
@@ -55,7 +54,7 @@ class ChatFragment : Fragment() {
 
         send_message_btn.setOnClickListener {
             val messageText = chat_edit_text.text.toString()
-            if(messageText.isEmpty()) return@setOnClickListener
+            if (messageText.isEmpty()) return@setOnClickListener
             // clear the edit text
             chat_edit_text.text!!.clear()
             // add the message to rv adapter and store it in the database
@@ -73,13 +72,13 @@ class ChatFragment : Fragment() {
         super.onPause()
     }
 
-    private fun getCurrentUser(){
+    private fun getCurrentUser() {
         val db = FirebaseFirestore.getInstance()
         val uid = FirebaseAuth.getInstance().uid
-        db.collection("users").document("$uid").get().addOnCompleteListener{
-            if(it.isSuccessful){
+        db.collection("users").document("$uid").get().addOnCompleteListener {
+            if (it.isSuccessful) {
                 val document = it.result
-                if(document != null && document.exists()){
+                if (document != null && document.exists()) {
                     val username = document.get("name").toString()
                     val email = document.get("email").toString()
                     val userStatus = document.get("online").toString()
@@ -91,7 +90,7 @@ class ChatFragment : Fragment() {
         }
     }
 
-    private fun sendMessage(text:String){
+    private fun sendMessage(text: String) {
         Log.i("sendMessage", "sending: $text")
         val message = Message(
             text = text,
@@ -111,68 +110,65 @@ class ChatFragment : Fragment() {
         db.collection("chats").add(message)
     }
 
-    private fun listenToMessages(){
+    private fun listenToMessages() {
 
         val db = FirebaseFirestore.getInstance()
         val docRef = db.collection("chats").orderBy("timestamp")
-        docRef.addSnapshotListener{
-            snapshot, e ->
+        docRef.addSnapshotListener { snapshot, e ->
             if (e != null) {
                 return@addSnapshotListener
             }
 
-            if(context == null) return@addSnapshotListener
+            if (context == null) return@addSnapshotListener
 
-            if(snapshot != null){
+            if (snapshot != null) {
                 // clear the adapter
                 adapter.clear()
                 // get all messages and clear the old
                 var documents = snapshot.documents
                 documents = deleteOldMessages(documents)
-                for(doc in documents){
+                for (doc in documents) {
                     adapter.add(
                         ChatItem(
                             Message(
                                 text = doc.data!!["text"].toString(),
                                 userUid = doc.data!!["userUid"].toString(),
                                 username = doc.data!!["username"].toString(),
-                                timestamp =Timestamp(0)//TODO:: Some work here
+                                timestamp = Timestamp(0)//TODO:: Some work here
                             ),
                             context = context!!
-                            )
+                        )
                     )
                 }
             }
         }
     }
 
-    private fun deleteOldMessages(documents: List<DocumentSnapshot>):List<DocumentSnapshot>{
-        if(documents.size > MAX_MESSAGES){
-            return documents.subList(documents.size - MAX_MESSAGES, documents.size - 1)
+    private fun deleteOldMessages(documents: List<DocumentSnapshot>): List<DocumentSnapshot> {
+        val maxMessages = 51
+        if (documents.size > maxMessages) {
+            return documents.subList(documents.size - maxMessages, documents.size - 1)
         }
-        for(i in documents.size - MAX_MESSAGES downTo 0){
+        for (i in documents.size - maxMessages downTo 0) {
             val db = FirebaseFirestore.getInstance()
             db.collection("chats").document(documents[i].id).delete()
         }
         return documents
     }
 
-    private fun slideToLastMessage(){
-        if(adapter.itemCount >= 1)
-        chat_rv.scrollToPosition(adapter.itemCount - 1)
+    private fun slideToLastMessage() {
+        if (adapter.itemCount >= 1)
+            chat_rv.scrollToPosition(adapter.itemCount - 1)
     }
 
-    private fun getUsersOnline(){
+    private fun getUsersOnline() {
         val db = FirebaseFirestore.getInstance()
-        db.collection("users").whereEqualTo("online","true").addSnapshotListener{
-                snapshot, e ->
+        db.collection("users").whereEqualTo("online", "true").addSnapshotListener { snapshot, e ->
             if (e != null) {
                 return@addSnapshotListener
             }
-            if(snapshot != null){
+            if (snapshot != null)
                 onlineUsersCount = snapshot.documents.size
-                Log.i("ChatFragment", "userOnlinesCounts: $onlineUsersCount")
-            }
         }
     }
 

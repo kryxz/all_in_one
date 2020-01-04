@@ -33,7 +33,6 @@ import kotlin.collections.ArrayList
 
 class ForumFragment : Fragment() {
 
-    var posts: List<ForumPost>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,7 +65,7 @@ class ForumFragment : Fragment() {
     private fun getPosts() {
         // false unless user clicks the button in appBar.
         val seeBookmarks = ForumFragmentArgs.fromBundle(arguments!!).seeBookmarks
-        var listOfSavedPosts = listOf<String>()
+        var listOfSavedPosts: List<String>
         val adapter = GroupAdapter<ViewHolder>()
         val db = FirebaseFirestore.getInstance()
         val docRef = db.collection("posts").orderBy("timestamp")

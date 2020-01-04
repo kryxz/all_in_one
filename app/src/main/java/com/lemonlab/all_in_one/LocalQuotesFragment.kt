@@ -17,6 +17,8 @@ import kotlinx.android.synthetic.main.fragment_local_quotes.*
 /**
  * A simple [Fragment] subclass.
  */
+
+
 class LocalQuotesFragment : Fragment() {
 
     override fun onCreateView(

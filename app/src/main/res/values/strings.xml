@@ -77,7 +77,7 @@
     <string name="report_post_confirm">هل أنت متأكد أن المنشور غير لائق؟</string>
     <string name="report_sent">تم استلام الإبلاغ</string>
     <string name="added_favorites">تمّت الإضافة إلى المفضّلة</string>
-    <string name="delete_post_favorites">حذف العنصر من المفضلّة</string>
+    <string name="delete_post_favorites">حذف العنصر من المفضّلة</string>
 
 
     <string-array name="categoryEn">
