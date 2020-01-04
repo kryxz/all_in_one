@@ -1,24 +1,29 @@
 package com.lemonlab.all_in_one
 
+
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.*
+import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lemonlab.all_in_one.extensions.createImageFile
+import com.lemonlab.all_in_one.items.FontItem
 import com.lemonlab.all_in_one.items.StickerItem
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
@@ -26,8 +31,10 @@ import dev.sasikanth.colorsheet.ColorSheet
 import ja.burhanrashid52.photoeditor.OnPhotoEditorListener
 import ja.burhanrashid52.photoeditor.PhotoEditor
 import ja.burhanrashid52.photoeditor.ViewType
+import kotlinx.android.synthetic.main.fonts_selector_view.view.*
 import kotlinx.android.synthetic.main.fragment_create.*
 import kotlinx.android.synthetic.main.input_text.view.*
+import kotlinx.android.synthetic.main.stickers_view.view.*
 
 
 /**
@@ -40,6 +47,7 @@ class CreateFragment : Fragment() {
 
     private lateinit var photoEditor: PhotoEditor
     private var currentEditorBackground:Int = R.drawable.editor_image0
+    private var currentFontTypeFace: Typeface? = null // TODO:: Change the first color
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,34 +72,42 @@ class CreateFragment : Fragment() {
             selectImage()
         }
 
-        if (item.itemId == R.id.changeBackground){
+        if (item.itemId == R.id.createChangeBackground) {
             changeEditorImage()
         }
 
         if (item.itemId == R.id.createSave) {
-            photoEditor.saveAsFile(
-                activity!!.createImageFile().path,
-                object : PhotoEditor.OnSaveListener {
-                    override fun onSuccess(imagePath: String) {
-                        Toast.makeText(
-                            context!!,
-                            getString(R.string.image_saved),
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-
-                    override fun onFailure(exception: Exception) {
-                        Toast.makeText(
-                            context!!,
-                            getString(R.string.couldnt_save_image),
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-
-                })
+            // save image in the gallery
+            saveEditorImage()
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun saveEditorImage() {
+
+        photoEditor.saveAsFile(
+            activity!!.createImageFile().path, // get image file path
+            object : PhotoEditor.OnSaveListener {
+                override fun onSuccess(imagePath: String) {
+                    // show message to user
+                    Toast.makeText(
+                        context!!,
+                        getString(R.string.image_saved),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+                override fun onFailure(exception: Exception) {
+                    // show message to user
+                    Toast.makeText(
+                        context!!,
+                        getString(R.string.couldnt_save_image),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+            })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -191,18 +207,24 @@ class CreateFragment : Fragment() {
 
         //init
 
+        // the used font when user add text for first time
+        currentFontTypeFace = ResourcesCompat.getFont(context!!, R.font.amiri_regular)
+
+        // the used background when user open the editor
         photoEditorView.source.setImageResource(R.drawable.test_image)
 
         //Use custom font using latest support library
         val mTextRobotoTf = ResourcesCompat.getFont(context!!, R.font.aram)
 
 
+        // create the photo editor using library
         photoEditor = PhotoEditor.Builder(context!!, photoEditorView)
             .setPinchTextScalable(true)
             .setDefaultTextTypeface(mTextRobotoTf)
             .setDefaultEmojiTypeface(mTextRobotoTf)
             .build()
 
+        // listen to editor nav bar items
         photoEditorBottomBar.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.brushTool -> {
@@ -227,6 +249,7 @@ class CreateFragment : Fragment() {
 
                 R.id.textTool -> {
                     photoEditor.addText(
+                        currentFontTypeFace!!,
                         "Hello!",
                         currentEditorColor
                     )
@@ -235,10 +258,18 @@ class CreateFragment : Fragment() {
                     hideBrushTools()
                 }
 
+                R.id.colorPickerTool -> {
+                    // hide other tools
+                    hideBrushTools()
+
+                    showColorPicker()
+                }
+
                 // for test
                 R.id.emojiTool -> {
-                    //showColorPicker()
-                    showEmojiDialog()
+                    //showEmojiDialog()
+                    // TODO:: CHANGE TIIIIIIIIIIIIIIS
+                    showFontsDialog()
                     // hide other tools
                     hideBrushTools()
                 }
@@ -372,29 +403,112 @@ class CreateFragment : Fragment() {
         )
 
         val stickerRv = stickerDialogView.findViewById(R.id.sticker_rv) as RecyclerView
-        stickerRv.layoutManager = GridLayoutManager(context!!,3)
 
-        // stickers adapter
-        val adapter = GroupAdapter<ViewHolder>()
 
         // create and show the dialog
         val dialogBuilder = AlertDialog.Builder(context!!).create()
         dialogBuilder.setView(stickerDialogView)
 
-        //TODO:: Add all stickers int the adapter
-        val emojiCodes = PhotoEditor.getEmojis(context!!)
-        for(code in emojiCodes){
-            adapter.add(StickerItem(context!!, code, ::getDataFromStickerItem,
-                dialog = dialogBuilder))
-        }
-        stickerRv.adapter = adapter
+        fun updateTheAdapter(spanCount: Int) {
 
+            // set the span cont to rv
+            stickerRv.layoutManager = GridLayoutManager(context!!, spanCount)
+
+            // stickers adapter
+            val adapter = GroupAdapter<ViewHolder>()
+
+            val emojiCodes = PhotoEditor.getEmojis(context!!)
+            for (code in emojiCodes) {
+                adapter.add(
+                    StickerItem(
+                        context!!, code, ::getDataFromStickerItem,
+                        dialog = dialogBuilder, spanCount = spanCount
+                    )
+                )
+            }
+
+            stickerRv.adapter = adapter
+        }
+
+        // listen to seek bar to change the span size for sticker rv
+        stickerDialogView.seek_sticker.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (progress >= 3) {
+                    updateTheAdapter(progress)
+                }
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                //
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                //
+            }
+
+        })
+
+        // get emoji and add it to the adapter then show the dialog
+        updateTheAdapter(3)
         dialogBuilder.show()
     }
 
     // function to get data from Sticker Item when user click on it
     private fun getDataFromStickerItem(textView: TextView){
         photoEditor.addEmoji(textView.text.toString())
+    }
+
+    private fun showFontsDialog() {
+        // get the view
+        val fontsDialogView = layoutInflater.inflate(
+            R.layout.fonts_selector_view,
+            view!!.findViewById(R.id.createFragment)
+        )
+
+        // get the rv
+        val fontsRv = fontsDialogView.fonts_rv
+        fontsRv.layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
+
+        // set the adapter
+        val adapter = GroupAdapter<ViewHolder>()
+
+        // get the fonts from assets
+        val fontsTypeFaces = listOf(
+            ResourcesCompat.getFont(context!!, R.font.amiri_regular),
+            ResourcesCompat.getFont(context!!, R.font.aram),
+            ResourcesCompat.getFont(context!!, R.font.baloobhaijaan_regular),
+            ResourcesCompat.getFont(context!!, R.font.cairo_regular),
+            ResourcesCompat.getFont(context!!, R.font.lalezar_regular),
+            ResourcesCompat.getFont(context!!, R.font.rakkas_regular),
+            ResourcesCompat.getFont(context!!, R.font.tajawal_regular),
+            ResourcesCompat.getFont(context!!, R.font.vibes_regular)
+        )
+
+        // create the view and show it
+        val dialog = AlertDialog.Builder(context!!).create()
+        dialog.setView(fontsDialogView)
+
+        // add all fonts to the adapter
+        for (font in fontsTypeFaces) {
+            adapter.add(
+                FontItem(
+                    fontFace = font!!, action = ::getDataFromFontsDialog,
+                    dialog = dialog
+                )
+            )
+        }
+
+
+        dialog.show()
+
+        // set the adapter
+        fontsRv.adapter = adapter
+    }
+
+    // function to get data from Font Item when user click on it
+    private fun getDataFromFontsDialog(typeface: Typeface) {
+        currentFontTypeFace = typeface
     }
 
 }

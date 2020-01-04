@@ -14,7 +14,6 @@ import com.lemonlab.all_in_one.extensions.showYesNoDialog
 import com.lemonlab.all_in_one.model.ForumPost
 import com.lemonlab.all_in_one.model.SavedPosts
 import com.lemonlab.all_in_one.model.SavedPostsRoomDatabase
-import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.forum_post_item.view.*
@@ -25,8 +24,7 @@ import kotlinx.coroutines.launch
 class ForumPostItem(
     private val forumPost: ForumPost,
     private val context: Context,
-    private val postID: String,
-    private val adapter: GroupAdapter<ViewHolder>
+    private val postID: String
 ) :
     Item<ViewHolder>() {
 

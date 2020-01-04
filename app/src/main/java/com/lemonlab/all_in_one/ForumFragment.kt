@@ -140,7 +140,7 @@ class ForumFragment : Fragment() {
                             reportIDs = reportIDs,
                             postID = postID
                         )
-                        adapter.add(ForumPostItem(post, context!!, postID, adapter))
+                        adapter.add(ForumPostItem(post, context!!, postID))
                     }
                     if (view != null)
                         forum_rv.adapter = adapter
