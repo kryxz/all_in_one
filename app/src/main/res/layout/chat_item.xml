@@ -2,19 +2,44 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="1dp"
-    android:layoutDirection="ltr">
+    android:layoutDirection="ltr"
+    android:orientation="vertical">
 
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/chat_item_user_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/circuler_user_image"
+        android:backgroundTint="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/chat_item_user_image_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ZA"
+        android:textColor="@color/white"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/chat_item_user_image"
+        app:layout_constraintEnd_toEndOf="@+id/chat_item_user_image"
+        app:layout_constraintStart_toStartOf="@+id/chat_item_user_image"
+        app:layout_constraintTop_toTopOf="@+id/chat_item_user_image" />
 
     <TextView
         android:id="@+id/chat_tv"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/rounded_chat_item"
         android:ellipsize="none"
         android:ems="0"
@@ -24,9 +49,11 @@
         android:textDirection="rtl"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/chat_item_user_image"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chat_item_username_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/chat_item_username_tv"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/chat_item_username_tv"
@@ -37,8 +64,8 @@
         android:textDirection="rtl"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/chat_tv"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/chat_item_user_image"
+        app:layout_constraintEnd_toStartOf="@+id/chat_item_user_image"
+        app:layout_constraintTop_toTopOf="@+id/chat_item_user_image"
         tools:text="احمد زكريا" />
 </androidx.constraintlayout.widget.ConstraintLayout>

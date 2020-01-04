@@ -435,6 +435,11 @@ class CreateFragment : Fragment() {
         val dialogBuilder = AlertDialog.Builder(context!!).create()
         dialogBuilder.setView(stickerDialogView)
 
+        // close the dialog
+        stickerDialogView.emoji_selector_view_btn.setOnClickListener {
+            dialogBuilder.dismiss()
+        }
+
         fun updateTheAdapter(spanCount: Int) {
 
             // set the span cont to rv

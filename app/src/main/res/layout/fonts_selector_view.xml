@@ -8,7 +8,7 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_margin="10dp"
         >
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/fonts_selector_view_btn"

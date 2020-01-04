@@ -86,10 +86,11 @@
         android:id="@+id/fonts_btn"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:layout_marginStart="16dp"
         android:src="@drawable/ic_fonts"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/redo_btn"
-        app:layout_constraintEnd_toStartOf="@+id/decrement_brush_size_btn"
-        app:layout_constraintStart_toEndOf="@+id/redo_btn" />
+        app:layout_constraintStart_toEndOf="@+id/redo_btn"
+        app:layout_constraintTop_toTopOf="@+id/redo_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
