@@ -12,7 +12,7 @@ import com.lemonlab.all_in_one.extensions.recreateFragment
 import com.lemonlab.all_in_one.extensions.showMessage
 import com.lemonlab.all_in_one.extensions.showYesNoDialog
 import com.lemonlab.all_in_one.model.ForumPost
-import com.lemonlab.all_in_one.model.SavedPosts
+import com.lemonlab.all_in_one.model.SavedPost
 import com.lemonlab.all_in_one.model.SavedPostsRoomDatabase
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
@@ -121,10 +121,10 @@ class ForumPostItem(
         GlobalScope.launch {
             val savedPostsDao = SavedPostsRoomDatabase.getDatabase(context).SavedPostsDao()
             if (savedPosts.contains(postID)) {
-                savedPostsDao.deletePost(SavedPosts(postID))
+                savedPostsDao.deletePost(SavedPost(postID))
                 saveButton.setImageResource(R.drawable.ic_bookmark_border)
             } else {
-                savedPostsDao.insertPost(SavedPosts(postID))
+                savedPostsDao.insertPost(SavedPost(postID))
                 saveButton.setImageResource(R.drawable.ic_bookmark)
             }
 

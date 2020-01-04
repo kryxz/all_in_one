@@ -164,6 +164,14 @@ class QuoteItem(
 
     private val pic = getPics(category)[Random.nextInt(CategoryPics.size)]
 
+    override fun bind(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
+        // set full heart if item is already in favorites.
+        if (Favorites.favorites.contains(position))
+            holder.itemView.quote_favorite_btn.setImageResource(R.drawable.ic_favorite)
+
+        super.bind(holder, position, payloads)
+    }
+
     override fun bind(viewHolder: ViewHolder, position: Int) {
         // used instead of viewHolder.itemView.etc
         val view = viewHolder.itemView
@@ -172,9 +180,6 @@ class QuoteItem(
         view.quote_text_tv.text = context.highlightText(text)
         view.text_image.setImageResource(pic)
 
-        // set full heart if item is already in favorites.
-        if (Favorites.favorites.contains(position))
-            view.quote_favorite_btn.setImageResource(R.drawable.ic_favorite)
 
         // listens to button clicks and calls a specific function!
         listenButtons(

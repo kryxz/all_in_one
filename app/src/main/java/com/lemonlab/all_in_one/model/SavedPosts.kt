@@ -5,20 +5,20 @@ import androidx.room.*
 
 
 @Entity(tableName = "saved_posts")
-class SavedPosts(
+class SavedPost(
     @PrimaryKey @ColumnInfo(name = "postID") val postID: String
 )
 
 @Dao
 interface SavedPostsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPost(savedPosts: SavedPosts)
+    suspend fun insertPost(savedPosts: SavedPost)
 
     @Update
-    suspend fun updatePost(savedPosts: SavedPosts)
+    suspend fun updatePost(savedPosts: SavedPost)
 
     @Delete
-    suspend fun deletePost(savedPosts: SavedPosts)
+    suspend fun deletePost(savedPosts: SavedPost)
 
 
     @Query("SELECT postID FROM saved_posts")
@@ -29,7 +29,7 @@ interface SavedPostsDao {
 
 
 // Annotates class to be a Room Database with a table (entity) of the Word class
-@Database(entities = [SavedPosts::class], version = 1, exportSchema = false)
+@Database(entities = [SavedPost::class], version = 1, exportSchema = false)
 public abstract class SavedPostsRoomDatabase : RoomDatabase() {
 
     abstract fun SavedPostsDao(): SavedPostsDao

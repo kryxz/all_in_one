@@ -6,7 +6,7 @@ import com.lemonlab.all_in_one.ForumFragmentDirections
 import com.lemonlab.all_in_one.R
 import com.lemonlab.all_in_one.extensions.showYesNoDialog
 import com.lemonlab.all_in_one.model.ForumPost
-import com.lemonlab.all_in_one.model.SavedPosts
+import com.lemonlab.all_in_one.model.SavedPost
 import com.lemonlab.all_in_one.model.SavedPostsRoomDatabase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
@@ -16,7 +16,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
-class SavedPost(
+class SavedPostItem(
     private val forumPost: ForumPost,
     private val context: Context,
     private val postID: String,
@@ -50,10 +50,10 @@ class SavedPost(
                 GlobalScope.launch {
                     val savedPostsDao =
                         SavedPostsRoomDatabase.getDatabase(context).SavedPostsDao()
-                    savedPostsDao.deletePost(SavedPosts(postID))
+                    savedPostsDao.deletePost(SavedPost(postID))
                     this.cancel()
                 }
-                adapter.remove(this@SavedPost)
+                adapter.remove(this@SavedPostItem)
                 adapter.notifyDataSetChanged()
             },
             {},

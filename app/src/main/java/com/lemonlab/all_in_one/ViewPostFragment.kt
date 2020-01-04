@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
@@ -15,7 +16,12 @@ import com.lemonlab.all_in_one.extensions.showMessage
 import com.lemonlab.all_in_one.extensions.showYesNoDialog
 import com.lemonlab.all_in_one.model.Comment
 import com.lemonlab.all_in_one.model.ForumPost
+import com.lemonlab.all_in_one.model.SavedPost
+import com.lemonlab.all_in_one.model.SavedPostsRoomDatabase
 import kotlinx.android.synthetic.main.fragment_view_post.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -113,6 +119,59 @@ class ViewPostFragment : Fragment() {
     }
 
     private fun init(post: ForumPost) {
+        var savedPosts = listOf<String>()
+
+        // get saved posts.
+        GlobalScope.launch {
+            val savedPostsDao = SavedPostsRoomDatabase.getDatabase(context!!).SavedPostsDao()
+            savedPosts = savedPostsDao.getSavedPosts()
+            this.coroutineContext.cancel()
+        }
+        fun deletePost() {
+            GlobalScope.launch {
+                val savedPostsDao = SavedPostsRoomDatabase.getDatabase(context!!).SavedPostsDao()
+                savedPostsDao.deletePost(SavedPost(post.postID))
+                savedPosts = savedPostsDao.getSavedPosts()
+                this.coroutineContext.cancel()
+            }
+            view_post_save.setCompoundDrawablesWithIntrinsicBounds(
+                ContextCompat.getDrawable(
+                    context!!,
+                    R.drawable.ic_bookmark_border
+                ), null, null, null
+            )
+        }
+
+        fun savePost() {
+            GlobalScope.launch {
+                val savedPostsDao = SavedPostsRoomDatabase.getDatabase(context!!).SavedPostsDao()
+                savedPostsDao.insertPost(SavedPost(post.postID))
+                savedPosts = savedPostsDao.getSavedPosts()
+                this.coroutineContext.cancel()
+            }
+            view_post_save.setCompoundDrawablesWithIntrinsicBounds(
+                ContextCompat.getDrawable(
+                    context!!,
+                    R.drawable.ic_bookmark
+                ), null, null, null
+            )
+        }
+
+        view_post_save.setOnClickListener {
+            if (savedPosts.contains(post.postID))
+                deletePost()
+            else
+                savePost()
+
+        }
+
+        if (savedPosts.contains(post.postID))
+            view_post_save.setCompoundDrawablesWithIntrinsicBounds(
+                ContextCompat.getDrawable(
+                    context!!,
+                    R.drawable.ic_bookmark
+                ), null, null, null
+            )
 
         val thisUserID = FirebaseAuth.getInstance().uid.toString()
 

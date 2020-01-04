@@ -11,8 +11,9 @@ import com.google.firebase.firestore.Query
 import com.lemonlab.all_in_one.extensions.checkUser
 import com.lemonlab.all_in_one.extensions.recreateFragment
 import com.lemonlab.all_in_one.extensions.setFragmentTitle
+import com.lemonlab.all_in_one.extensions.showMessage
 import com.lemonlab.all_in_one.items.ForumPostItem
-import com.lemonlab.all_in_one.items.SavedPost
+import com.lemonlab.all_in_one.items.SavedPostItem
 import com.lemonlab.all_in_one.model.Comment
 import com.lemonlab.all_in_one.model.ForumPost
 import com.lemonlab.all_in_one.model.SavedPostsRoomDatabase
@@ -218,7 +219,7 @@ class ForumFragment : Fragment() {
                         reportIDs = reportIDs,
                         postID = postID
                     )
-                    adapter.add(SavedPost(post, context!!, postID, adapter))
+                    adapter.add(SavedPostItem(post, context!!, postID, adapter))
                 }
                 if (view != null)
                     forum_rv.adapter = adapter
@@ -248,12 +249,33 @@ class ForumFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
+
+    private suspend fun hasSavedPosts(): Boolean {
+        val savedPostsDao = SavedPostsRoomDatabase.getDatabase(context!!).SavedPostsDao()
+        return savedPostsDao.getSavedPosts().isNotEmpty()
+    }
+
+
     private fun goToSavedPosts() {
-        view!!.findNavController().navigate(
-            ForumFragmentDirections.forumToSaved().setSeeBookmarks(true), NavOptions.Builder()
-                .setPopUpTo(R.id.forumFragment, true)
-                .build()
-        )
+        val navController = view!!.findNavController()
+        GlobalScope.launch {
+            if (hasSavedPosts()) {
+                activity!!.runOnUiThread {
+                    navController.navigate(
+                        ForumFragmentDirections.forumToSaved().setSeeBookmarks(true),
+                        NavOptions.Builder()
+                            .setPopUpTo(R.id.forumFragment, true)
+                            .build()
+                    )
+                }
+            } else {
+                activity!!.runOnUiThread {
+                    context!!.showMessage(getString(R.string.no_saved_posts))
+                }
+            }
+
+            this.coroutineContext.cancel()
+        }
     }
 
 
