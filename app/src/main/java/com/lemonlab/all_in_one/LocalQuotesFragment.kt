@@ -45,8 +45,8 @@ class LocalQuotesFragment : Fragment() {
 
         val adapter = GroupAdapter<ViewHolder>()
         val list = getStatuses(category)
-        for (quote in list)
-            adapter.add(QuoteItem(context!!, quote, category))
+        for ((index, quote) in list.withIndex())
+            adapter.add(QuoteItem(context!!, quote, category, index))
 
         Favorites().getFavorites(context!!, category)
         quotes_rv.adapter = adapter

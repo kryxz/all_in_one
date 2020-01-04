@@ -156,7 +156,8 @@ class Favorites {
 class QuoteItem(
     private val context: Context,
     private val text: String,
-    private val category: Category
+    private val category: Category,
+    private val indexPosition: Int
 ) :
     Item<ViewHolder>() {
     override fun getLayout() =
@@ -164,13 +165,6 @@ class QuoteItem(
 
     private val pic = getPics(category)[Random.nextInt(CategoryPics.size)]
 
-    override fun bind(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
-        // set full heart if item is already in favorites.
-        if (Favorites.favorites.contains(position))
-            holder.itemView.quote_favorite_btn.setImageResource(R.drawable.ic_favorite)
-
-        super.bind(holder, position, payloads)
-    }
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
         // used instead of viewHolder.itemView.etc
@@ -180,6 +174,11 @@ class QuoteItem(
         view.quote_text_tv.text = context.highlightText(text)
         view.text_image.setImageResource(pic)
 
+        // set full heart if item is already in favorites.
+        if (Favorites.favorites.contains(indexPosition))
+            view.quote_favorite_btn.setImageResource(R.drawable.ic_favorite)
+        else
+            view.quote_favorite_btn.setImageResource(R.drawable.ic_favorite_empty)
 
         // listens to button clicks and calls a specific function!
         listenButtons(
@@ -189,13 +188,12 @@ class QuoteItem(
                 view.quote_favorite_btn,
                 view.quote_content_btn
             ),
-            view.quote_text_tv.text.toString(),
-            position
+            view.quote_text_tv.text.toString()
         )
 
     }
 
-    private fun listenButtons(views: List<View>, text: String, pos: Int) {
+    private fun listenButtons(views: List<View>, text: String) {
         // does the appropriate action depending on which button was clicked!
         for (button in views)
             button.setOnClickListener {
@@ -210,7 +208,7 @@ class QuoteItem(
 
 
                     R.id.quote_favorite_btn ->
-                        favorite(pos, it as AppCompatImageView)
+                        favorite(indexPosition, it as AppCompatImageView)
 
                     R.id.quote_content_btn ->
                         copyItem(context, text, button as AppCompatImageView)
