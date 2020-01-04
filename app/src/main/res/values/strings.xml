@@ -78,8 +78,12 @@
     <string name="report_post_confirm">هل أنت متأكد أن المنشور غير لائق؟</string>
     <string name="report_sent">تم استلام الإبلاغ</string>
     <string name="added_favorites">تمّت الإضافة إلى المفضّلة</string>
+    <string name="favorites">المفضّلة</string>
     <string name="delete_post_favorites">حذف العنصر من المفضّلة</string>
     <string name="no_saved_posts">لم تقم بحفظ أي منشور</string>
+    <string name="no_favorites">المفضّلة فارغة</string>
+    <string name="save_image_item">حفظ الصورة</string>
+    <string name="save_image_text">هل ترغب بحفظ الصورة مع النص؟</string>
 
 
     <string-array name="categoryEn">

@@ -36,3 +36,27 @@ class CategoryItem(
     }
 
 }
+
+
+class FavItem(
+    private val context: Context
+) :
+    Item<ViewHolder>() {
+    override fun getLayout() =
+        R.layout.category_view
+
+
+    private val pic = CategoryPics.getRandomPic()
+
+    override fun bind(viewHolder: ViewHolder, position: Int) {
+        val view = viewHolder.itemView
+        view.category_tv.text = context.highlightText(context.getString(R.string.favorites))
+        view.category_image.setImageResource(pic)
+        view.setOnClickListener {
+            it.findNavController()
+                .navigate(MainFragmentDirections.mainToFavorites())
+        }
+
+    }
+
+}

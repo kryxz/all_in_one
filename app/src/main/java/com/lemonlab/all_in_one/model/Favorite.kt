@@ -7,8 +7,10 @@ import com.lemonlab.all_in_one.items.Category
 
 @Entity(tableName = "favorites")
 class Favorite(
-    @PrimaryKey @ColumnInfo(name = "category") val category: Category,
-    @ColumnInfo(name = "index") val index: Int
+    @ColumnInfo(name = "category") val category: Category,
+    @ColumnInfo(name = "index") val index: Int,
+    @PrimaryKey @ColumnInfo(name = "time") val time: Long,
+    @ColumnInfo(name = "text") val text: String
 )
 
 @Dao
@@ -27,6 +29,11 @@ interface FavoriteDao {
 
     @Query("SELECT * FROM favorites")
     suspend fun getFavorites(): List<Favorite>
+
+    @Query("SELECT * FROM favorites ORDER BY 'time' DESC")
+    suspend fun getFavoritesByTime(): List<Favorite>
+
+
 
 }
 

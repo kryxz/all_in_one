@@ -2,6 +2,7 @@ package com.lemonlab.all_in_one.items
 
 import android.content.*
 import android.os.Handler
+import android.os.SystemClock
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import com.lemonlab.all_in_one.R
@@ -131,16 +132,29 @@ class CategoryPics {
         // returns a list of pictures ids for a category
         fun getPics(category: Category) =
             allPics[categories.indexOf(category)]
+
+        fun getRandomPic() =
+            allPics[Random.nextInt(allPics.size)][Random.nextInt(size)]
     }
 
 }
 
 class Favorites {
-    fun getFavorites(context: Context, category: Category) {
+    fun getCategoryFavorites(context: Context, category: Category) {
         GlobalScope.launch {
-            favorites = listOf()
             val favoriteDao = FavoritesRoomDatabase.getDatabase(context).FavoriteDao()
-            favorites = favoriteDao.getFavoritesByCategory(category)
+            favoritesPositions = favoriteDao.getFavoritesByCategory(category)
+            favorites = favoriteDao.getFavoritesByTime()
+            // GlobalScope launches coroutines that last as long as the app is running, so we should stop it.
+            // this is probably a bad practice. Might change it later.
+            this.coroutineContext.cancel()
+        }
+    }
+
+    fun getFavorites(context: Context) {
+        GlobalScope.launch {
+            val favoriteDao = FavoritesRoomDatabase.getDatabase(context).FavoriteDao()
+            favorites = favoriteDao.getFavoritesByTime()
             // GlobalScope launches coroutines that last as long as the app is running, so we should stop it.
             // this is probably a bad practice. Might change it later.
             this.coroutineContext.cancel()
@@ -148,7 +162,8 @@ class Favorites {
     }
 
     companion object {
-        var favorites: List<Int> = listOf()
+        var favoritesPositions: List<Int> = listOf()
+        var favorites: List<Favorite> = listOf()
     }
 
 }
@@ -175,7 +190,7 @@ class QuoteItem(
         view.text_image.setImageResource(pic)
 
         // set full heart if item is already in favorites.
-        if (Favorites.favorites.contains(indexPosition))
+        if (Favorites.favoritesPositions.contains(indexPosition))
             view.quote_favorite_btn.setImageResource(R.drawable.ic_favorite)
         else
             view.quote_favorite_btn.setImageResource(R.drawable.ic_favorite_empty)
@@ -200,11 +215,11 @@ class QuoteItem(
                 when (button.id) {
 
                     R.id.quote_share_btn ->
-                        shareText(text)
+                        shareText(text, context)
 
 
                     R.id.quote_whats_share_btn ->
-                        shareWhatsApp(text)
+                        shareWhatsApp(text, context)
 
 
                     R.id.quote_favorite_btn ->
@@ -218,40 +233,44 @@ class QuoteItem(
             }
     }
 
-
-    // copies item to clipboard and shows a message!
-    private fun copyItem(context: Context, text: String, button: AppCompatImageView) {
-        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clip = ClipData.newPlainText("text", text)
-        clipboard.setPrimaryClip(clip)
-        context.showMessage(context.getString(R.string.copied))
-        with(button) {
-            setImageResource(R.drawable.ic_done)
-            Handler().postDelayed({ setImageResource(R.drawable.ic_copy) }, 500)
+    companion object {
+        // copies item to clipboard and shows a message!
+        fun copyItem(context: Context, text: String, button: AppCompatImageView) {
+            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("text", text)
+            clipboard.setPrimaryClip(clip)
+            context.showMessage(context.getString(R.string.copied))
+            with(button) {
+                setImageResource(R.drawable.ic_done)
+                Handler().postDelayed({ setImageResource(R.drawable.ic_copy) }, 500)
+            }
         }
-    }
 
-    // shares quote test
-    private fun shareText(text: String) {
-        val sendIntent = Intent()
-        sendIntent.action = Intent.ACTION_SEND
-        sendIntent.putExtra(Intent.EXTRA_TEXT, text)
-        sendIntent.type = "text/plain"
-        context.startActivity(sendIntent)
-    }
 
-    // if whatsApp exists, share text to it.
-    private fun shareWhatsApp(text: String) {
-        val sendIntent = Intent()
-        sendIntent.action = Intent.ACTION_SEND
-        sendIntent.putExtra(Intent.EXTRA_TEXT, text)
-        sendIntent.type = "text/plain"
-        sendIntent.setPackage("com.whatsapp")
-        try {
+        // shares quote test
+        fun shareText(text: String, context: Context) {
+            val sendIntent = Intent()
+            sendIntent.action = Intent.ACTION_SEND
+            sendIntent.putExtra(Intent.EXTRA_TEXT, text)
+            sendIntent.type = "text/plain"
             context.startActivity(sendIntent)
-        } catch (e: ActivityNotFoundException) {
-            context.showMessage(context.getString(R.string.appNotFound))
         }
+
+        // if whatsApp exists, share text to it.
+        fun shareWhatsApp(text: String, context: Context) {
+            val sendIntent = Intent()
+            sendIntent.action = Intent.ACTION_SEND
+            sendIntent.putExtra(Intent.EXTRA_TEXT, text)
+            sendIntent.type = "text/plain"
+            sendIntent.setPackage("com.whatsapp")
+            try {
+                context.startActivity(sendIntent)
+            } catch (e: ActivityNotFoundException) {
+                context.showMessage(context.getString(R.string.appNotFound))
+            }
+        }
+
+
     }
 
 
@@ -259,15 +278,29 @@ class QuoteItem(
         GlobalScope.launch {
             val favoriteDao = FavoritesRoomDatabase.getDatabase(context).FavoriteDao()
 
-            if (Favorites.favorites.contains(position)) {
+            if (Favorites.favoritesPositions.contains(position)) {
                 favButton.setImageResource(R.drawable.ic_favorite_empty)
-                favoriteDao.deleteFavorite(Favorite(category = category, index = position))
+                favoriteDao.deleteFavorite(
+                    Favorite(
+                        category = category,
+                        index = position,
+                        time = SystemClock.currentThreadTimeMillis(),
+                        text = text
+                    )
+                )
 
             } else {
                 favButton.setImageResource(R.drawable.ic_favorite)
-                favoriteDao.insertFavorite(Favorite(category = category, index = position))
+                favoriteDao.insertFavorite(
+                    Favorite(
+                        category = category,
+                        index = position,
+                        time = SystemClock.currentThreadTimeMillis(),
+                        text = text
+                    )
+                )
             }
-            Favorites().getFavorites(context, category)
+            Favorites().getCategoryFavorites(context, category)
             // GlobalScope launches coroutines that last as long as the app is running, so we should stop it.
             // this is probably a bad practice. Might change it later.
             this.coroutineContext.cancel()

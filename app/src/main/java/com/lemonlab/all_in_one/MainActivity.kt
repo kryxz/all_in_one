@@ -11,6 +11,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.lemonlab.all_in_one.extensions.makeTheUserOnline
+import com.lemonlab.all_in_one.items.Favorites
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         navController = Navigation.findNavController(this, R.id.navHost)
         setUpNavigation()
+        Favorites().getFavorites(this)
         window.decorView.layoutDirection = View.LAYOUT_DIRECTION_RTL
     }
 

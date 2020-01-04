@@ -16,6 +16,9 @@
         <action
             android:id="@+id/mainToQuotes"
             app:destination="@id/localQuotesFragment" />
+        <action
+            android:id="@+id/mainToFavorites"
+            app:destination="@id/favoritesFragment" />
     </fragment>
     <fragment
         android:id="@+id/sendFragment"
@@ -100,4 +103,9 @@
             android:name="postID"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.lemonlab.all_in_one.FavoritesFragment"
+        android:label="@string/favorites"
+        tools:layout="@layout/fragment_favorites" />
 </navigation>

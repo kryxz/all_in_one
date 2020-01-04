@@ -48,7 +48,7 @@ class LocalQuotesFragment : Fragment() {
         for ((index, quote) in list.withIndex())
             adapter.add(QuoteItem(context!!, quote, category, index))
 
-        Favorites().getFavorites(context!!, category)
+        Favorites().getCategoryFavorites(context!!, category)
         quotes_rv.adapter = adapter
 
 

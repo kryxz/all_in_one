@@ -9,6 +9,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.lemonlab.all_in_one.extensions.makeTheUserOnline
 import com.lemonlab.all_in_one.items.Category
 import com.lemonlab.all_in_one.items.CategoryItem
+import com.lemonlab.all_in_one.items.FavItem
+import com.lemonlab.all_in_one.items.Favorites
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -64,6 +66,9 @@ class MainFragment : Fragment() {
 
     private fun init() {
         val adapter = GroupAdapter<ViewHolder>()
+        if (Favorites.favorites.isNotEmpty())
+            adapter.add(FavItem(context!!))
+
         adapter.add(
             makeItem(
                 getString(R.string.wisdom),
