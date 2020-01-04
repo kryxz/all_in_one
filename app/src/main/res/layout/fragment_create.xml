@@ -7,6 +7,15 @@
     android:layoutDirection="ltr"
     tools:context=".CreateFragment">
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/bar"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:src="@color/lightBlack"
+        app:layout_constraintBottom_toTopOf="@+id/photoEditorBottomBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <ja.burhanrashid52.photoeditor.PhotoEditorView
         android:id="@+id/photoEditorView"
         android:layout_width="wrap_content"
@@ -36,7 +45,6 @@
         android:layout_height="40dp"
         android:layout_marginBottom="4dp"
         android:src="@drawable/ic_undo"
-        android:tint="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/photoEditorBottomBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.044"
@@ -48,7 +56,6 @@
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
         android:src="@drawable/ic_redo"
-        android:tint="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/undo_btn"
         app:layout_constraintStart_toEndOf="@+id/undo_btn"
         app:layout_constraintTop_toTopOf="@+id/undo_btn" />
@@ -60,8 +67,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="4dp"
         android:src="@drawable/ic_plus_2"
-        android:tint="@color/black"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/photoEditorBottomBar"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -69,12 +75,21 @@
         android:id="@+id/decrement_brush_size_btn"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:visibility="invisible"
+        android:visibility="visible"
         android:layout_marginEnd="8dp"
         android:src="@drawable/ic_mins_2"
-        android:tint="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/increment_brush_size_btn"
         app:layout_constraintEnd_toStartOf="@+id/increment_brush_size_btn"
         app:layout_constraintTop_toTopOf="@+id/increment_brush_size_btn" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/fonts_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_fonts"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/redo_btn"
+        app:layout_constraintEnd_toStartOf="@+id/decrement_brush_size_btn"
+        app:layout_constraintStart_toEndOf="@+id/redo_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

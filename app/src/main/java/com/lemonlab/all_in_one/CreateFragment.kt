@@ -267,9 +267,7 @@ class CreateFragment : Fragment() {
 
                 // for test
                 R.id.emojiTool -> {
-                    //showEmojiDialog()
-                    // TODO:: CHANGE TIIIIIIIIIIIIIIS
-                    showFontsDialog()
+                    showEmojiDialog()
                     // hide other tools
                     hideBrushTools()
                 }
@@ -286,6 +284,11 @@ class CreateFragment : Fragment() {
 
         redo_btn.setOnClickListener {
             photoEditor.redo()
+        }
+
+        // show fonts dialog
+        fonts_btn.setOnClickListener {
+            showFontsDialog()
         }
     }
 
@@ -488,6 +491,11 @@ class CreateFragment : Fragment() {
         // create the view and show it
         val dialog = AlertDialog.Builder(context!!).create()
         dialog.setView(fontsDialogView)
+
+        // exit the dialog
+        fontsDialogView.fonts_selector_view_btn.setOnClickListener {
+            dialog.dismiss()
+        }
 
         // add all fonts to the adapter
         for (font in fontsTypeFaces) {

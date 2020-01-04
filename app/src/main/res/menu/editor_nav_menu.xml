@@ -2,25 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/brushTool"
-        android:icon="@drawable/ic_brush"
-        android:title="@string/editorNavBrush" />
+        android:icon="@drawable/ic_brush"/>
 
     <item
         android:id="@+id/textTool"
-        android:icon="@drawable/ic_text"
-        android:title="@string/editorNavText" />
+        android:icon="@drawable/ic_text" />
 
     <item
         android:id="@+id/eraserTool"
-        android:icon="@drawable/ic_eraser"
-        android:title="@string/editorNavEraser" />
+        android:icon="@drawable/ic_eraser" />
     <item
         android:id="@+id/emojiTool"
-        android:icon="@drawable/ic_emoji"
-        android:title="@string/editorNavEmoji" />
+        android:icon="@drawable/ic_emoji"/>
 
     <item
         android:id="@+id/colorPickerTool"
-        android:icon="@drawable/ic_color_picker"
-        android:title="@string/editorNavColors" />
+        android:icon="@drawable/ic_color_picker" />
 </menu>

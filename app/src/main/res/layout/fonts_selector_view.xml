@@ -1,17 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/text_sample"
-        android:textAlignment="center"
-        android:textSize="20sp" />
+        android:layout_marginBottom="10dp"
+        >
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/fonts_selector_view_btn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:tint="@color/black"
+            app:srcCompat="@drawable/ic_exit"/>
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/select_fonts"
+            android:textAlignment="center"
+            android:textSize="28sp" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fonts_rv"
