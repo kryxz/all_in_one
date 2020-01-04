@@ -2,20 +2,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/brushTool"
+        android:title=""
         android:icon="@drawable/ic_brush"/>
 
     <item
         android:id="@+id/textTool"
+        android:title=""
         android:icon="@drawable/ic_text" />
 
     <item
         android:id="@+id/eraserTool"
+        android:title=""
         android:icon="@drawable/ic_eraser" />
     <item
         android:id="@+id/emojiTool"
+        android:title=""
         android:icon="@drawable/ic_emoji"/>
 
     <item
         android:id="@+id/colorPickerTool"
+        android:title=""
         android:icon="@drawable/ic_color_picker" />
 </menu>

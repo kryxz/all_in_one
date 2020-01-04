@@ -50,6 +50,12 @@ class CreateFragment : Fragment() {
     private var currentEditorBackground:Int = R.drawable.editor_image0
     private var currentFontTypeFace: Typeface? = null // TODO:: Change the first color
 
+    enum class PhotoTool{
+        Brush, Text, Eraser, EmojiPicker, ColorPicker
+    }
+
+    private var currentSelectedTool: PhotoTool = PhotoTool.Brush
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -228,6 +234,8 @@ class CreateFragment : Fragment() {
         // listen to editor nav bar items
         photoEditorBottomBar.setOnNavigationItemSelectedListener {
             when (it.itemId) {
+                // change current selected photo tool
+
                 R.id.brushTool -> {
                     photoEditor.setBrushDrawingMode(true)
                     photoEditor.brushColor = currentEditorColor
@@ -239,6 +247,8 @@ class CreateFragment : Fragment() {
                     // start the listeners
                     incrementBrushSize()
                     decrementBrushSize()
+
+                    currentSelectedTool = PhotoTool.Brush
                 }
 
                 R.id.eraserTool -> {
@@ -246,6 +256,9 @@ class CreateFragment : Fragment() {
 
                     // hide other tools
                     hideBrushTools()
+
+                    //
+                    currentSelectedTool = PhotoTool.Eraser
                 }
 
                 R.id.textTool -> {
@@ -257,6 +270,9 @@ class CreateFragment : Fragment() {
 
                     // hide other tools
                     hideBrushTools()
+
+                    //
+                    currentSelectedTool = PhotoTool.Text
                 }
 
                 R.id.colorPickerTool -> {
@@ -264,6 +280,9 @@ class CreateFragment : Fragment() {
                     hideBrushTools()
 
                     showColorPicker()
+
+                    //
+                    currentSelectedTool = PhotoTool.ColorPicker
                 }
 
                 // for test
@@ -271,6 +290,9 @@ class CreateFragment : Fragment() {
                     showEmojiDialog()
                     // hide other tools
                     hideBrushTools()
+
+                    //
+                    currentSelectedTool = PhotoTool.EmojiPicker
                 }
             }
             true
