@@ -35,6 +35,7 @@ import kotlinx.android.synthetic.main.fonts_selector_view.view.*
 import kotlinx.android.synthetic.main.fragment_create.*
 import kotlinx.android.synthetic.main.input_text.view.*
 import kotlinx.android.synthetic.main.stickers_view.view.*
+import java.util.*
 
 
 /**
@@ -92,7 +93,6 @@ class CreateFragment : Fragment() {
     }
 
     private fun saveEditorImage() {
-
         photoEditor.saveAsFile(
             activity!!.createImageFile().path, // get image file path
             object : PhotoEditor.OnSaveListener {

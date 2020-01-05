@@ -2,9 +2,11 @@ package com.lemonlab.all_in_one
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.lemonlab.all_in_one.extensions.navigateToAndClear
@@ -40,8 +42,17 @@ class LoginFragment : Fragment() {
     }
 
     private fun logInUser(email:String, password:String){
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).addOnCompleteListener{
+
+        // check if email pr password is empty or invalid
+        if(email.isEmpty() || password.isEmpty()){
+            Toast.makeText(context!!, resources.getString(R.string.invalidEmailPassword), Toast.LENGTH_LONG).show()
+            return
+        }
+
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).addOnSuccessListener{
             view!!.navigateToAndClear(R.id.loginFragment, R.id.mainFragment)
+        }.addOnFailureListener{
+
         }
     }
 }
