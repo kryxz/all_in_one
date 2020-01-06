@@ -4,13 +4,15 @@ package com.lemonlab.all_in_one
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.lemonlab.all_in_one.extensions.makeTheUserOnline
 import com.lemonlab.all_in_one.items.Category
 import com.lemonlab.all_in_one.items.CategoryItem
 import com.lemonlab.all_in_one.items.FavItem
-import com.lemonlab.all_in_one.items.Favorites
+import com.lemonlab.all_in_one.model.Favorite
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -66,9 +68,23 @@ class MainFragment : Fragment() {
 
     private fun init() {
         val adapter = GroupAdapter<ViewHolder>()
-        if (Favorites.favorites.isNotEmpty())
-            adapter.add(FavItem(context!!))
+        val favoritesViewModel =
+            ViewModelProviders.of(this)[FavoritesViewModel::class.java]
 
+
+        addCategories(adapter)
+        category_rv.adapter = adapter
+        favoritesViewModel.allFavorites.observe(this, Observer<List<Favorite>> { fav ->
+            // update UI
+            adapter.clear()
+            if (fav.isNotEmpty())
+                adapter.add(FavItem(context!!))
+            addCategories(adapter)
+        })
+
+    }
+
+    private fun addCategories(adapter: GroupAdapter<ViewHolder>) {
         adapter.add(
             makeItem(
                 getString(R.string.wisdom),
@@ -123,6 +139,5 @@ class MainFragment : Fragment() {
                 Category.Winter
             )
         )
-        category_rv.adapter = adapter
     }
 }

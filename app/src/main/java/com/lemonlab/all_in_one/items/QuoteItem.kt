@@ -1,22 +1,22 @@
 package com.lemonlab.all_in_one.items
 
 import android.content.*
+import android.graphics.Bitmap
 import android.os.Handler
-import android.os.SystemClock
+import android.provider.MediaStore
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
+import com.lemonlab.all_in_one.LocalQuotesFragment
 import com.lemonlab.all_in_one.R
+import com.lemonlab.all_in_one.extensions.getBitmapFromView
 import com.lemonlab.all_in_one.extensions.highlightText
 import com.lemonlab.all_in_one.extensions.showMessage
 import com.lemonlab.all_in_one.items.CategoryPics.Companion.getPics
 import com.lemonlab.all_in_one.model.Favorite
-import com.lemonlab.all_in_one.model.FavoritesRoomDatabase
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.quote_item.view.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
+import java.util.*
 import kotlin.random.Random
 
 
@@ -139,46 +139,20 @@ class CategoryPics {
 
 }
 
-class Favorites {
-    fun getCategoryFavorites(context: Context, category: Category) {
-        GlobalScope.launch {
-            val favoriteDao = FavoritesRoomDatabase.getDatabase(context).FavoriteDao()
-            favoritesPositions = favoriteDao.getFavoritesByCategory(category)
-            favorites = favoriteDao.getFavoritesByTime()
-            // GlobalScope launches coroutines that last as long as the app is running, so we should stop it.
-            // this is probably a bad practice. Might change it later.
-            this.coroutineContext.cancel()
-        }
-    }
-
-    fun getFavorites(context: Context) {
-        GlobalScope.launch {
-            val favoriteDao = FavoritesRoomDatabase.getDatabase(context).FavoriteDao()
-            favorites = favoriteDao.getFavoritesByTime()
-            // GlobalScope launches coroutines that last as long as the app is running, so we should stop it.
-            // this is probably a bad practice. Might change it later.
-            this.coroutineContext.cancel()
-        }
-    }
-
-    companion object {
-        var favoritesPositions: List<Int> = listOf()
-        var favorites: List<Favorite> = listOf()
-    }
-
-}
 
 class QuoteItem(
     private val context: Context,
     private val text: String,
-    private val category: Category,
-    private val indexPosition: Int
+    private val category: Category
 ) :
+
     Item<ViewHolder>() {
     override fun getLayout() =
         R.layout.quote_item
 
     private val pic = getPics(category)[Random.nextInt(CategoryPics.size)]
+
+    private val model = LocalQuotesFragment.favoritesViewModel
 
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
@@ -190,11 +164,16 @@ class QuoteItem(
         view.text_image.setImageResource(pic)
 
         // set full heart if item is already in favorites.
-        if (Favorites.favoritesPositions.contains(indexPosition))
+
+        if (isFavorite(text.hashCode()))
             view.quote_favorite_btn.setImageResource(R.drawable.ic_favorite)
         else
             view.quote_favorite_btn.setImageResource(R.drawable.ic_favorite_empty)
 
+        view.quote_download_btn.setOnClickListener {
+            val bitmap = view.quote_item_layout.getBitmapFromView()
+            saveImage(bitmap, context)
+        }
         // listens to button clicks and calls a specific function!
         listenButtons(
             listOf<View>(
@@ -202,13 +181,12 @@ class QuoteItem(
                 view.quote_whats_share_btn,
                 view.quote_favorite_btn,
                 view.quote_content_btn
-            ),
-            view.quote_text_tv.text.toString()
+            )
         )
 
     }
 
-    private fun listenButtons(views: List<View>, text: String) {
+    private fun listenButtons(views: List<View>) {
         // does the appropriate action depending on which button was clicked!
         for (button in views)
             button.setOnClickListener {
@@ -223,7 +201,7 @@ class QuoteItem(
 
 
                     R.id.quote_favorite_btn ->
-                        favorite(indexPosition, it as AppCompatImageView)
+                        fav(it as AppCompatImageView)
 
                     R.id.quote_content_btn ->
                         copyItem(context, text, button as AppCompatImageView)
@@ -271,43 +249,39 @@ class QuoteItem(
         }
 
 
-    }
-
-
-    private fun favorite(position: Int, favButton: AppCompatImageView) {
-        GlobalScope.launch {
-            val favoriteDao = FavoritesRoomDatabase.getDatabase(context).FavoriteDao()
-
-            if (Favorites.favoritesPositions.contains(position)) {
-                favButton.setImageResource(R.drawable.ic_favorite_empty)
-                favoriteDao.deleteFavorite(
-                    Favorite(
-                        category = category,
-                        index = position,
-                        time = SystemClock.currentThreadTimeMillis(),
-                        text = text
-                    )
-                )
-
-            } else {
-                favButton.setImageResource(R.drawable.ic_favorite)
-                favoriteDao.insertFavorite(
-                    Favorite(
-                        category = category,
-                        index = position,
-                        time = SystemClock.currentThreadTimeMillis(),
-                        text = text
-                    )
-                )
-            }
-            Favorites().getCategoryFavorites(context, category)
-            // GlobalScope launches coroutines that last as long as the app is running, so we should stop it.
-            // this is probably a bad practice. Might change it later.
-            this.coroutineContext.cancel()
+        fun saveImage(bitmap: Bitmap, context: Context) {
+            val uuid = UUID.randomUUID().toString().subSequence(0, 10)
+            MediaStore.Images.Media.insertImage(
+                context.contentResolver,
+                bitmap,
+                context.getString(R.string.app_name) + uuid,
+                context.getString(R.string.app_name)
+            )
+            context.showMessage(context.getString(R.string.image_saved))
         }
 
 
     }
+
+    private fun fav(favButton: AppCompatImageView) {
+
+        val thisFavorite = Favorite(
+            category = category,
+            text = text,
+            hashcode = text.hashCode()
+        )
+
+        if (isFavorite(text.hashCode())) {
+            favButton.setImageResource(R.drawable.ic_favorite_empty)
+            model.remove(thisFavorite)
+        } else {
+            favButton.setImageResource(R.drawable.ic_favorite)
+            model.insert(thisFavorite)
+        }
+
+    }
+
+    private fun isFavorite(code: Int) = LocalQuotesFragment.favoritesCodes.contains(code)
 
 
 }

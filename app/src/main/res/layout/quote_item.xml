@@ -18,6 +18,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:id="@+id/quote_item_layout"
             android:layout_height="match_parent">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -55,6 +56,14 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/quote_download_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_arrow_downward" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/quote_whats_share_btn"

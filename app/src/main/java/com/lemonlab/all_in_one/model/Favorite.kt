@@ -1,6 +1,7 @@
 package com.lemonlab.all_in_one.model
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.lemonlab.all_in_one.items.Category
 
@@ -8,8 +9,7 @@ import com.lemonlab.all_in_one.items.Category
 @Entity(tableName = "favorites")
 class Favorite(
     @ColumnInfo(name = "category") val category: Category,
-    @ColumnInfo(name = "index") val index: Int,
-    @PrimaryKey @ColumnInfo(name = "time") val time: Long,
+    @PrimaryKey @ColumnInfo(name = "hashcode") val hashcode: Int,
     @ColumnInfo(name = "text") val text: String
 )
 
@@ -24,15 +24,22 @@ interface FavoriteDao {
     @Delete
     suspend fun deleteFavorite(favorite: Favorite)
 
-    @Query("SELECT `index` FROM favorites WHERE category == :category")
+    @Query("SELECT hashcode FROM favorites WHERE category == :category")
     suspend fun getFavoritesByCategory(category: Category): List<Int>
 
     @Query("SELECT * FROM favorites")
     suspend fun getFavorites(): List<Favorite>
 
-    @Query("SELECT * FROM favorites ORDER BY 'time' DESC")
+    @Query("SELECT * FROM favorites ORDER BY 'hashcode' DESC")
     suspend fun getFavoritesByTime(): List<Favorite>
 
+
+    @Query("SELECT * FROM favorites")
+    fun getAllFavorites(): LiveData<List<Favorite>>
+
+
+    @Query("SELECT hashcode FROM favorites")
+    fun getFavoritesCodes(): LiveData<List<Int>>
 
 
 }
@@ -56,7 +63,7 @@ class CategoryConverter {
 @TypeConverters(CategoryConverter::class)
 public abstract class FavoritesRoomDatabase : RoomDatabase() {
 
-    abstract fun FavoriteDao(): FavoriteDao
+    abstract fun favoriteDao(): FavoriteDao
 
     companion object {
         // Singleton prevents multiple instances of database opening at the

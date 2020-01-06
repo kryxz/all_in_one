@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.lemonlab.all_in_one.extensions.setFragmentTitle
 import com.lemonlab.all_in_one.items.Category
-import com.lemonlab.all_in_one.items.Favorites
 import com.lemonlab.all_in_one.items.QuoteItem
+import com.lemonlab.all_in_one.model.Favorite
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_local_quotes.*
@@ -20,6 +22,12 @@ import kotlinx.android.synthetic.main.fragment_local_quotes.*
 
 
 class LocalQuotesFragment : Fragment() {
+
+    companion object {
+        lateinit var favoritesViewModel: FavoritesViewModel
+        lateinit var favoritesCodes: MutableList<Int>
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,25 +40,50 @@ class LocalQuotesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val category = LocalQuotesFragmentArgs.fromBundle(arguments!!).category
-        initAdapter(category)
+
+        init(category)
+        setTitle(category)
+
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun initAdapter(category: Category) {
-        // set title
-        val categoryIndex =
-            resources.getStringArray(R.array.categoryEn).indexOf(category.toString())
-        activity!!.setFragmentTitle(resources.getStringArray(R.array.category)[categoryIndex])
 
-
+    private fun init(category: Category) {
         val adapter = GroupAdapter<ViewHolder>()
         val list = getStatuses(category)
-        for ((index, quote) in list.withIndex())
-            adapter.add(QuoteItem(context!!, quote, category, index))
 
-        Favorites().getCategoryFavorites(context!!, category)
+        favoritesViewModel = ViewModelProviders.of(this)[FavoritesViewModel::class.java]
         quotes_rv.adapter = adapter
+        favoritesViewModel.updateCodes()
 
+        favoritesCodes = if (favoritesViewModel.favoritesCodes.value != null)
+            favoritesViewModel.favoritesCodes.value!!.toMutableList()
+        else
+            mutableListOf()
+
+
+        for (quote in list)
+            adapter.add(QuoteItem(context!!, quote, category))
+
+
+        favoritesViewModel.allFavorites.observe(this, Observer<List<Favorite>> { fav ->
+            adapter.notifyDataSetChanged()
+        })
+
+        favoritesViewModel.favoritesCodes.observe(this, Observer<List<Int>> { codes ->
+            favoritesCodes = codes?.toMutableList() ?: mutableListOf()
+            adapter.notifyDataSetChanged()
+        })
+
+
+    }
+
+    // Title changes with the category
+    private fun setTitle(category: Category) {
+        val categoryIndex =
+            resources.getStringArray(R.array.categoryEn).indexOf(category.toString())
+
+        activity!!.setFragmentTitle(resources.getStringArray(R.array.category)[categoryIndex])
 
     }
 
