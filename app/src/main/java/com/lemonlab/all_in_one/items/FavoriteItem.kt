@@ -6,7 +6,7 @@ import com.lemonlab.all_in_one.FavoritesFragment
 import com.lemonlab.all_in_one.R
 import com.lemonlab.all_in_one.extensions.getBitmapFromView
 import com.lemonlab.all_in_one.extensions.highlightText
-import com.lemonlab.all_in_one.items.CategoryPics.Companion.getRandomPic
+import com.lemonlab.all_in_one.items.CategoryPics.Companion.getIndexPic
 import com.lemonlab.all_in_one.model.Favorite
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
@@ -14,14 +14,15 @@ import kotlinx.android.synthetic.main.favorite_item.view.*
 
 class FavoriteItem(
     private val context: Context,
-    private val favorite: Favorite
+    private val favorite: Favorite,
+    indices: Pair<Int, Int>
 ) :
     Item<ViewHolder>() {
     override fun getLayout() =
         R.layout.favorite_item
 
 
-    private val pic = getRandomPic()
+    private val pic = getIndexPic(indices.first, indices.second)
     private val text = favorite.text
 
     override fun bind(viewHolder: ViewHolder, position: Int) {

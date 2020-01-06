@@ -12,6 +12,7 @@ import android.text.style.BackgroundColorSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
@@ -176,4 +177,10 @@ fun String.removeWhitespace(): String {
         }
     }
     return result
+}
+
+fun Activity.hideKeypad(view: View) {
+    val inputMethod =
+        this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethod.hideSoftInputFromWindow(view.windowToken, 0)
 }

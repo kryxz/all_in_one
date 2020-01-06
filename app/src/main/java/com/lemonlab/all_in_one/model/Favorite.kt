@@ -41,6 +41,9 @@ interface FavoriteDao {
     @Query("SELECT hashcode FROM favorites")
     fun getFavoritesCodes(): LiveData<List<Int>>
 
+    //SELECT * FROM my_table WHERE my_column LIKE "%pineapple%";
+    @Query("SELECT * FROM favorites WHERE (:search) in (text)")
+    fun searchFor(search: String): LiveData<List<Favorite>>
 
 }
 
@@ -81,7 +84,8 @@ public abstract class FavoritesRoomDatabase : RoomDatabase() {
                     context.applicationContext,
                     FavoritesRoomDatabase::class.java,
                     "favorites"
-                ).build()
+                )
+                    .build()
                 INSTANCE = instance
                 return instance
             }

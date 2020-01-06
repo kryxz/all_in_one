@@ -129,12 +129,19 @@ class CategoryPics {
         private val allPics =
             listOf(wisdom, friendship, sadness, islam, other, morning, afternoon, love, winter)
 
+        fun categoryLimit() = allPics.size
+        fun picsLimit() = size
+
         // returns a list of pictures ids for a category
         fun getPics(category: Category) =
             allPics[categories.indexOf(category)]
 
         fun getRandomPic() =
-            allPics[Random.nextInt(allPics.size)][Random.nextInt(size)]
+            allPics[Random.nextInt(categoryLimit())][Random.nextInt(picsLimit())]
+
+        fun getIndexPic(categoryIndex: Int, picIndex: Int) =
+            allPics[categoryIndex][picIndex]
+
     }
 
 }

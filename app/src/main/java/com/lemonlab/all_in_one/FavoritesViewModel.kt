@@ -1,20 +1,26 @@
 package com.lemonlab.all_in_one
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.lemonlab.all_in_one.model.Favorite
 import com.lemonlab.all_in_one.model.FavoriteDao
 import com.lemonlab.all_in_one.model.FavoritesRoomDatabase
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class FavoritesRepository(private val favoriteDao: FavoriteDao) {
 
     // Room executes all queries on a separate thread.
     // Observed LiveData will notify the observer when the data has changed.
+    private val search = MutableLiveData<String>()
+
     val allFavorites: LiveData<List<Favorite>> = favoriteDao.getAllFavorites()
     var favoritesCodes: LiveData<List<Int>> = favoriteDao.getFavoritesCodes()
+    var searchFavorites: LiveData<List<Favorite>> = Transformations.switchMap(search) { it ->
+        favoriteDao.searchFor(it)
+
+    }
+
 
     suspend fun insert(favorite: Favorite) {
         favoriteDao.insertFavorite(favorite)
@@ -24,10 +30,13 @@ class FavoritesRepository(private val favoriteDao: FavoriteDao) {
         favoriteDao.deleteFavorite(favorite)
     }
 
-    suspend fun update() {
+    fun update() {
         favoritesCodes = favoriteDao.getFavoritesCodes()
     }
 
+    fun searchFor(value: String) {
+        search.value = value
+    }
 }
 
 
@@ -38,6 +47,7 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
     private val repository: FavoritesRepository
     // LiveData gives us updated words when they change.
     val allFavorites: LiveData<List<Favorite>>
+    var searchFavorites: LiveData<List<Favorite>>
     val favoritesCodes: LiveData<List<Int>>
 
     init {
@@ -47,7 +57,7 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
         repository = FavoritesRepository(favoriteDao)
         allFavorites = repository.allFavorites
         favoritesCodes = repository.favoritesCodes
-
+        searchFavorites = repository.searchFavorites
     }
 
     /**
@@ -66,6 +76,12 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
     fun remove(favorite: Favorite) = viewModelScope.launch {
         updateCodes()
         repository.delete(favorite)
+    }
+
+    fun search(search: String) = viewModelScope.launch {
+        repository.searchFor(search)
+        delay(1_200)
+        searchFavorites = repository.searchFavorites
     }
 
     fun updateCodes() =

@@ -105,6 +105,8 @@
     <string name="signing_in">يجري تسجيل الدّخول</string>
     <string name="no_user">تعذّر العثور على المستخدم</string>
     <string name="problem_occurred">تعذّر الإتصال. يرجى المحاولة مرّة أخرى</string>
+    <string name="search">ابحث</string>
+    <string name="no_result">تعذّر العثور على أي نتيجة</string>
 
     <string-array name="categoryEn">
         <item>Wisdom</item>
