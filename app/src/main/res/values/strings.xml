@@ -8,17 +8,20 @@
     <string name="settingsTitle">الإعدادات</string>
     <string name="signOut">تسجيل الخروج</string>
     <string name="username">اسم المستخدم</string>
-    <string name="email">البريد الالكتروني</string>
+    <string name="email">البريد الإلكتروني</string>
     <string name="password">كلمة السر</string>
     <string name="mustLogin">يجب تسجيل الدخول لاستخدام هذه الميّزة</string>
     <string name="loginTitle">تسجيل الدخول</string>
     <string name="registerTitle">إنشاء حساب</string>
-    <string name="alreadyHere">مسجل بالفعل؟</string>
+    <string name="alreadyHere">لديك حساب؟ سجّل الدّخول</string>
     <string name="newHere">ليس لديك حساب؟</string>
     <string name="loginOrRegister">إنشاء حساب/تسجيل الدخول</string>
     <!-- TODO:: change this if you want-->
     <string name="invalidEmailPassword">يجب ملء جميع الحقول</string>
-    <string name="invalidEmail">الرجاء كتابة بريد الكتروني صحيح</string>
+    <string name="invalidEmail">بريد إلكتروني غير صالح</string>
+    <string name="invalidPassword">كلمة السر قصيرة جدًا</string>
+
+    <string name="invalidUsername">اسم المستخدم غير صالح</string>
     <string name="statusMessage">حالة نصية</string>
     <string name="statusImage">حالة صورية</string>
     <string name="selectStatusType">اختر نوع الحالة</string>
@@ -27,6 +30,7 @@
     <string name="warningTextEmpty">الرجاء كتابة حالة لتتمكن من الارسال</string>
     <string name="statusSent">تم ارسال الحالة بنجاح</string>
     <string name="warningSentStatus">حدث خطأ اثناء ارسال الحالة</string>
+
 
     <string name="send">إرسال</string>
     <string name="preview">معاينة المنشور</string>
@@ -96,6 +100,11 @@
     <string name="save_image_item">حفظ الصورة</string>
     <string name="save_image_text">هل ترغب بحفظ الصورة مع النص؟</string>
 
+    <string name="register_tip_1"> تعرّف على المنتديات المليئة بالمنشورات النقاشيّة، علّق وتفاعل مع الجميع.</string>
+    <string name="register_tip_2">قم بالدخول إلى الدردشة العالميّة، ملتقى مستخدمي التطبيق الأكبر. إرسال الرسائل لم يعد صعبًا!</string>
+    <string name="signing_in">يجري تسجيل الدّخول</string>
+    <string name="no_user">تعذّر العثور على المستخدم</string>
+    <string name="problem_occurred">تعذّر الإتصال. يرجى المحاولة مرّة أخرى</string>
 
     <string-array name="categoryEn">
         <item>Wisdom</item>
