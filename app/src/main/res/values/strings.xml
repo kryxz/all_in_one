@@ -19,6 +19,14 @@
     <!-- TODO:: change this if you want-->
     <string name="invalidEmailPassword">يجب ملء جميع الحقول</string>
     <string name="invalidEmail">الرجاء كتابة بريد الكتروني صحيح</string>
+    <string name="statusMessage">حالة نصية</string>
+    <string name="statusImage">حالة صورية</string>
+    <string name="selectStatusType">اختر نوع الحالة</string>
+    <string name="statusValue">نص الحالة</string>
+    <string name="sendStatus">ارسال الحالة</string>
+    <string name="warningTextEmpty">الرجاء كتابة حالة لتتمكن من الارسال</string>
+    <string name="statusSent">تم ارسال الحالة بنجاح</string>
+    <string name="warningSentStatus">حدث خطأ اثناء ارسال الحالة</string>
 
     <string name="send">إرسال</string>
     <string name="preview">معاينة المنشور</string>
