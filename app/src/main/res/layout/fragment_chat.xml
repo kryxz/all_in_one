@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey"
     tools:context=".ChatFragment">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -28,7 +27,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/rounded_edittext_register_login"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="@color/grey"
         android:ems="10"
         android:hint="@string/sendChatTitle"
         android:inputType="textPersonName"
@@ -46,6 +45,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/grey"
         android:background="@drawable/circle_button"
         android:text="@string/send"
         app:layout_constraintBottom_toBottomOf="parent"
