@@ -20,7 +20,6 @@
     <string name="invalidEmailPassword">يجب ملء جميع الحقول</string>
     <string name="invalidEmail">بريد إلكتروني غير صالح</string>
     <string name="invalidPassword">كلمة السر قصيرة جدًا</string>
-
     <string name="invalidUsername">اسم المستخدم غير صالح</string>
     <string name="statusMessage">حالة نصية</string>
     <string name="statusImage">حالة صورية</string>
@@ -30,6 +29,8 @@
     <string name="warningTextEmpty">الرجاء كتابة حالة لتتمكن من الارسال</string>
     <string name="statusSent">تم ارسال الحالة بنجاح</string>
     <string name="warningSentStatus">حدث خطأ اثناء ارسال الحالة</string>
+    <string name="showStatus">معاينة الحالة</string>
+    <string name="statusCategory">تصنيف الحالة</string>
 
 
     <string name="send">إرسال</string>

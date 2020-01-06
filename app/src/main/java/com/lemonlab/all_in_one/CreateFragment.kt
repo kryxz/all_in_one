@@ -30,6 +30,7 @@ import com.xwray.groupie.ViewHolder
 import dev.sasikanth.colorsheet.ColorSheet
 import ja.burhanrashid52.photoeditor.OnPhotoEditorListener
 import ja.burhanrashid52.photoeditor.PhotoEditor
+import ja.burhanrashid52.photoeditor.PhotoFilter
 import ja.burhanrashid52.photoeditor.ViewType
 import kotlinx.android.synthetic.main.fonts_selector_view.view.*
 import kotlinx.android.synthetic.main.fragment_create.*
@@ -43,7 +44,7 @@ import kotlinx.android.synthetic.main.stickers_view.view.*
 
 class CreateFragment : Fragment() {
 
-    private val maxBrushSize = 128f
+    private val maxBrushSize = 256f
     private val minBrushSize = 12f
 
     private lateinit var photoEditor: PhotoEditor

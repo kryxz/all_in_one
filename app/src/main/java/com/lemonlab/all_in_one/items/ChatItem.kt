@@ -5,6 +5,7 @@ import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.lemonlab.all_in_one.R
+import com.lemonlab.all_in_one.extensions.highlightText
 import com.lemonlab.all_in_one.model.Message
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
@@ -20,7 +21,7 @@ class ChatItem(var message: Message, var context: Context) : Item<ViewHolder>() 
         val view = viewHolder.itemView
         // set the message text and the username
 
-        view.chat_tv.text = message.text
+        view.chat_tv.text = context.highlightText(message.text)
         view.chat_item_username_tv.text = message.username
 
         // mark this message with new color

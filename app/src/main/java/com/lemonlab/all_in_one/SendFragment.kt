@@ -5,13 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.lemonlab.all_in_one.extensions.checkUser
+import com.lemonlab.all_in_one.items.Category
+import com.lemonlab.all_in_one.model.StatusColor
 import com.lemonlab.all_in_one.model.UserStatus
-import com.lemonlab.all_in_one.model.UserStatusType
 import kotlinx.android.synthetic.main.fragment_send.*
 import java.sql.Timestamp
 
@@ -33,6 +35,15 @@ class SendFragment : Fragment() {
         view.checkUser()
         super.onViewCreated(view, savedInstanceState)
 
+        //init
+        // set spinner items
+        val category = resources.getStringArray(R.array.category)
+
+        // create and set the adapter
+        val dataAdapter = ArrayAdapter<String>(context!!, android.R.layout.simple_spinner_item, category)
+
+        send_status_category.adapter = dataAdapter
+
         send_status_send_btn.setOnClickListener {
             sendTextUserStatus()
         }
@@ -49,7 +60,8 @@ class SendFragment : Fragment() {
 
         val userState = UserStatus(
             text = text,
-            statusType = UserStatusType.TextStatus,
+            category = Category.Afternoon,
+            statusColor = StatusColor.Blue,
             timestamp = Timestamp(System.currentTimeMillis()),
             userId = id.toString()
         )
