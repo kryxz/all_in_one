@@ -56,6 +56,7 @@ class SendFragment : Fragment() {
 
         if(text.isEmpty()){
             Toast.makeText(context!!, resources.getString(R.string.warningTextEmpty), Toast.LENGTH_LONG).show()
+            return
         }
 
         val userState = UserStatus(
