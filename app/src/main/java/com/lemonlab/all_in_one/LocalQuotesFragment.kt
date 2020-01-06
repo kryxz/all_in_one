@@ -1,6 +1,7 @@
 package com.lemonlab.all_in_one
 
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -50,7 +51,7 @@ class LocalQuotesFragment : Fragment() {
 
     private fun init(category: Category) {
         val adapter = GroupAdapter<ViewHolder>()
-        val list = getStatuses(category)
+        val list = getStatuses(category, resources)
 
         favoritesViewModel = ViewModelProviders.of(this)[FavoritesViewModel::class.java]
         quotes_rv.adapter = adapter
@@ -88,7 +89,7 @@ class LocalQuotesFragment : Fragment() {
     }
 
 
-    private fun getStatuses(category: Category): List<String> {
+    fun getStatuses(category: Category, resources: Resources): List<String> {
         return when (category) {
             Category.Wisdom -> resources.getStringArray(R.array.wisdom).toList()
             Category.Friendship -> resources.getStringArray(R.array.friendship).toList()

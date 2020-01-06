@@ -161,3 +161,19 @@ fun Context.showYesNoDialog(
     }
 
 }
+
+
+fun String.removeWhitespace(): String {
+    var isFirstSpace = false
+    var result = ""
+    for (char in this) {
+        if (char != ' ' && char != '\n') {
+            isFirstSpace = true
+            result += char
+        } else if (isFirstSpace) {
+            result += " "
+            isFirstSpace = false
+        }
+    }
+    return result
+}
