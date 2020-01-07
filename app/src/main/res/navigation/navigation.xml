@@ -19,6 +19,9 @@
         <action
             android:id="@+id/mainToFavorites"
             app:destination="@id/favoritesFragment" />
+        <action
+            android:id="@+id/mainToUsersTexts"
+            app:destination="@id/usersTextsFragment" />
     </fragment>
     <fragment
         android:id="@+id/sendFragment"
@@ -108,4 +111,9 @@
         android:name="com.lemonlab.all_in_one.FavoritesFragment"
         android:label="@string/favorites"
         tools:layout="@layout/fragment_favorites" />
+    <fragment
+        android:id="@+id/usersTextsFragment"
+        android:name="com.lemonlab.all_in_one.UsersTextsFragment"
+        android:label="@string/usersTexts"
+        tools:layout="@layout/fragment_users_texts" />
 </navigation>

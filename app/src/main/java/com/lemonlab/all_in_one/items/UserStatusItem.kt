@@ -4,12 +4,16 @@ import android.content.Context
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.lemonlab.all_in_one.R
+import com.lemonlab.all_in_one.UsersTextsFragment
 import com.lemonlab.all_in_one.extensions.getBitmapFromView
 import com.lemonlab.all_in_one.extensions.getDateAsString
 import com.lemonlab.all_in_one.extensions.highlightTextWithColor
+import com.lemonlab.all_in_one.model.Favorite
 import com.lemonlab.all_in_one.model.UserStatus
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
@@ -27,12 +31,40 @@ class UserStatusItem(
         R.layout.user_status_item
 
     private val text = userStatus.text
+
+    private val model = UsersTextsFragment.statusesViewModel
+    private val favoritesViewModel = UsersTextsFragment.favoritesViewModel
+
     override fun bind(viewHolder: ViewHolder, position: Int) {
         val view = viewHolder.itemView
 
 
         // set likes count
-        view.user_status_likes_text.text = userStatus.getLikesCount().toString()
+        view.user_status_likes_text.text = userStatus.likesCount().toString()
+
+
+        val favButton = view.user_status_favorite_btn
+        model.likesCount(userStatus.statusID).observe(UsersTextsFragment.lifecycleOwner, Observer {
+            if (it.second == userStatus.statusID)
+                view.user_status_likes_text.text = it.first.toString()
+        })
+
+
+        favoritesViewModel.favoritesCodes.observe(UsersTextsFragment.lifecycleOwner, Observer {
+            if (it.contains(text.hashCode()))
+                favButton.setImageResource(R.drawable.ic_favorite)
+            else
+                favButton.setImageResource(R.drawable.ic_favorite_empty)
+
+        })
+
+        // set like button to look like the status text color
+        favButton.setColorFilter(
+            ContextCompat.getColor(
+                context,
+                userStatus.statusColor.value
+            ), android.graphics.PorterDuff.Mode.SRC_IN
+        )
 
         // set sent date text
         view.user_status_date_text.text = getDateAsString(userStatus.timestamp)
@@ -43,12 +75,13 @@ class UserStatusItem(
 
         view.user_status_image.setImageResource(CategoryPics.getRandomPic(userStatus.category))
 
-        // set text with color
+        // set text color
         view.user_status_text.text =
             context.highlightTextWithColor(userStatus.statusColor.value, text)
 
         // set category text
-        view.user_status_category_text.text = userStatus.category.name
+        view.user_status_category_text.text = context.getString(userStatus.category.textID)
+
 
         val buttons = listOf<View>(
             view.user_status_details_btn,
@@ -126,6 +159,8 @@ class UserStatusItem(
                 userStatusUsernameText.text = context.getString(R.string.user_not_found)
                 return@addOnSuccessListener
             }
+            if (it.data == null) return@addOnSuccessListener
+
 
             userStatusUsernameText.text = it.data!!["name"].toString()
 
@@ -136,10 +171,26 @@ class UserStatusItem(
 
     private fun favorite() {
         val auth = FirebaseAuth.getInstance()
-        if (auth.currentUser != null) {
-            userStatus.like(auth.uid!!)
+        val thisFavorite = Favorite(
+            category = userStatus.category,
+            text = text,
+            hashcode = text.hashCode()
+        )
+
+
+        if (isFavorite(text.hashCode())) {
+            favoritesViewModel.remove(thisFavorite)
+            if (auth.currentUser != null)
+                userStatus.cancelLike(auth.uid!!)
+        } else {
+            favoritesViewModel.insert(thisFavorite)
+            if (auth.currentUser != null)
+                userStatus.like(auth.uid!!)
         }
 
-        // TODO add status to local database.
+
     }
+
+    private fun isFavorite(code: Int) = favoritesViewModel.favoritesCodes.value!!.contains(code)
+
 }

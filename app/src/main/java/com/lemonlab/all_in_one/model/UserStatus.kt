@@ -3,6 +3,7 @@ package com.lemonlab.all_in_one.model
 import com.google.firebase.firestore.FirebaseFirestore
 import com.lemonlab.all_in_one.R
 import com.lemonlab.all_in_one.items.Category
+import java.sql.Timestamp
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -20,6 +21,10 @@ data class UserStatus(
     val timestamp: Date
 ) {
 
+    constructor() : this(
+        "", "", Category.Other, StatusColor.Blue,
+        "", ArrayList<String>(), ArrayList<String>(), Timestamp(System.currentTimeMillis())
+    )
 
     private fun update() {
         val ref = FirebaseFirestore.getInstance().collection("statuses")
@@ -32,25 +37,36 @@ data class UserStatus(
         if (likesIDs == null)
             likesIDs = ArrayList()
 
-        if (likesIDs!!.contains(likeID)) likesIDs!!.remove(likeID)
-        else likesIDs!!.add(likeID)
+        if (likesIDs!!.contains(likeID)) return
+
+        likesIDs!!.add(likeID)
 
         update()
 
     }
 
+    fun cancelLike(likeID: String) {
+        if (likesIDs == null)
+            likesIDs = ArrayList()
 
-    fun getLikesCount(): Int {
-        if (likesIDs != null)
-            likesIDs!!.size
-        return 0
+        if (likesIDs!!.contains(likeID))
+            likesIDs!!.remove(likeID)
+        update()
+
     }
 
 
-    fun getReportsCount(): Int {
-        if (reportsIDs != null)
-            reportsIDs!!.size
-        return 0
+    fun likesCount(): Int {
+        if (likesIDs == null)
+            return 0
+        return likesIDs!!.size
+    }
+
+
+    fun reportsCount(): Int {
+        if (reportsIDs == null)
+            return 0
+        return reportsIDs!!.size
     }
 
     fun report(reportID: String) {

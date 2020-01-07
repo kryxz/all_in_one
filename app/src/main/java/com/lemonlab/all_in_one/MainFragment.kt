@@ -12,6 +12,7 @@ import com.lemonlab.all_in_one.extensions.makeTheUserOnline
 import com.lemonlab.all_in_one.items.Category
 import com.lemonlab.all_in_one.items.CategoryItem
 import com.lemonlab.all_in_one.items.FavItem
+import com.lemonlab.all_in_one.items.UsersTextsItem
 import com.lemonlab.all_in_one.model.Favorite
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
@@ -85,6 +86,7 @@ class MainFragment : Fragment() {
     }
 
     private fun addCategories(adapter: GroupAdapter<ViewHolder>) {
+        adapter.add(UsersTextsItem(context!!))
         adapter.add(
             makeItem(
                 getString(R.string.wisdom),
