@@ -80,13 +80,9 @@ class LocalQuotesFragment : Fragment() {
     }
 
     // Title changes with the category
-    private fun setTitle(category: Category) {
-        val categoryIndex =
-            resources.getStringArray(R.array.categoryEn).indexOf(category.toString())
+    private fun setTitle(category: Category) =
+        activity!!.setFragmentTitle(getString(category.textID))
 
-        activity!!.setFragmentTitle(resources.getStringArray(R.array.category)[categoryIndex])
-
-    }
 
 
     fun getStatuses(category: Category, resources: Resources): List<String> {

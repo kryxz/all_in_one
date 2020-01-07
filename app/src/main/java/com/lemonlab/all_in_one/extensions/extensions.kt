@@ -8,6 +8,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.os.Environment
 import android.text.SpannableString
+import android.text.format.DateFormat
 import android.text.style.BackgroundColorSpan
 import android.util.Log
 import android.view.LayoutInflater
@@ -81,6 +82,19 @@ fun Context.highlightText(text: String): SpannableString {
     )
     return str
 }
+
+
+fun Context.highlightTextWithColor(color: Int, text: String): SpannableString {
+    val str = SpannableString(text)
+    str.setSpan(
+        BackgroundColorSpan(ContextCompat.getColor(this, color)),
+        0,
+        text.length,
+        0
+    )
+    return str
+}
+
 
 fun Activity.createImageFile(): File {
     // Create an image file name
@@ -184,3 +198,6 @@ fun Activity.hideKeypad(view: View) {
         this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethod.hideSoftInputFromWindow(view.windowToken, 0)
 }
+
+fun getDateAsString(date: Date) =
+    DateFormat.format("yyyy-MM-dd hh:mm", date)!!

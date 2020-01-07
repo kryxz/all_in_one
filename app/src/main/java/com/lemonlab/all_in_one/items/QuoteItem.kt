@@ -20,9 +20,20 @@ import java.util.*
 import kotlin.random.Random
 
 
-enum class Category { Wisdom, Friendship, Sadness, Islam, Other, Morning, Afternoon, Love, Winter }
+enum class Category(val textID: Int) {
+    Wisdom(R.string.wisdom),
+    Friendship(R.string.friendship),
+    Sadness(R.string.sadness),
+    Islam(R.string.islam),
+    Other(R.string.other),
+    Morning(R.string.morning),
+    Afternoon(R.string.afternoon),
+    Love(R.string.love),
+    Winter(R.string.winter)
+}
 
 // used to get the category of the quote using categories.indexOf(category)
+// should add any new to this list
 val categories = listOf(
     Category.Wisdom,
     Category.Friendship,
@@ -136,9 +147,14 @@ class CategoryPics {
         fun getPics(category: Category) =
             allPics[categories.indexOf(category)]
 
+        // returns a random pic from any category
         fun getRandomPic() =
             allPics[Random.nextInt(categoryLimit())][Random.nextInt(picsLimit())]
 
+        fun getRandomPic(category: Category) =
+            allPics[categories.indexOf(category)][Random.nextInt(picsLimit())]
+
+        // returns an image via its indices
         fun getIndexPic(categoryIndex: Int, picIndex: Int) =
             allPics[categoryIndex][picIndex]
 

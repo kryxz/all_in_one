@@ -132,8 +132,6 @@ class PostFragment : Fragment() {
                 comments = null,
                 likesIDs = null,
                 dislikesIDs = null,
-                //likes = 0,
-                //   dislikes = 0,
                 reports = 0,
                 reportIDs = null,
                 postID = ""

@@ -108,6 +108,8 @@
     <string name="problem_occurred">تعذّر الإتصال. يرجى المحاولة مرّة أخرى</string>
     <string name="search">ابحث</string>
     <string name="no_result">تعذّر العثور على أي نتيجة</string>
+    <string name="status_color">لون نص الحالة</string>
+    <string name="user_not_found">مستخدم محذوف</string>
 
     <string-array name="categoryEn">
         <item>Wisdom</item>
@@ -133,5 +135,11 @@
         <item>عن الشتاء</item>
     </string-array>
 
+    <string-array name="statusColors">
+        <item>أزرق داكن</item>
+        <item>أرجواني</item>
+        <item>أخضر داكن</item>
+        <item>رمادي</item>
+    </string-array>
 
 </resources>

@@ -11,4 +11,11 @@
     <color name="greyDark">#696868</color>
     <color name="transparentGrey">#80E2E2E2</color>
     <color name="lightColorAccent">#654834D4</color>
+
+
+    <color name="darkBlue">#1B1464</color>
+    <color name="magentaPurple">#6F1E51</color>
+    <color name="darkGreen">#009432</color>
+    <color name="superBlack">#4b4b4b</color>
+
 </resources>
