@@ -93,4 +93,15 @@
         app:layout_constraintStart_toEndOf="@+id/redo_btn"
         app:layout_constraintTop_toTopOf="@+id/redo_btn" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/filter_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_photo_library"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/decrement_brush_size_btn"
+        app:layout_constraintEnd_toStartOf="@+id/decrement_brush_size_btn"
+        app:layout_constraintTop_toTopOf="@+id/decrement_brush_size_btn" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

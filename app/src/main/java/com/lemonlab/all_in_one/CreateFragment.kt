@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lemonlab.all_in_one.extensions.createImageFile
+import com.lemonlab.all_in_one.items.FilterItem
 import com.lemonlab.all_in_one.items.FontItem
 import com.lemonlab.all_in_one.items.StickerItem
 import com.xwray.groupie.GroupAdapter
@@ -32,6 +33,7 @@ import ja.burhanrashid52.photoeditor.OnPhotoEditorListener
 import ja.burhanrashid52.photoeditor.PhotoEditor
 import ja.burhanrashid52.photoeditor.PhotoFilter
 import ja.burhanrashid52.photoeditor.ViewType
+import kotlinx.android.synthetic.main.fillters_selector_view.view.*
 import kotlinx.android.synthetic.main.fonts_selector_view.view.*
 import kotlinx.android.synthetic.main.fragment_create.*
 import kotlinx.android.synthetic.main.input_text.view.*
@@ -313,6 +315,11 @@ class CreateFragment : Fragment() {
         fonts_btn.setOnClickListener {
             showFontsDialog()
         }
+
+        // show filters selector dialog
+        filter_btn.setOnClickListener {
+            showPhotoFilterDialog()
+        }
     }
 
 
@@ -545,6 +552,52 @@ class CreateFragment : Fragment() {
     // function to get data from Font Item when user click on it
     private fun getDataFromFontsDialog(typeface: Typeface) {
         currentFontTypeFace = typeface
+    }
+
+    private fun showPhotoFilterDialog(){
+        // get the view
+        val filterDialogView = layoutInflater.inflate(
+            R.layout.fillters_selector_view,
+            view!!.findViewById(R.id.createFragment)
+        )
+
+        // get the rv
+        val fontsRv = filterDialogView.filters_selector_view_rv
+        //fontsRv.layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.HORIZONTAL, false)
+
+        // set the adapter and add all filters
+
+        val pairs = ArrayList<Pair<PhotoFilter, Int>>()
+        pairs.add(Pair(PhotoFilter.NONE, R.drawable.original))
+        pairs.add(Pair(PhotoFilter.BRIGHTNESS, R.drawable.brightness))
+        pairs.add(Pair(PhotoFilter.CONTRAST, R.drawable.contrast))
+        pairs.add(Pair(PhotoFilter.CROSS_PROCESS, R.drawable.cross_process))
+        pairs.add(Pair(PhotoFilter.DOCUMENTARY, R.drawable.documentary))
+        pairs.add(Pair(PhotoFilter.DUE_TONE, R.drawable.dual_tone))
+        pairs.add(Pair(PhotoFilter.FILL_LIGHT, R.drawable.fill_light))
+        pairs.add(Pair(PhotoFilter.FISH_EYE, R.drawable.fish_eye))
+        pairs.add(Pair(PhotoFilter.NEGATIVE, R.drawable.negative))
+        pairs.add(Pair(PhotoFilter.SATURATE, R.drawable.saturate))
+        pairs.add(Pair(PhotoFilter.VIGNETTE, R.drawable.vignette))
+
+        val adapter = GroupAdapter<ViewHolder>()
+        for (pair in pairs){
+            adapter.add(FilterItem(image = pair.second, filterType = pair.first,
+                action = ::getDataFromFilterDialog))
+        }
+
+        fontsRv.adapter = adapter
+
+        // create the view and show it
+        val dialog = AlertDialog.Builder(context!!).create()
+        dialog.setView(filterDialogView)
+        dialog.show()
+
+    }
+
+    // function to get data from filter Item when user click on it
+    private fun getDataFromFilterDialog(filter: PhotoFilter){
+        photoEditor.setFilterEffect(filter)
     }
 
 }
