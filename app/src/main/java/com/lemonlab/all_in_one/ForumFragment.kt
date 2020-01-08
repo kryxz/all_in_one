@@ -4,27 +4,20 @@ package com.lemonlab.all_in_one
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import com.lemonlab.all_in_one.extensions.checkUser
 import com.lemonlab.all_in_one.extensions.recreateFragment
-import com.lemonlab.all_in_one.extensions.setFragmentTitle
 import com.lemonlab.all_in_one.extensions.showMessage
 import com.lemonlab.all_in_one.items.ForumPostItem
 import com.lemonlab.all_in_one.items.SavedPostItem
-import com.lemonlab.all_in_one.model.Comment
 import com.lemonlab.all_in_one.model.ForumPost
-import com.lemonlab.all_in_one.model.SavedPostsRoomDatabase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_forum.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 /*
@@ -34,6 +27,11 @@ import kotlin.collections.ArrayList
 
 class ForumFragment : Fragment() {
 
+    companion object {
+        lateinit var lifecycleOwner: LifecycleOwner
+        lateinit var postsViewModel: UsersTextsViewModel
+        var savedPosts: List<String> = mutableListOf()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,184 +46,66 @@ class ForumFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         view.checkUser()
-        createPost()
-        getPosts()
+        init()
 
         super.onViewCreated(view, savedInstanceState)
     }
 
 
-    private fun createPost() {
+    private fun init() {
+        lifecycleOwner = viewLifecycleOwner
+        postsViewModel = ViewModelProviders.of(this)[UsersTextsViewModel::class.java]
+
         create_post_btn.setOnClickListener {
             it.findNavController().navigate(ForumFragmentDirections.createNewPost())
         }
+        val adapter = GroupAdapter<ViewHolder>()
 
-    }
 
-    @Suppress("UNCHECKED_CAST") // TODO:
-    private fun getPosts() {
-        // false unless user clicks the button in appBar.
+        if (postsViewModel.savedPostsIDs.value != null)
+            savedPosts = postsViewModel.savedPostsIDs.value!!.toMutableList()
+
+        postsViewModel.savedPostsIDs.observe(this, Observer {
+            savedPosts = it!!.toMutableList()
+        })
+
         val seeBookmarks = ForumFragmentArgs.fromBundle(arguments!!).seeBookmarks
-        var listOfSavedPosts: List<String>
-        val adapter = GroupAdapter<ViewHolder>()
-        val db = FirebaseFirestore.getInstance()
-        val docRef = db.collection("posts").orderBy("timestamp")
         if (seeBookmarks) {
-            activity!!.setFragmentTitle(getString(R.string.saved_posts))
-            GlobalScope.launch {
-                val savedPostsDao = SavedPostsRoomDatabase.getDatabase(context!!).SavedPostsDao()
-                listOfSavedPosts = savedPostsDao.getSavedPosts()
-                getSaved(listOfSavedPosts, docRef)
-                this.coroutineContext.cancel()
-            }
-        } else
-            docRef.addSnapshotListener { snapshot, e ->
-                if (e != null) {
-                    return@addSnapshotListener
-                }
+            adapter.clear()
+            viewSavedPosts()
+            return
+        }
 
-                if (context == null) return@addSnapshotListener
+        forum_rv.adapter = adapter
 
-                if (snapshot != null && !snapshot.isEmpty) {
-                    // clear the adapter
-                    adapter.clear()
-                    // get all messages and clear the old
-                    val documents = snapshot.documents
-                    for (doc in documents) {
-                        val title = doc.data!!["title"].toString()
-                        val text = doc.data!!["text"].toString()
-                        val userID = doc.data!!["userID"].toString()
-                        val timestamp = doc.get("timestamp", Date::class.java)!!
+        val observer = Observer<List<ForumPost>> {
+            adapter.clear()
+            for (item in it)
+                adapter.add(ForumPostItem(item, context!!))
+        }
 
-                        val comments: ArrayList<Comment>? = if (doc.data!!["comments"] != null)
-                            doc.get("comments") as ArrayList<Comment>?
-                        else
-                            ArrayList()
-
-
-                        val likesIDs: ArrayList<String>? =
-                            if (doc.data!!["likesIDs"] != null)
-                                doc.get("likesIDs")!! as ArrayList<String>
-                            else
-                                ArrayList()
-
-                        val dislikesIDs: ArrayList<String>? =
-                            if (doc.data!!["dislikesIDs"] != null)
-                                doc.get("dislikesIDs")!! as ArrayList<String>
-                            else
-                                ArrayList()
-
-                        val reportIDs: ArrayList<String>? =
-                            if (doc.data!!["reportIDs"] != null)
-                                doc.get("reportIDs")!! as ArrayList<String>
-                            else
-                                ArrayList()
-
-                        val reports = doc.data!!["reports"].toString().toInt()
-
-                        val postID = doc.id
-                        //    val likes = doc.data!!["likes"].toString().toInt()
-                        //   val dislikes = doc.data!!["dislikes"].toString().toInt()
-                        val post = ForumPost(
-                            title = title,
-                            text = text,
-                            userID = userID,
-                            timestamp = timestamp,
-                            comments = comments,
-                            likesIDs = likesIDs,
-                            dislikesIDs = dislikesIDs,
-                            //likes = likes,
-                            //  dislikes = dislikes,
-                            reports = reports,
-                            reportIDs = reportIDs,
-                            postID = postID
-                        )
-                        adapter.add(ForumPostItem(post, context!!, postID))
-                    }
-                    if (view != null)
-                        forum_rv.adapter = adapter
-
-                }
-            }
+        postsViewModel.getPosts().observe(this, observer)
 
 
     }
 
-
-    @Suppress("UNCHECKED_CAST") // TODO:
-    private fun getSaved(listOfSavedPosts: List<String>, docRef: Query) {
-
+    private fun viewSavedPosts() {
         val adapter = GroupAdapter<ViewHolder>()
 
-        docRef.addSnapshotListener { snapshot, e ->
-            if (e != null) {
-                return@addSnapshotListener
-            }
+        val observer = Observer<List<ForumPost>> {
+            adapter.clear()
+            if (it.isEmpty())
+                postsViewModel.removeAllSavedPosts()
 
-            if (context == null) return@addSnapshotListener
-
-            if (snapshot != null && !snapshot.isEmpty) {
-                // clear the adapter
-                adapter.clear()
-                // get all messages and clear the old
-                val documents = snapshot.documents
-                for (doc in documents) {
-
-                    if (!listOfSavedPosts.contains(doc.id)) continue
-
-                    val title = doc.data!!["title"].toString()
-                    val text = doc.data!!["text"].toString()
-                    val userID = doc.data!!["userID"].toString()
-                    val timestamp = doc.get("timestamp", Date::class.java)!!
-
-                    val comments: ArrayList<Comment>? = if (doc.data!!["comments"] != null)
-                        doc.get("comments") as ArrayList<Comment>?
-                    else
-                        ArrayList()
-
-
-                    val likesIDs: ArrayList<String>? =
-                        if (doc.data!!["likesIDs"] != null)
-                            doc.get("likesIDs")!! as ArrayList<String>
-                        else
-                            ArrayList()
-
-                    val dislikesIDs: ArrayList<String>? =
-                        if (doc.data!!["dislikesIDs"] != null)
-                            doc.get("dislikesIDs")!! as ArrayList<String>
-                        else
-                            ArrayList()
-
-                    val reportIDs: ArrayList<String>? =
-                        if (doc.data!!["reportIDs"] != null)
-                            doc.get("reportIDs")!! as ArrayList<String>
-                        else
-                            ArrayList()
-
-                    val reports = doc.data!!["reports"].toString().toInt()
-
-                    val postID = doc.id
-                    //    val likes = doc.data!!["likes"].toString().toInt()
-                    //   val dislikes = doc.data!!["dislikes"].toString().toInt()
-                    val post = ForumPost(
-                        title = title,
-                        text = text,
-                        userID = userID,
-                        timestamp = timestamp,
-                        comments = comments,
-                        likesIDs = likesIDs,
-                        dislikesIDs = dislikesIDs,
-                        reports = reports,
-                        reportIDs = reportIDs,
-                        postID = postID
-                    )
-                    adapter.add(SavedPostItem(post, context!!, postID, adapter))
-                }
-                if (view != null)
-                    forum_rv.adapter = adapter
-
-            }
+            for (item in it)
+                adapter.add(SavedPostItem(item, adapter))
         }
+        postsViewModel.getSavedPosts().observe(this, observer)
+        postsViewModel.savedPostsIDs.observe(this, Observer {
+            if (it.isEmpty())
+                view!!.recreateFragment(R.id.forumFragment)
+        })
+        forum_rv.adapter = adapter
 
 
     }
@@ -250,33 +130,17 @@ class ForumFragment : Fragment() {
     }
 
 
-    private suspend fun hasSavedPosts(): Boolean {
-        val savedPostsDao = SavedPostsRoomDatabase.getDatabase(context!!).SavedPostsDao()
-        return savedPostsDao.getSavedPosts().isNotEmpty()
-    }
-
-
     private fun goToSavedPosts() {
         val navController = view!!.findNavController()
-        GlobalScope.launch {
-            if (hasSavedPosts()) {
-                activity!!.runOnUiThread {
-                    navController.navigate(
-                        ForumFragmentDirections.forumToSaved().setSeeBookmarks(true),
-                        NavOptions.Builder()
-                            .setPopUpTo(R.id.forumFragment, true)
-                            .build()
-                    )
-                }
-            } else {
-                activity!!.runOnUiThread {
-                    context!!.showMessage(getString(R.string.no_saved_posts))
-                }
-            }
-
-            this.coroutineContext.cancel()
-        }
+        if (savedPosts.isNotEmpty())
+            navController.navigate(
+                ForumFragmentDirections.forumToSaved().setSeeBookmarks(true),
+                NavOptions.Builder()
+                    .setPopUpTo(R.id.forumFragment, true)
+                    .build()
+            )
+        else
+            context!!.showMessage(getString(R.string.no_saved_posts))
     }
-
 
 }

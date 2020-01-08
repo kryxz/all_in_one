@@ -71,7 +71,7 @@ class UserStatusItem(
 
 
         // set status sender name
-        getStatusSender(view.user_status_username_text)
+        getSenderName(context, view.user_status_username_text, userStatus.userID)
 
         view.user_status_image.setImageResource(CategoryPics.getRandomPic(userStatus.category))
 
@@ -146,27 +146,28 @@ class UserStatusItem(
 
     }
 
+    companion object {
+        fun getSenderName(context: Context, usernameText: AppCompatTextView?, userID: String) {
 
-    private fun getStatusSender(userStatusUsernameText: AppCompatTextView?) {
+            // get user name from fireStore
+            val userRef =
+                FirebaseFirestore.getInstance().collection("users").document(userID)
+            // get name only once.
+            userRef.get().addOnSuccessListener {
+                if (usernameText == null) return@addOnSuccessListener
+                if (it == null) {
+                    usernameText.text = context.getString(R.string.user_not_found)
+                    return@addOnSuccessListener
+                }
+                if (it.data == null) return@addOnSuccessListener
 
-        // get user name from fireStore
-        val userRef =
-            FirebaseFirestore.getInstance().collection("users").document(userStatus.userID)
-        // get name only once.
-        userRef.get().addOnSuccessListener {
-            if (userStatusUsernameText == null) return@addOnSuccessListener
-            if (it == null) {
-                userStatusUsernameText.text = context.getString(R.string.user_not_found)
-                return@addOnSuccessListener
+                usernameText.text = it.data!!["name"].toString()
+
             }
-            if (it.data == null) return@addOnSuccessListener
-
-
-            userStatusUsernameText.text = it.data!!["name"].toString()
 
         }
-
     }
+
 
 
     private fun favorite() {

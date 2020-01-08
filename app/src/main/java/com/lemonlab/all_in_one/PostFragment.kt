@@ -130,10 +130,9 @@ class PostFragment : Fragment() {
                 userID = uid,
                 timestamp = timestamp,
                 comments = null,
-                likesIDs = null,
-                dislikesIDs = null,
-                reports = 0,
-                reportIDs = null,
+                likesIDs = ArrayList(),
+                dislikesIDs = ArrayList(),
+                reportIDs = ArrayList(),
                 postID = ""
             )
             val db = FirebaseFirestore.getInstance()

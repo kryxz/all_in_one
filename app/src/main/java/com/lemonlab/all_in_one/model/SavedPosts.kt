@@ -1,6 +1,7 @@
 package com.lemonlab.all_in_one.model
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import androidx.room.*
 
 
@@ -20,10 +21,11 @@ interface SavedPostsDao {
     @Delete
     suspend fun deletePost(savedPosts: SavedPost)
 
-
     @Query("SELECT postID FROM saved_posts")
-    suspend fun getSavedPosts(): List<String>
+    fun getAllSavedPosts(): LiveData<List<String>>
 
+    @Query("DELETE FROM saved_posts")
+    suspend fun removeAll()
 
 }
 
@@ -32,7 +34,7 @@ interface SavedPostsDao {
 @Database(entities = [SavedPost::class], version = 1, exportSchema = false)
 public abstract class SavedPostsRoomDatabase : RoomDatabase() {
 
-    abstract fun SavedPostsDao(): SavedPostsDao
+    abstract fun savedPostsDao(): SavedPostsDao
 
     companion object {
         // Singleton prevents multiple instances of database opening at the

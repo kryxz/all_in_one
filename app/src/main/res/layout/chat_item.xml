@@ -14,7 +14,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginBottom="32dp"
-        android:background="@drawable/circuler_user_image"
+        android:background="@drawable/circular_user_image"
         android:backgroundTint="@color/green"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/chat_tv"

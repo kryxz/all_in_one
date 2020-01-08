@@ -1,31 +1,24 @@
 package com.lemonlab.all_in_one.items
 
-import android.content.Context
 import androidx.navigation.findNavController
+import com.lemonlab.all_in_one.ForumFragment
 import com.lemonlab.all_in_one.ForumFragmentDirections
 import com.lemonlab.all_in_one.R
-import com.lemonlab.all_in_one.extensions.showYesNoDialog
 import com.lemonlab.all_in_one.model.ForumPost
-import com.lemonlab.all_in_one.model.SavedPost
-import com.lemonlab.all_in_one.model.SavedPostsRoomDatabase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.saved_post_item.view.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
 
 class SavedPostItem(
     private val forumPost: ForumPost,
-    private val context: Context,
-    private val postID: String,
     private val adapter: GroupAdapter<ViewHolder>
 ) :
     Item<ViewHolder>() {
 
     override fun getLayout() = R.layout.saved_post_item
 
+    private val postsViewModel = ForumFragment.postsViewModel
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
         val view = viewHolder.itemView
@@ -35,31 +28,17 @@ class SavedPostItem(
 
 
         view.saved_post_item_title.setOnClickListener {
-            it.findNavController().navigate(ForumFragmentDirections.forumToThisPost(postID))
+            it.findNavController()
+                .navigate(ForumFragmentDirections.forumToThisPost(forumPost.postID))
         }
 
         view.saved_post_item_delete.setOnClickListener {
-            showDialog()
+            postsViewModel.removePost(forumPost.postID)
+            adapter.remove(this)
+            adapter.notifyDataSetChanged()
         }
     }
 
 
-    private fun showDialog() {
-        context.showYesNoDialog(
-            {
-                GlobalScope.launch {
-                    val savedPostsDao =
-                        SavedPostsRoomDatabase.getDatabase(context).SavedPostsDao()
-                    savedPostsDao.deletePost(SavedPost(postID))
-                    this.cancel()
-                }
-                adapter.remove(this@SavedPostItem)
-                adapter.notifyDataSetChanged()
-            },
-            {},
-            context.getString(R.string.delete_post_favorites),
-            context.getString(R.string.are_you_sure)
-        )
-    }
 
 }

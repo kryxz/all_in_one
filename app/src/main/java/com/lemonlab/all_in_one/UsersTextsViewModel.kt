@@ -1,17 +1,44 @@
 package com.lemonlab.all_in_one
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.lemonlab.all_in_one.model.UserStatus
+import com.lemonlab.all_in_one.model.*
 import kotlinx.coroutines.launch
 
+
+class SavedPostsRepo(private val savedPostsDao: SavedPostsDao) {
+
+    var savedPostsIDs: LiveData<List<String>> = savedPostsDao.getAllSavedPosts()
+
+    suspend fun insert(savedPost: SavedPost) {
+        savedPostsDao.insertPost(savedPost)
+    }
+
+    suspend fun remove(savedPost: SavedPost) {
+        savedPostsDao.deletePost(savedPost)
+
+    }
+
+    fun getSavedPosts(): LiveData<List<String>> {
+        return savedPostsDao.getAllSavedPosts()
+    }
+
+    suspend fun removeAll() {
+        savedPostsDao.removeAll()
+    }
+
+
+}
+
 class FireStoreRepository {
-    var db = FirebaseFirestore.getInstance()
+    val db = FirebaseFirestore.getInstance()
 
 
     fun getStatusesRef(): CollectionReference {
@@ -19,14 +46,120 @@ class FireStoreRepository {
 
     }
 
+    fun getPostsRef(): CollectionReference {
+        return db.collection("posts")
+    }
+
+
+    fun getPostRef(id: String): DocumentReference {
+        return db.collection("posts").document(id)
+    }
+
 
 }
 
 class UsersTextsViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository: FireStoreRepository = FireStoreRepository()
-    private val usersStatuses: MutableLiveData<List<UserStatus>> = MutableLiveData()
-    private val statusLikes: MutableLiveData<Pair<Int, String>> = MutableLiveData()
+
+    private val repository: FireStoreRepository
+
+    private val postsRepo: SavedPostsRepo
+
+
+    // users statuses/texts
+    private val usersStatuses: MutableLiveData<List<UserStatus>>
+    private val statusLikes: MutableLiveData<Pair<Int, String>>
+
+    // users posts
+    private val usersPosts: MutableLiveData<List<ForumPost>>
+    private val savedUsersPosts: MutableLiveData<List<ForumPost>>
+    var savedPostsIDs: LiveData<List<String>>
+
+    private val viewPost: MutableLiveData<ForumPost>
+
+    init {
+        val postsDao = SavedPostsRoomDatabase.getDatabase(application).savedPostsDao()
+        postsRepo = SavedPostsRepo(postsDao)
+        savedPostsIDs = postsRepo.savedPostsIDs
+
+        usersStatuses = MutableLiveData()
+        statusLikes = MutableLiveData()
+        usersPosts = MutableLiveData()
+        savedUsersPosts = MutableLiveData()
+        viewPost = MutableLiveData()
+        repository = FireStoreRepository()
+    }
+
+
+    fun savePost(postID: String) =
+        viewModelScope.launch {
+            postsRepo.insert(SavedPost(postID))
+            savedPostsIDs = postsRepo.getSavedPosts()
+        }
+
+    fun removePost(postID: String) =
+        viewModelScope.launch {
+            postsRepo.remove(SavedPost(postID))
+            savedPostsIDs = postsRepo.getSavedPosts()
+        }
+
+
+    fun getPost(id: String): MutableLiveData<ForumPost> {
+        Log.i("MutableLiveData", id)
+        repository.getPostRef(id).addSnapshotListener { snapshot, e ->
+            if (e != null) return@addSnapshotListener
+            if (snapshot == null) return@addSnapshotListener
+            viewPost.value = snapshot.toObject(ForumPost::class.java)
+
+        }
+        return viewPost
+    }
+
+    fun removeAllSavedPosts() {
+        viewModelScope.launch {
+            postsRepo.removeAll()
+        }
+    }
+
+    fun getSavedPosts(): MutableLiveData<List<ForumPost>> {
+        val posts: MutableList<ForumPost> = mutableListOf()
+        for (id in ForumFragment.savedPosts) {
+            repository.getPostRef(id).addSnapshotListener { snapshot, e ->
+                if (e != null) return@addSnapshotListener
+                if (snapshot == null) {
+                    viewModelScope.launch {
+                        postsRepo.remove(SavedPost(id))
+                    }
+                    return@addSnapshotListener
+                }
+                if (snapshot.data != null)
+                    posts.add(snapshot.toObject(ForumPost::class.java)!!)
+                savedUsersPosts.value = posts
+            }
+        }
+        return savedUsersPosts
+    }
+
+    fun getPosts(): MutableLiveData<List<ForumPost>> {
+        viewModelScope.launch {
+            repository.getPostsRef().addSnapshotListener { snapshot, e ->
+                if (e != null) return@addSnapshotListener
+                if (snapshot == null) return@addSnapshotListener
+                val documents = snapshot.documents
+                val posts: MutableList<ForumPost> = mutableListOf()
+                for (item in documents)
+                    posts.add(item.toObject(ForumPost::class.java)!!)
+
+                posts.sortByDescending {
+                    it.timestamp.time
+                }
+                usersPosts.value = posts
+
+            }
+        }
+        return usersPosts
+
+    }
 
 
     fun getStatuses(): MutableLiveData<List<UserStatus>> {
