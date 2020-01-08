@@ -6,9 +6,16 @@
     android:layoutDirection="ltr"
     tools:context=".SendFragment">
 
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/textSendingProgressBar"
+        style="?android:attr/progressBarStyleLargeInverse"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
+        android:id="@+id/sendFragmentView"
         android:layout_height="match_parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat

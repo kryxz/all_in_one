@@ -190,6 +190,9 @@ class SendFragment : Fragment() {
             return
         }
 
+        sendFragmentView.visibility = View.GONE
+        textSendingProgressBar.visibility = View.VISIBLE
+
         val userStatus = UserStatus(
             text = text,
             category = statusCategory,
@@ -201,6 +204,8 @@ class SendFragment : Fragment() {
         val db = FirebaseFirestore.getInstance()
 
         db.collection("statuses").add(userStatus).addOnSuccessListener {
+            sendFragmentView.visibility = View.VISIBLE
+            textSendingProgressBar.visibility = View.GONE
             context!!.showMessage(getString(R.string.statusSent))
             userStatus.statusID = it.id
             it.set(userStatus)

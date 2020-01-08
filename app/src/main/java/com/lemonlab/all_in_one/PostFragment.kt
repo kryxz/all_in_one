@@ -137,8 +137,10 @@ class PostFragment : Fragment() {
             )
             val db = FirebaseFirestore.getInstance()
             forumPostingProgressBar.visibility = View.VISIBLE
+            postFragmentView.visibility = View.GONE
             db.collection("posts").add(forumPost).addOnSuccessListener {
                 forumPostingProgressBar.visibility = View.GONE
+                postFragmentView.visibility = View.VISIBLE
                 // clear text fields
                 forum_post_text.text!!.clear()
                 forum_post_title.text!!.clear()

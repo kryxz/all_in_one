@@ -24,15 +24,6 @@ interface FavoriteDao {
     @Delete
     suspend fun deleteFavorite(favorite: Favorite)
 
-    @Query("SELECT hashcode FROM favorites WHERE category == :category")
-    suspend fun getFavoritesByCategory(category: Category): List<Int>
-
-    @Query("SELECT * FROM favorites")
-    suspend fun getFavorites(): List<Favorite>
-
-    @Query("SELECT * FROM favorites ORDER BY 'hashcode' DESC")
-    suspend fun getFavoritesByTime(): List<Favorite>
-
 
     @Query("SELECT * FROM favorites")
     fun getAllFavorites(): LiveData<List<Favorite>>

@@ -53,6 +53,9 @@ class ViewPostFragment : Fragment() {
         postsViewModel = ViewModelProviders.of(this)[UsersTextsViewModel::class.java]
         val postID = ViewPostFragmentArgs.fromBundle(arguments!!).postID
 
+        viewPostFragmentView.visibility = View.GONE
+        postLoadingProgressBar.visibility = View.VISIBLE
+
         val observer = androidx.lifecycle.Observer<ForumPost> {
             if (it == null)
                 setDeleted()
@@ -100,6 +103,7 @@ class ViewPostFragment : Fragment() {
     }
 
     private fun setData(post: ForumPost) {
+
         val postID = post.postID
         post_view_item_title.text = post.title
         post_view_item_text.text = post.text
@@ -142,6 +146,8 @@ class ViewPostFragment : Fragment() {
         val userRef = FirebaseFirestore.getInstance().collection("users").document(post.userID)
         // get name only once.
         userRef.get().addOnSuccessListener {
+            viewPostFragmentView.visibility = View.VISIBLE
+            postLoadingProgressBar.visibility = View.GONE
             if (context == null || it == null || view == null) return@addOnSuccessListener
 
             view_post_postedBy.text = it.data!!["name"].toString()
@@ -175,8 +181,6 @@ class ViewPostFragment : Fragment() {
 
         // button click listeners. Updates post in database.
         view_post_send_comment_btn.setOnClickListener {
-
-            view!!.scrollTo(0, it.bottom)
             if (view_post_comment_text.text.isNullOrEmpty()) return@setOnClickListener
             sendComment(post)
         }
