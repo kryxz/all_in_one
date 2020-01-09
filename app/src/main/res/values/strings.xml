@@ -32,6 +32,7 @@
     <string name="showStatus">معاينة الحالة</string>
     <string name="statusCategory">تصنيف الحالة</string>
     <string name="emptyPosts">المنتدى فارغ حاليًا. كن أول من ينشر!</string>
+    <string name="statusImageUploaded">تم نشر صورتك بناجح</string>
 
 
     <string name="send">إرسال</string>

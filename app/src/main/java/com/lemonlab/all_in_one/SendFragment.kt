@@ -13,6 +13,7 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.lemonlab.all_in_one.extensions.*
@@ -89,6 +90,11 @@ class SendFragment : Fragment() {
         // show preview status dialog on button click
         previewStatusButton()
 
+        // navigate user to send image fragment
+
+        send_status_image_btn.setOnClickListener {
+            view!!.findNavController().navigate(R.id.sendImageFragment)
+        }
     }
 
     private fun colorStatusSpinner() {

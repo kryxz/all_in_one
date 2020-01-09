@@ -116,4 +116,9 @@
         android:name="com.lemonlab.all_in_one.UsersTextsFragment"
         android:label="@string/usersTexts"
         tools:layout="@layout/fragment_users_texts" />
+    <fragment
+        android:id="@+id/sendImageFragment"
+        android:name="com.lemonlab.all_in_one.SendImageFragment"
+        android:label="fragment_send_image"
+        tools:layout="@layout/fragment_send_image" />
 </navigation>
