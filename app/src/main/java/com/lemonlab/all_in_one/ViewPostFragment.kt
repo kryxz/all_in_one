@@ -114,7 +114,7 @@ class ViewPostFragment : Fragment() {
         // set bookmarked if post is saved!
         val saved = ContextCompat.getDrawable(context!!, R.drawable.ic_bookmark)
         val notSaved = ContextCompat.getDrawable(context!!, R.drawable.ic_bookmark_border)
-        val thisUserID = FirebaseAuth.getInstance().uid.toString()
+        val thisUserID = postsViewModel.getUserID()
 
         fun deletePost() {
             postsViewModel.removePost(postID)

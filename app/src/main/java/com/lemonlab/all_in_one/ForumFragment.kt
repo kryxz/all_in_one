@@ -11,6 +11,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import com.lemonlab.all_in_one.extensions.checkUser
 import com.lemonlab.all_in_one.extensions.recreateFragment
+import com.lemonlab.all_in_one.extensions.setFragmentTitle
 import com.lemonlab.all_in_one.extensions.showMessage
 import com.lemonlab.all_in_one.items.ForumPostItem
 import com.lemonlab.all_in_one.items.SavedPostItem
@@ -82,9 +83,9 @@ class ForumFragment : Fragment() {
             adapter.clear()
 
             // show hint to the user
-            if(it.isEmpty()){
+            if (it.isEmpty()) {
                 empty_post_text_view.visibility = View.VISIBLE
-            }else{
+            } else {
                 empty_post_text_view.visibility = View.GONE
             }
 
@@ -100,6 +101,9 @@ class ForumFragment : Fragment() {
     private fun viewSavedPosts() {
         val adapter = GroupAdapter<ViewHolder>()
 
+        empty_post_text_view.visibility = View.GONE
+
+        activity!!.setFragmentTitle(getString(R.string.saved_posts))
         val observer = Observer<List<ForumPost>> {
             adapter.clear()
             if (it.isEmpty())

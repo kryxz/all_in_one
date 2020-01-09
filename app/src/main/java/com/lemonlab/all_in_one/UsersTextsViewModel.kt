@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -39,6 +40,7 @@ class SavedPostsRepo(private val savedPostsDao: SavedPostsDao) {
 
 class FireStoreRepository {
     val db = FirebaseFirestore.getInstance()
+    val auth = FirebaseAuth.getInstance()
 
 
     fun getStatusesRef(): CollectionReference {
@@ -53,6 +55,15 @@ class FireStoreRepository {
 
     fun getPostRef(id: String): DocumentReference {
         return db.collection("posts").document(id)
+    }
+
+    fun getUsersRef(): CollectionReference {
+        return db.collection("users")
+
+    }
+
+    fun getUserID(): String {
+        return auth.uid.toString()
     }
 
 
@@ -199,6 +210,22 @@ class UsersTextsViewModel(application: Application) : AndroidViewModel(applicati
 
         return statusLikes
 
+    }
+
+    fun getSenderName(userID: String): MutableLiveData<String> {
+        val name: MutableLiveData<String> = MutableLiveData()
+
+        repository.getUsersRef().document(userID).get().addOnSuccessListener {
+            if (it == null) return@addOnSuccessListener
+            name.value = it.data!!["name"].toString()
+        }
+        return name
+
+    }
+
+
+    fun getUserID(): String {
+        return repository.getUserID()
     }
 
 

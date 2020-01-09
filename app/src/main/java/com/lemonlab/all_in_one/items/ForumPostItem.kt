@@ -7,8 +7,8 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
-import com.google.firebase.auth.FirebaseAuth
 import com.lemonlab.all_in_one.ForumFragment
 import com.lemonlab.all_in_one.ForumFragmentDirections
 import com.lemonlab.all_in_one.R
@@ -33,7 +33,7 @@ class ForumPostItem(
 
     private val postsViewModel = ForumFragment.postsViewModel
 
-    private val thisUserID = FirebaseAuth.getInstance().uid.toString()
+    private val thisUserID = postsViewModel.getUserID()
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
         val view = viewHolder.itemView
@@ -45,11 +45,10 @@ class ForumPostItem(
 
         val senderID = forumPost.userID
 
-        UserStatusItem.getSenderName(
-            context = context,
-            usernameText = view.forum_post_item_user_image_title,
-            userID = senderID
-        )
+
+        postsViewModel.getSenderName(senderID).observe(ForumFragment.lifecycleOwner, Observer {
+            view.forum_post_item_user_image_title.text = it
+        })
 
         with(view) {
             // add … to text

@@ -1,7 +1,6 @@
 package com.lemonlab.all_in_one
 
 
-import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater

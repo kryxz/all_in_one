@@ -3,11 +3,9 @@ package com.lemonlab.all_in_one.items
 import android.content.Context
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.lemonlab.all_in_one.R
 import com.lemonlab.all_in_one.UsersTextsFragment
 import com.lemonlab.all_in_one.extensions.getBitmapFromView
@@ -71,8 +69,10 @@ class UserStatusItem(
 
 
         // set status sender name
-        getSenderName(context, view.user_status_username_text, userStatus.userID)
 
+        model.getSenderName(userStatus.userID).observe(UsersTextsFragment.lifecycleOwner, Observer {
+            view.user_status_username_text.text = it
+        })
         view.user_status_image.setImageResource(CategoryPics.getRandomPic(userStatus.category))
 
         // set text color
@@ -145,29 +145,6 @@ class UserStatusItem(
 
 
     }
-
-    companion object {
-        fun getSenderName(context: Context, usernameText: AppCompatTextView?, userID: String) {
-
-            // get user name from fireStore
-            val userRef =
-                FirebaseFirestore.getInstance().collection("users").document(userID)
-            // get name only once.
-            userRef.get().addOnSuccessListener {
-                if (usernameText == null) return@addOnSuccessListener
-                if (it == null) {
-                    usernameText.text = context.getString(R.string.user_not_found)
-                    return@addOnSuccessListener
-                }
-                if (it.data == null) return@addOnSuccessListener
-
-                usernameText.text = it.data!!["name"].toString()
-
-            }
-
-        }
-    }
-
 
 
     private fun favorite() {

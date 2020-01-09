@@ -32,18 +32,11 @@
                     android:layout_width="match_parent"
                     android:layout_weight="1"
                     android:padding="8dp"
-                    android:text="@string/app_name"
+                    android:layout_margin="4dp"
+                    android:text="@string/username"
                     android:textColor="@color/black"
                     android:textDirection="rtl"
                     android:textStyle="bold" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/forum_post_item_user_image_view"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="end"
-                    android:background="@drawable/circular_user_image" />
-
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

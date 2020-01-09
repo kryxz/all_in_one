@@ -24,16 +24,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:gravity="center"
-                android:padding="8dp"
-                android:text="@string/createPost"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
-
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/forum_post_title"
                 android:layout_width="match_parent"
