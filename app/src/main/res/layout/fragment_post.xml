@@ -73,52 +73,48 @@
                 android:textSize="20sp" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/textAboveImageButtonStyle"
-                    android:text="@string/deleteText" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/textAboveImageButtonStyle"
-                    android:text="@string/post" />
-
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/textAboveImageButtonStyle"
-                    android:text="@string/preview" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <androidx.appcompat.widget.AppCompatImageButton
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/clear_post_text_btn"
-                    style="@style/CreatePostImageButtonStyle"
-                    android:backgroundTint="@color/black"
-                    android:padding="6dp"
-                    android:background="@drawable/rounded_border_tv"
-                    android:src="@drawable/ic_delete_x" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_text_rounded"
+                    android:drawableStart="@drawable/ic_delete_x"
+                    android:padding="8dp"
+                    android:text="حذف النص"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
-                <androidx.appcompat.widget.AppCompatImageButton
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/post_to_forum_btn"
-                    style="@style/CreatePostImageButtonStyle"
-                    android:backgroundTint="@color/black"
-                    android:padding="6dp"
-                    android:background="@drawable/rounded_border_tv"
-                    android:src="@drawable/ic_send" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_text_rounded"
+                    android:drawableStart="@drawable/ic_send"
+                    android:padding="8dp"
+                    android:text="نشر"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
-                <androidx.appcompat.widget.AppCompatImageButton
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/preview_forum_post_btn"
-                    style="@style/CreatePostImageButtonStyle"
-                    android:backgroundTint="@color/black"
-                    android:padding="6dp"
-                    android:background="@drawable/rounded_border_tv"
-                    android:src="@drawable/ic_eye" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_text_rounded"
+                    android:drawableStart="@drawable/ic_eye"
+                    android:padding="8dp"
+                    android:text="معاينة المنشور"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
