@@ -9,18 +9,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.lemonlab.all_in_one.extensions.getDateAsString
+import com.lemonlab.all_in_one.extensions.hideKeypad
 import com.lemonlab.all_in_one.extensions.showMessage
 import com.lemonlab.all_in_one.extensions.showYesNoDialog
+import com.lemonlab.all_in_one.items.CommentItem
 import com.lemonlab.all_in_one.items.ForumPostItem
 import com.lemonlab.all_in_one.model.Comment
 import com.lemonlab.all_in_one.model.ForumPost
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_view_post.*
+import java.sql.Timestamp
 
 /**
  * A fragment to view the actual post and its comments, likes, etc.
@@ -29,9 +35,10 @@ import kotlinx.android.synthetic.main.fragment_view_post.*
 
 class ViewPostFragment : Fragment() {
 
-    private lateinit var postsViewModel: UsersTextsViewModel
 
     companion object {
+        lateinit var lifecycleOwner: LifecycleOwner
+        lateinit var postsViewModel: UsersTextsViewModel
         var savedPosts: List<String> = listOf()
     }
 
@@ -49,7 +56,31 @@ class ViewPostFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
     }
 
+    private fun initAdapter(postID: String) {
+        lifecycleOwner = viewLifecycleOwner
+        val adapter = GroupAdapter<ViewHolder>()
+        view_post_comments_rv.adapter = adapter
+
+        postsViewModel.getPostComments(postID).observe(viewLifecycleOwner, Observer {
+            if (it == null) return@Observer
+            if (it.isEmpty()) {
+                no_comments_text.visibility = View.VISIBLE
+                view_post_comments_rv.visibility = View.GONE
+            } else {
+                no_comments_text.visibility = View.GONE
+                view_post_comments_rv.visibility = View.VISIBLE
+            }
+
+            adapter.clear()
+            for (comment in it)
+                adapter.add(CommentItem(comment))
+
+        })
+
+    }
+
     private fun init() {
+
         postsViewModel = ViewModelProviders.of(this)[UsersTextsViewModel::class.java]
         val postID = ViewPostFragmentArgs.fromBundle(arguments!!).postID
 
@@ -78,6 +109,7 @@ class ViewPostFragment : Fragment() {
         if (savedPosts.contains(postID))
             view_post_save.setCompoundDrawablesWithIntrinsicBounds(null, null, saved, null)
 
+        initAdapter(postID)
     }
 
 
@@ -222,18 +254,18 @@ class ViewPostFragment : Fragment() {
 
         // add the comment to fireStore
 
-        val currentUserUid = FirebaseAuth.getInstance().uid
 
         val comment = Comment(
             text = view_post_comment_text.text.toString(),
-            userID = currentUserUid!!
+            postID = post.postID,
+            reportIDs = ArrayList(),
+            userID = postsViewModel.getUserID(),
+            timestamp = Timestamp(System.currentTimeMillis())
+
         )
-
-        val db = FirebaseFirestore.getInstance()
-        post.comments!!.add(comment)
-
-        // update the document
-        db.collection("posts").document(post.postID).set(post)
+        view_post_comment_text.text!!.clear()
+        post.sendComment(comment)
+        activity!!.hideKeypad(view!!)
 
     }
 

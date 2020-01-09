@@ -215,10 +215,13 @@ class UsersTextsViewModel(application: Application) : AndroidViewModel(applicati
     fun getSenderName(userID: String): MutableLiveData<String> {
         val name: MutableLiveData<String> = MutableLiveData()
 
+
         repository.getUsersRef().document(userID).get().addOnSuccessListener {
             if (it == null) return@addOnSuccessListener
             name.value = it.data!!["name"].toString()
+
         }
+
         return name
 
     }
@@ -226,6 +229,24 @@ class UsersTextsViewModel(application: Application) : AndroidViewModel(applicati
 
     fun getUserID(): String {
         return repository.getUserID()
+    }
+
+    fun getPostComments(postID: String): MutableLiveData<List<Comment>> {
+        val comments = MutableLiveData<List<Comment>>()
+        repository.getPostRef(postID).addSnapshotListener { snapshot, e ->
+            if (e != null) return@addSnapshotListener
+            if (snapshot == null) return@addSnapshotListener
+
+            comments.value = snapshot.toObject(ForumPost::class.java)!!.comments
+
+            comments.value!!.sortedByDescending {
+                it.timestamp.time
+            }
+            comments.value = comments.value!!.asReversed()
+
+        }
+
+        return comments
     }
 
 

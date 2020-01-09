@@ -20,13 +20,16 @@ data class ForumPost(
 
 
     private fun updatePost() {
-        val postRef = FirebaseFirestore.getInstance().collection("posts").document(postID)
-        postRef.get().addOnSuccessListener {
-            if (it.data != null)
-                postRef.set(this)
-        }
+        FirebaseFirestore.getInstance().collection("posts").document(postID).set(this)
     }
 
+
+    fun sendComment(comment: Comment) {
+        if (comments == null)
+            comments = ArrayList()
+        comments!!.add(comment)
+        updatePost()
+    }
 
     fun report(userID: String) {
         if (reportIDs!!.contains(userID)) return
@@ -90,4 +93,60 @@ data class ForumPost(
     }
 }
 
-data class Comment(val text: String, val userID: String)
+data class Comment(
+    val text: String,
+    val userID: String,
+    val postID: String,
+    val timestamp: Date,
+    var reportIDs: ArrayList<String>?
+) {
+
+    constructor() : this(
+        "", "", "",
+        Timestamp(System.currentTimeMillis()), ArrayList<String>()
+    )
+
+
+    fun report(userID: String) {
+        if (reportIDs == null)
+            reportIDs = ArrayList()
+        if (reportIDs!!.contains(userID)) return
+        reportIDs!!.add(userID)
+        updatePost()
+        checkReports()
+    }
+
+    private fun checkReports() {
+        if (reportIDs!!.size >= 5)
+            deleteComment()
+    }
+
+    private fun updatePost() {
+        val postRef = FirebaseFirestore.getInstance().collection("posts").document(postID)
+        postRef.get().addOnSuccessListener {
+            if (it == null) return@addOnSuccessListener
+            val post = it.toObject(ForumPost::class.java)!!
+            for (comment in post.comments!!) {
+                if (comment.text == this.text)
+                    comment.reportIDs = reportIDs
+            }
+            postRef.set(post)
+        }
+    }
+
+    fun deleteComment() {
+        val postRef = FirebaseFirestore.getInstance().collection("posts").document(postID)
+        postRef.get().addOnSuccessListener {
+            if (it == null) return@addOnSuccessListener
+            val theComments = it.toObject(ForumPost::class.java)!!.comments
+            val iterator = theComments!!.iterator()
+            while (iterator.hasNext()) {
+                val comment = iterator.next()
+                if (comment.text == this.text)
+                    iterator.remove()
+            }
+            postRef.update("comments", theComments)
+        }
+    }
+
+}

@@ -41,6 +41,7 @@
     <string name="sendChatTitle">نص الرسالة</string>
     <string name="camera">تصوير صورة</string>
     <string name="copied">تم النسخ</string>
+    <string name="comment_copied">تم نسخ التعليق</string>
     <string name="createPost">منشور جديد!</string>
     <string name="appNotFound">تعذّر العثور على التطبيق</string>
     <string name="textDeleted">تم حذف المحتوى</string>
@@ -112,6 +113,11 @@
     <string name="no_result">تعذّر العثور على أي نتيجة</string>
     <string name="status_color">لون نص الحالة</string>
     <string name="user_not_found">مستخدم محذوف</string>
+    <string name="delete_comment_confirm">سيتم حذف تعليقك فورًا، هل أنت متأكد؟</string>
+    <string name="delete_comment">حذف التعليق</string>
+    <string name="report_comment_confirm">هل أنت متأكد أن التعليق غير ملائم؟</string>
+    <string name="report_comment">الإبلاغ عن التعليق</string>
+    <string name="no_comments">يبدو أن المكان هادئٌ جدًا هنا…</string>
 
     <string-array name="categoryEn">
         <item>Wisdom</item>

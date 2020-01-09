@@ -1,9 +1,12 @@
 package com.lemonlab.all_in_one.items
 
 import android.content.Context
+import android.graphics.PorterDuff
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.Observer
 import com.google.firebase.auth.FirebaseAuth
 import com.lemonlab.all_in_one.R
@@ -33,13 +36,16 @@ class UserStatusItem(
     private val model = UsersTextsFragment.statusesViewModel
     private val favoritesViewModel = UsersTextsFragment.favoritesViewModel
 
+    private val randomPic = CategoryPics.getRandomPic(userStatus.category)
+
+
     override fun bind(viewHolder: ViewHolder, position: Int) {
         val view = viewHolder.itemView
 
 
         // set likes count
         view.user_status_likes_text.text = userStatus.likesCount().toString()
-
+        tintDrawable(view.user_status_likes_text)
 
         val favButton = view.user_status_favorite_btn
         model.likesCount(userStatus.statusID).observe(UsersTextsFragment.lifecycleOwner, Observer {
@@ -61,7 +67,7 @@ class UserStatusItem(
             ContextCompat.getColor(
                 context,
                 userStatus.statusColor.value
-            ), android.graphics.PorterDuff.Mode.SRC_IN
+            ), PorterDuff.Mode.SRC_IN
         )
 
         // set sent date text
@@ -73,7 +79,8 @@ class UserStatusItem(
         model.getSenderName(userStatus.userID).observe(UsersTextsFragment.lifecycleOwner, Observer {
             view.user_status_username_text.text = it
         })
-        view.user_status_image.setImageResource(CategoryPics.getRandomPic(userStatus.category))
+
+        view.user_status_image.setImageResource(randomPic)
 
         // set text color
         view.user_status_text.text =
@@ -146,6 +153,17 @@ class UserStatusItem(
 
     }
 
+    private fun tintDrawable(editText: AppCompatTextView) {
+        var drawable = ContextCompat.getDrawable(context, R.drawable.ic_favorite)
+        drawable = DrawableCompat.wrap(drawable!!)
+        DrawableCompat.setTint(
+            drawable,
+            ContextCompat.getColor(context, userStatus.statusColor.value)
+        )
+        DrawableCompat.setTintMode(drawable, PorterDuff.Mode.SRC_IN)
+        editText.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null)
+
+    }
 
     private fun favorite() {
         val auth = FirebaseAuth.getInstance()
