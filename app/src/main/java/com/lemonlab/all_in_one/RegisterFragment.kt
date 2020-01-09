@@ -78,7 +78,7 @@ class RegisterFragment : Fragment() {
     }
 
     private fun registerNewUser(email: String, password: String, name: String) {
-        val user = User(name = name, email = email, online = true)
+        val user = User(name = name, email = email, online = "true")
 
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener {

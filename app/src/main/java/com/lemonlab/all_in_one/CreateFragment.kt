@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lemonlab.all_in_one.extensions.createImageFile
+import com.lemonlab.all_in_one.extensions.removeWhitespace
 import com.lemonlab.all_in_one.items.FilterItem
 import com.lemonlab.all_in_one.items.FontItem
 import com.lemonlab.all_in_one.items.StickerItem
@@ -46,8 +47,8 @@ import kotlinx.android.synthetic.main.stickers_view.view.*
 
 class CreateFragment : Fragment() {
 
-    private val maxBrushSize = 256f
-    private val minBrushSize = 12f
+    private val maxBrushSize = 512f
+    private val minBrushSize = 8f
 
     private lateinit var photoEditor: PhotoEditor
     private var currentEditorBackground:Int = R.drawable.editor_image0
@@ -160,17 +161,15 @@ class CreateFragment : Fragment() {
                 y = 0 // y position
             }
         }
-
         photoEditor.setOnPhotoEditorListener(object : OnPhotoEditorListener {
             override fun onEditTextChangeListener(
                 rootView: View?,
                 text: String?,
                 colorCode: Int
             ) {
-
                 photoEditor.editText(rootView!!, text, colorCode)
-                dialogBuilder.show()
                 dialogView.inputTextField.setText(text)
+                dialogBuilder.show()
                 dialogBuilder.setOnDismissListener {
                     val newText = inputText.text.toString()
                     dialogView.inputTextField.text!!.clear()
@@ -191,12 +190,35 @@ class CreateFragment : Fragment() {
             override fun onStopViewChangeListener(viewType: ViewType?) {
             }
         })
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         editor()
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun showEditTextDialog(){
+        val dialogBuilder = AlertDialog.Builder(context!!).create()
+        val dialogView = layoutInflater.inflate(
+            R.layout.input_text,
+            view!!.findViewById(R.id.settingsFragment)
+        )
+
+        // the edit text
+        val inputText = dialogView.findViewById(R.id.inputTextField) as AppCompatEditText
+
+        dialogBuilder.setView(dialogView)
+        // makes dialog transparent
+        dialogBuilder.window!!.setBackgroundDrawable(ColorDrawable(0))
+        // cancels focus(clears view dim)
+        dialogBuilder.window!!.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+
+        dialogBuilder.setOnDismissListener{
+            if(inputText.text.toString().removeWhitespace().isNotEmpty())
+            photoEditor.addText(inputText.text.toString(), ColorSheet.NO_COLOR)
+        }
+
+        dialogBuilder.show()
     }
 
     private fun editor() {
@@ -233,6 +255,11 @@ class CreateFragment : Fragment() {
             .setDefaultEmojiTypeface(mTextRobotoTf)
             .build()
 
+        // set the default selected item
+        photoEditorBottomBar.selectedItemId = R.id.brushTool
+        photoEditor.setBrushDrawingMode(true)
+        photoEditor.brushColor = currentEditorColor
+
         // listen to editor nav bar items
         photoEditorBottomBar.setOnNavigationItemSelectedListener {
             when (it.itemId) {
@@ -264,12 +291,7 @@ class CreateFragment : Fragment() {
                 }
 
                 R.id.textTool -> {
-                    photoEditor.addText(
-                        currentFontTypeFace!!,
-                        "Hello!",
-                        currentEditorColor
-                    )
-
+                    showEditTextDialog()
                     // hide other tools
                     hideBrushTools()
 
@@ -410,15 +432,15 @@ class CreateFragment : Fragment() {
 
     private fun incrementBrushSize(){
         increment_brush_size_btn.setOnClickListener {
-            if (photoEditor.brushSize + 4f <= maxBrushSize)
-                photoEditor.brushSize += 4f
+            if (photoEditor.brushSize + 8f <= maxBrushSize)
+                photoEditor.brushSize += 8f
         }
     }
 
     private fun decrementBrushSize(){
         decrement_brush_size_btn.setOnClickListener {
-            if (photoEditor.brushSize - 4f >= minBrushSize)
-                photoEditor.brushSize -= 4f
+            if (photoEditor.brushSize - 8f >= minBrushSize)
+                photoEditor.brushSize -= 8f
         }
     }
 

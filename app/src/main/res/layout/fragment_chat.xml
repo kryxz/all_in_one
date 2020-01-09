@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layoutDirection="ltr"
     tools:context=".ChatFragment">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -14,42 +15,63 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@+id/send_message_btn"
+        app:layout_constraintBottom_toTopOf="@+id/chat_replay_view"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/chat_edit_text"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/rounded_edittext_register_login"
+        android:background="@drawable/rounded_border_tv"
         android:backgroundTint="@color/grey"
         android:ems="10"
         android:hint="@string/sendChatTitle"
         android:inputType="textPersonName"
-        android:text=""
         android:padding="5dp"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/send_message_btn"
         app:layout_constraintTop_toTopOf="@+id/send_message_btn" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/send_message_btn"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:backgroundTint="@color/grey"
-        android:background="@drawable/circle_button"
+        android:background="@drawable/rounded_border_tv"
         android:text="@string/send"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chat_rv"
         app:layout_constraintVertical_bias="0.745" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/chat_replay_view"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/red"
+        android:visibility="gone"
+        android:orientation="horizontal"
+        android:padding="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/chat_edit_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="سوف ترد على..."
+            android:textSize="24sp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

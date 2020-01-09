@@ -80,6 +80,14 @@ class ForumFragment : Fragment() {
 
         val observer = Observer<List<ForumPost>> {
             adapter.clear()
+
+            // show hint to the user
+            if(it.isEmpty()){
+                empty_post_text_view.visibility = View.VISIBLE
+            }else{
+                empty_post_text_view.visibility = View.GONE
+            }
+
             for (item in it)
                 adapter.add(ForumPostItem(item, context!!))
         }

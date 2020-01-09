@@ -1,6 +1,7 @@
 package com.lemonlab.all_in_one
 
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -60,6 +61,11 @@ class ChatFragment : Fragment() {
             // add the message to rv adapter and store it in the database
             sendMessage(messageText)
         }
+
+        // hide replay view
+        chat_rv.setOnClickListener {
+            chat_replay_view.visibility = View.GONE
+        }
     }
 
     override fun onResume() {
@@ -82,8 +88,7 @@ class ChatFragment : Fragment() {
                     val username = document.get("name").toString()
                     val email = document.get("email").toString()
                     val userStatus = document.get("online").toString()
-                    val online = userStatus == "true"
-                    currentUser = User(username, email, online)
+                    currentUser = User(username, email, userStatus)
                 }
                 listenToMessages()
             }
@@ -172,4 +177,7 @@ class ChatFragment : Fragment() {
         }
     }
 
+    private fun onLongLickChatItemTrigger(message: Message){
+        chat_replay_view.visibility = View.VISIBLE
+    }
 }
