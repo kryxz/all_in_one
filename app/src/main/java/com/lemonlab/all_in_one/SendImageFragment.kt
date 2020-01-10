@@ -5,7 +5,6 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.database.Cursor
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
@@ -22,7 +21,6 @@ import com.google.firebase.storage.FirebaseStorage
 import com.lemonlab.all_in_one.model.UserStatusImage
 import kotlinx.android.synthetic.main.fragment_send_image.*
 import java.io.ByteArrayOutputStream
-import java.io.File
 import java.sql.Timestamp
 import java.util.*
 

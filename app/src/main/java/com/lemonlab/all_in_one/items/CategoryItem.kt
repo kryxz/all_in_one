@@ -1,7 +1,7 @@
 package com.lemonlab.all_in_one.items
 
-import android.content.Context
 import androidx.navigation.findNavController
+import com.lemonlab.all_in_one.AllCategoriesFragmentDirections
 import com.lemonlab.all_in_one.MainFragmentDirections
 import com.lemonlab.all_in_one.R
 import com.lemonlab.all_in_one.extensions.highlightText
@@ -11,11 +11,8 @@ import kotlinx.android.synthetic.main.category_view.view.*
 import kotlin.random.Random
 
 
-class CategoryItem(
-    private val context: Context,
-    private val categoryText: String,
-    private val category: Category
-) :
+class CategoryItem(private val category: Category) :
+
     Item<ViewHolder>() {
     override fun getLayout() =
         R.layout.category_view
@@ -25,12 +22,14 @@ class CategoryItem(
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
         val view = viewHolder.itemView
+        val context = view.context
+        val categoryText = context.getString(category.textID)
         view.category_tv.text = context.highlightText(categoryText)
         view.category_image.setImageResource(pic)
 
         view.setOnClickListener {
             it.findNavController()
-                .navigate(MainFragmentDirections.mainToQuotes().setCategory(category))
+                .navigate(AllCategoriesFragmentDirections.categoryToQuotes().setCategory(category))
         }
 
     }
@@ -38,9 +37,16 @@ class CategoryItem(
 }
 
 
-class FavItem(
-    private val context: Context
-) :
+enum class MainItem {
+    Favorites,
+    UsersTexts,
+    Pictures,
+    Quotes
+}
+
+
+class MainFragmentItem(private val mainItem: MainItem) :
+
     Item<ViewHolder>() {
     override fun getLayout() =
         R.layout.category_view
@@ -50,35 +56,40 @@ class FavItem(
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
         val view = viewHolder.itemView
-        view.category_tv.text = context.highlightText(context.getString(R.string.favorites))
+
         view.category_image.setImageResource(pic)
-        view.setOnClickListener {
-            it.findNavController()
-                .navigate(MainFragmentDirections.mainToFavorites())
+        val context = view.context
+        val text = when (mainItem) {
+            MainItem.Favorites -> context.getString(R.string.favorites)
+            MainItem.UsersTexts -> context.getString(R.string.usersTexts)
+            MainItem.Pictures -> context.getString(R.string.pictures)
+            MainItem.Quotes -> context.getString(R.string.all_categories)
         }
 
-    }
+        view.category_tv.text = context.highlightText(text)
 
-}
-
-class UsersTextsItem(
-    private val context: Context
-) :
-    Item<ViewHolder>() {
-    override fun getLayout() =
-        R.layout.category_view
-
-
-    private val pic = CategoryPics.getRandomPic()
-
-    override fun bind(viewHolder: ViewHolder, position: Int) {
-        val view = viewHolder.itemView
-        view.category_tv.text = context.highlightText(context.getString(R.string.usersTexts))
-        view.category_image.setImageResource(pic)
         view.setOnClickListener {
-            it.findNavController()
-                .navigate(MainFragmentDirections.mainToUsersTexts())
+            when (mainItem) {
+                MainItem.Favorites -> {
+                    it.findNavController()
+                        .navigate(MainFragmentDirections.mainToFavorites())
+
+                }
+                MainItem.UsersTexts -> {
+                    it.findNavController()
+                        .navigate(MainFragmentDirections.mainToUsersTexts())
+                }
+                MainItem.Pictures -> {
+                    // TODO: navigate to pictures fragment
+                }
+                MainItem.Quotes -> {
+                    it.findNavController()
+                        .navigate(MainFragmentDirections.mainToCategories())
+                }
+            }
+
         }
+
 
     }
 

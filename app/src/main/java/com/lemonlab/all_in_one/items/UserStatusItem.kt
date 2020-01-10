@@ -22,8 +22,7 @@ import kotlinx.android.synthetic.main.user_status_item.view.*
 
 
 class UserStatusItem(
-    private val userStatus: UserStatus,
-    private val context: Context
+    private val userStatus: UserStatus
 ) :
     Item<ViewHolder>() {
 
@@ -41,11 +40,11 @@ class UserStatusItem(
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
         val view = viewHolder.itemView
-
+        val context = view.context
 
         // set likes count
         view.user_status_likes_text.text = userStatus.likesCount().toString()
-        tintDrawable(view.user_status_likes_text)
+        tintDrawable(context, view.user_status_likes_text)
 
         val favButton = view.user_status_favorite_btn
         model.likesCount(userStatus.statusID).observe(UsersTextsFragment.lifecycleOwner, Observer {
@@ -153,7 +152,7 @@ class UserStatusItem(
 
     }
 
-    private fun tintDrawable(editText: AppCompatTextView) {
+    private fun tintDrawable(context: Context, editText: AppCompatTextView) {
         var drawable = ContextCompat.getDrawable(context, R.drawable.ic_favorite)
         drawable = DrawableCompat.wrap(drawable!!)
         DrawableCompat.setTint(

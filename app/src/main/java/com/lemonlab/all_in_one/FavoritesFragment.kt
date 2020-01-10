@@ -64,7 +64,7 @@ class FavoritesFragment : Fragment() {
                     val categoryIndex = Random.nextInt(CategoryPics.categoryLimit())
                     val picIndex = Random.nextInt(CategoryPics.picsLimit())
                     val indexPair = Pair(categoryIndex, picIndex)
-                    adapter.add(FavoriteItem(context!!, item, indexPair))
+                    adapter.add(FavoriteItem(item, indexPair))
                     listOfIndicesPairs.add(indexPair)
                 }
             }
@@ -78,7 +78,7 @@ class FavoritesFragment : Fragment() {
         adapter.clear()
         for ((index, item) in favoritesViewModel.allFavorites.value!!.withIndex())
             if (item.text.contains(text))
-                adapter.add(FavoriteItem(context!!, item, listOfIndicesPairs[index]))
+                adapter.add(FavoriteItem(item, listOfIndicesPairs[index]))
 
 
     }

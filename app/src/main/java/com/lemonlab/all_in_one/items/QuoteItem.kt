@@ -164,7 +164,6 @@ class CategoryPics {
 
 
 class QuoteItem(
-    private val context: Context,
     private val text: String,
     private val category: Category
 ) :
@@ -181,7 +180,7 @@ class QuoteItem(
     override fun bind(viewHolder: ViewHolder, position: Int) {
         // used instead of viewHolder.itemView.etc
         val view = viewHolder.itemView
-
+        val context = view.context
         // set text and background picture.
         view.quote_text_tv.text = context.highlightText(text)
         view.text_image.setImageResource(pic)
@@ -199,7 +198,7 @@ class QuoteItem(
         }
         // listens to button clicks and calls a specific function!
         listenButtons(
-            listOf<View>(
+            context, listOf<View>(
                 view.quote_share_btn,
                 view.quote_whats_share_btn,
                 view.quote_favorite_btn,
@@ -209,7 +208,7 @@ class QuoteItem(
 
     }
 
-    private fun listenButtons(views: List<View>) {
+    private fun listenButtons(context: Context, views: List<View>) {
         // does the appropriate action depending on which button was clicked!
         for (button in views)
             button.setOnClickListener {

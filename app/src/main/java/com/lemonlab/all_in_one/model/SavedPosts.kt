@@ -32,7 +32,7 @@ interface SavedPostsDao {
 
 // Annotates class to be a Room Database with a table (entity) of the Word class
 @Database(entities = [SavedPost::class], version = 1, exportSchema = false)
-public abstract class SavedPostsRoomDatabase : RoomDatabase() {
+abstract class SavedPostsRoomDatabase : RoomDatabase() {
 
     abstract fun savedPostsDao(): SavedPostsDao
 

@@ -55,7 +55,7 @@ class UsersTextsFragment : Fragment() {
             oldStatuses = it
             adapter.clear()
             for (item in it)
-                adapter.add(UserStatusItem(item, context!!))
+                adapter.add(UserStatusItem(item))
 
         })
 

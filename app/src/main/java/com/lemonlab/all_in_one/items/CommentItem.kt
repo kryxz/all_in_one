@@ -84,7 +84,7 @@ class CommentItem(private val comment: Comment) :
                 setTextColor(ContextCompat.getColor(context, R.color.darkGreen))
             else
                 setTextColor(ContextCompat.getColor(context, R.color.darkBlue))
-            
+
             setOnClickListener {
                 val visibility = view.comment_details_view.visibility
                 view.comment_details_view.visibility = if (visibility == View.GONE)

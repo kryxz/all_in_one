@@ -102,10 +102,7 @@ class ChatFragment : Fragment() {
             userUid = FirebaseAuth.getInstance().uid.toString(),
             timestamp = Timestamp(System.currentTimeMillis())
         )
-        val chatItem = ChatItem(
-            message = message,
-            context = context!!
-        )
+        val chatItem = ChatItem(message = message)
 
         adapter.add(chatItem)
         slideToLastMessage()
@@ -139,8 +136,7 @@ class ChatFragment : Fragment() {
                                 userUid = doc.data!!["userUid"].toString(),
                                 username = doc.data!!["username"].toString(),
                                 timestamp = Timestamp(0)//TODO:: Some work here
-                            ),
-                            context = context!!
+                            )
                         )
                     )
                 }

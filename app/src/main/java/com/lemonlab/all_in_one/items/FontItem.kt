@@ -7,8 +7,10 @@ import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.font_item_view.view.*
 
-class FontItem(private var fontFace: Typeface, private var action:(Typeface)-> Unit,
-               private var dialog: AlertDialog):Item<ViewHolder>() {
+class FontItem(
+    private var fontFace: Typeface, private var action: (Typeface) -> Unit,
+    private var dialog: AlertDialog
+) : Item<ViewHolder>() {
     override fun getLayout(): Int {
         return R.layout.font_item_view
     }

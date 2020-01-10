@@ -13,19 +13,18 @@ import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.settings_item_text.view.*
 
-enum class Option {
-    ClearCache,
-    SignOut,
-    DarkTheme,
-    MoreApps,
-    PrivacyPolicy,
-    FAQ,
+enum class Option(val textID: Int) {
+    ClearCache(R.string.cache_deleted),
+    SignOut(R.string.signOut),
+    DarkTheme(R.string.darkMode),
+    MoreApps(R.string.moreApps),
+    PrivacyPolicy(R.string.privacyPolicyTitleAr),
+    FAQ(R.string.faq),
 
 }
 
 
 class SettingsItem(
-    private val text: String,
     private val option: Option
 ) :
     Item<ViewHolder>() {
@@ -37,14 +36,13 @@ class SettingsItem(
         val view = viewHolder.itemView
         val textView = view.settingsTextView
         val switch = view.settingsSwitch
-
         fun setIcon(icon: Int) {
             val drawable = ContextCompat.getDrawable(view.context, icon)!!
             textView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
         }
 
 
-        textView.text = text
+        textView.text = view.context.getString(option.textID)
 
         when (option) {
             Option.ClearCache -> {

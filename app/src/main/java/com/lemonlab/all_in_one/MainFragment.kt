@@ -9,10 +9,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import com.lemonlab.all_in_one.extensions.hideKeypad
 import com.lemonlab.all_in_one.extensions.makeTheUserOnline
-import com.lemonlab.all_in_one.items.Category
-import com.lemonlab.all_in_one.items.CategoryItem
-import com.lemonlab.all_in_one.items.FavItem
-import com.lemonlab.all_in_one.items.UsersTextsItem
+import com.lemonlab.all_in_one.items.MainFragmentItem
+import com.lemonlab.all_in_one.items.MainItem
 import com.lemonlab.all_in_one.model.Favorite
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
@@ -54,86 +52,30 @@ class MainFragment : Fragment() {
     }
 
 
-    private fun makeItem(text: String, category: Category): CategoryItem {
-        return CategoryItem(
-            context!!,
-            text, category
-        )
-    }
-
     private fun init() {
         val adapter = GroupAdapter<ViewHolder>()
         val favoritesViewModel =
             ViewModelProviders.of(this)[FavoritesViewModel::class.java]
 
 
-        addCategories(adapter)
-        category_rv.adapter = adapter
+        addItems(adapter)
+        main_rv.adapter = adapter
         favoritesViewModel.allFavorites.observe(this, Observer<List<Favorite>> { fav ->
             // update UI
             adapter.clear()
             if (fav.isNotEmpty())
-                adapter.add(FavItem(context!!))
-            addCategories(adapter)
+                adapter.add(MainFragmentItem(MainItem.Favorites))
+            addItems(adapter)
         })
 
     }
 
-    private fun addCategories(adapter: GroupAdapter<ViewHolder>) {
-        adapter.add(UsersTextsItem(context!!))
-        adapter.add(
-            makeItem(
-                getString(R.string.wisdom),
-                Category.Wisdom
-            )
-        )
-        adapter.add(
-            makeItem(
-                getString(R.string.friendship),
-                Category.Friendship
-            )
-        )
-        adapter.add(
-            makeItem(
-                getString(R.string.sadness),
-                Category.Sadness
-            )
-        )
-        adapter.add(
-            makeItem(
-                getString(R.string.islam),
-                Category.Islam
-            )
-        )
-        adapter.add(
-            makeItem(
-                getString(R.string.other),
-                Category.Other
-            )
-        )
-        adapter.add(
-            makeItem(
-                getString(R.string.morning),
-                Category.Morning
-            )
-        )
-        adapter.add(
-            makeItem(
-                getString(R.string.afternoon),
-                Category.Afternoon
-            )
-        )
-        adapter.add(
-            makeItem(
-                getString(R.string.love),
-                Category.Love
-            )
-        )
-        adapter.add(
-            makeItem(
-                getString(R.string.winter),
-                Category.Winter
-            )
-        )
+    private fun addItems(adapter: GroupAdapter<ViewHolder>) {
+        adapter.add(MainFragmentItem(MainItem.Quotes))
+        adapter.add(MainFragmentItem(MainItem.UsersTexts))
+        adapter.add(MainFragmentItem(MainItem.Pictures))
+
     }
+
+
 }

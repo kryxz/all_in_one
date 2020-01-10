@@ -1,6 +1,5 @@
 package com.lemonlab.all_in_one.items
 
-import android.content.Context
 import androidx.appcompat.widget.AppCompatImageView
 import com.lemonlab.all_in_one.FavoritesFragment
 import com.lemonlab.all_in_one.R
@@ -13,7 +12,6 @@ import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.favorite_item.view.*
 
 class FavoriteItem(
-    private val context: Context,
     private val favorite: Favorite,
     indices: Pair<Int, Int>
 ) :
@@ -27,7 +25,7 @@ class FavoriteItem(
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
         val view = viewHolder.itemView
-
+        val context = view.context
         view.fav_text_tv.text = context.highlightText(text)
         view.fav_text_image.setImageResource(pic)
 

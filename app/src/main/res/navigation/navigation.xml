@@ -14,14 +14,14 @@
             android:id="@+id/mainToSettings"
             app:destination="@id/settingsFragment" />
         <action
-            android:id="@+id/mainToQuotes"
-            app:destination="@id/localQuotesFragment" />
-        <action
             android:id="@+id/mainToFavorites"
             app:destination="@id/favoritesFragment" />
         <action
             android:id="@+id/mainToUsersTexts"
             app:destination="@id/usersTextsFragment" />
+        <action
+            android:id="@+id/mainToCategories"
+            app:destination="@id/allCategoriesFragment" />
     </fragment>
     <fragment
         android:id="@+id/sendFragment"
@@ -119,6 +119,15 @@
     <fragment
         android:id="@+id/sendImageFragment"
         android:name="com.lemonlab.all_in_one.SendImageFragment"
-        android:label="fragment_send_image"
+        android:label="@string/sendImage"
         tools:layout="@layout/fragment_send_image" />
+    <fragment
+        android:id="@+id/allCategoriesFragment"
+        android:name="com.lemonlab.all_in_one.AllCategoriesFragment"
+        android:label="@string/all_categories"
+        tools:layout="@layout/fragment_all_categories">
+        <action
+            android:id="@+id/categoryToQuotes"
+            app:destination="@id/localQuotesFragment" />
+    </fragment>
 </navigation>

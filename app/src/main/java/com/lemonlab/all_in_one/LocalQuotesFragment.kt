@@ -64,7 +64,7 @@ class LocalQuotesFragment : Fragment() {
 
 
         for (quote in list)
-            adapter.add(QuoteItem(context!!, quote, category))
+            adapter.add(QuoteItem(quote, category))
 
 
         favoritesViewModel.allFavorites.observe(this, Observer<List<Favorite>> { fav ->

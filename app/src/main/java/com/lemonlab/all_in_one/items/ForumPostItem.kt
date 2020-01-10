@@ -21,8 +21,7 @@ import kotlinx.android.synthetic.main.forum_post_item.view.*
 
 
 class ForumPostItem(
-    private val forumPost: ForumPost,
-    private val context: Context
+    private val forumPost: ForumPost
 ) :
     Item<ViewHolder>() {
 
@@ -37,7 +36,7 @@ class ForumPostItem(
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
         val view = viewHolder.itemView
-
+        val context = view.context
         view.forum_post_card.setOnClickListener {
             it.findNavController()
                 .navigate(ForumFragmentDirections.forumToThisPost(forumPost.postID))
@@ -102,7 +101,7 @@ class ForumPostItem(
 
             // report and save
             buttonsListener(
-                listOf(
+                context, listOf(
                     forum_post_item_save,
                     forum_post_item_report
                 )
@@ -150,7 +149,7 @@ class ForumPostItem(
 
     }
 
-    private fun buttonsListener(buttons: List<View>) {
+    private fun buttonsListener(context: Context, buttons: List<View>) {
         // sends report to database. does nothing if exists.
         fun addReport() {
             forumPost.report(thisUserID)

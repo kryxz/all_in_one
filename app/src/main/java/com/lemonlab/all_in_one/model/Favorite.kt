@@ -52,7 +52,7 @@ class CategoryConverter {
 // Annotates class to be a Room Database with a table (entity) of the Word class
 @Database(entities = [Favorite::class], version = 1, exportSchema = false)
 @TypeConverters(CategoryConverter::class)
-public abstract class FavoritesRoomDatabase : RoomDatabase() {
+abstract class FavoritesRoomDatabase : RoomDatabase() {
 
     abstract fun favoriteDao(): FavoriteDao
 

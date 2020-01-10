@@ -481,7 +481,7 @@ class CreateFragment : Fragment() {
             for (code in emojiCodes) {
                 adapter.add(
                     StickerItem(
-                        context!!, code, ::getDataFromStickerItem,
+                        code, ::getDataFromStickerItem,
                         dialog = dialogBuilder, spanCount = spanCount
                     )
                 )

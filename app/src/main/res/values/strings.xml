@@ -54,6 +54,7 @@
     <string name="profile">الملف الشخصي</string>
     <string name="changeBackground">تغير الخلفية</string>
     <string name="selectImage">اختيار صورة</string>
+    <string name="sendImage">إرسال صورة</string>
 
 
     <string name="confirm">تأكيد</string>
@@ -162,6 +163,9 @@
     </string-array>
 
     <string name="logout">تسجيل الخروج</string>
+    <string name="darkMode">الوضع الليلي</string>
+    <string name="faq">أسئلة متكررة</string>
+    <string name="moreApps">المزيد من التطبيقات</string>
     <string name="logout_confirm">هل أنت متأكد من رغبتك في تسجيل الخروج</string>
 
 
@@ -328,6 +332,8 @@
         If you have any questions or suggestions about our Privacy Policy، do not hesitate to contact us at
         zaka7024@gmail.com.\n
     </string>
+    <string name="pictures">حالات صور</string>
+    <string name="all_categories">جميع التصنيفات</string>
 
 
 </resources>

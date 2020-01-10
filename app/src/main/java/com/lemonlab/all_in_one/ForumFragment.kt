@@ -88,7 +88,7 @@ class ForumFragment : Fragment() {
             }
 
             for (item in it)
-                adapter.add(ForumPostItem(item, context!!))
+                adapter.add(ForumPostItem(item))
         }
 
         postsViewModel.getPosts().observe(this, observer)

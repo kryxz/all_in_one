@@ -27,7 +27,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
     override fun onPause() {
         val uid = FirebaseAuth.getInstance().uid
 
