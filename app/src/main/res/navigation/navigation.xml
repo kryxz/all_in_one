@@ -130,4 +130,9 @@
             android:id="@+id/categoryToQuotes"
             app:destination="@id/localQuotesFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/picturesFragment"
+        android:name="com.lemonlab.all_in_one.PicturesFragment"
+        android:label="fragment_pictures"
+        tools:layout="@layout/fragment_pictures" />
 </navigation>

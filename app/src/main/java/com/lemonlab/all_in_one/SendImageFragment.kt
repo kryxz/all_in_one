@@ -113,7 +113,9 @@ class SendImageFragment : Fragment() {
         val ref = FirebaseStorage.getInstance().reference.child("$uid.png")
 
         ref.putBytes(data).addOnSuccessListener {
-            saveImageUrl(it.uploadSessionUri.toString())
+            ref.downloadUrl.addOnSuccessListener {
+                saveImageUrl(it.toString())
+            }
         }
     }
 
@@ -123,8 +125,14 @@ class SendImageFragment : Fragment() {
         val image = UserStatusImage(url, Timestamp(System.currentTimeMillis()), id!!)
 
         ref.collection("users_images").add(image).addOnSuccessListener {
-            Toast.makeText(context!!, resources.getString(R.string.statusImageUploaded), Toast.LENGTH_LONG)
-                .show()
+            if(context != null){
+                Toast.makeText(context!!, resources.getString(R.string.statusImageUploaded), Toast.LENGTH_LONG)
+                    .show()
+
+                // clear image view
+                send_image_text_hint.visibility = View.VISIBLE
+                send_image_image_view.setImageDrawable(context!!.getDrawable(R.drawable.rounded_send_image))
+            }
         }
     }
 }

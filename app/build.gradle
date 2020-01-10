@@ -47,6 +47,9 @@ dependencies {
     // pickers
     implementation "dev.sasikanth:colorsheet:1.0.1"
 
+    // picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
     // FireBase
     // implementation 'com.google.firebase:firebase-ads:18.3.0'
     implementation 'com.google.firebase:firebase-messaging:20.1.0'

@@ -80,7 +80,7 @@ class MainFragmentItem(private val mainItem: MainItem) :
                         .navigate(MainFragmentDirections.mainToUsersTexts())
                 }
                 MainItem.Pictures -> {
-                    // TODO: navigate to pictures fragment
+                    it.findNavController().navigate(R.id.picturesFragment)
                 }
                 MainItem.Quotes -> {
                     it.findNavController()
