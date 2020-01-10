@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/closeSavedPosts"
-        android:icon="@drawable/ic_exit"
+        android:icon="@drawable/ic_cancel"
         android:title="@string/cancel"
         app:showAsAction="always" />
 

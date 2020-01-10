@@ -15,7 +15,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:tint="@color/black"
-            app:srcCompat="@drawable/ic_exit"/>
+            app:srcCompat="@drawable/ic_cancel" />
         <TextView
             android:id="@+id/textView3"
             android:layout_width="match_parent"

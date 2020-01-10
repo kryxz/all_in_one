@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
-import com.google.firebase.auth.FirebaseAuth
+import com.lemonlab.all_in_one.extensions.hideKeypad
 import com.lemonlab.all_in_one.extensions.makeTheUserOnline
 import com.lemonlab.all_in_one.items.Category
 import com.lemonlab.all_in_one.items.CategoryItem
@@ -33,6 +33,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // View created successfully. Call any methods here.
         init()
+        activity!!.hideKeypad(view)
         makeTheUserOnline()
         super.onViewCreated(view, savedInstanceState)
     }
@@ -49,14 +50,7 @@ class MainFragment : Fragment() {
         // the direction is created in navigation.xml
             view!!.findNavController().navigate(MainFragmentDirections.mainToSettings())
 
-        if (item.itemId == R.id.signOut)
-            signOut()
-
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun signOut() {
-        FirebaseAuth.getInstance().signOut()
     }
 
 
