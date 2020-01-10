@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:layoutDirection="ltr"
     android:orientation="vertical"
+    android:background="?backgroundColor"
     tools:context=".PostFragment">
 
     <androidx.core.widget.ContentLoadingProgressBar
@@ -31,34 +32,32 @@
                 android:layout_margin="8dp"
                 android:background="@drawable/edit_text_rounded"
                 android:drawableEnd="@drawable/ic_create"
+                android:textColor="?textColor"
                 android:gravity="center"
                 android:hint="@string/app_name"
                 android:maxLength="64"
                 android:maxLines="1"
                 android:padding="8dp"
-                android:textColor="@color/black"
+                android:textColorHint="@color/superBlack"
                 android:textDirection="rtl"
                 android:textSize="26sp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_margin="8dp"
-                android:background="@color/black"
-                android:padding="2dp" />
+            <View style="@style/view_divider_style" />
+
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/forum_post_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:textColor="?textColor"
                 android:background="@drawable/edit_text_rounded"
                 android:drawableEnd="@drawable/ic_textsms"
                 android:drawablePadding="4dp"
                 android:hint="@string/text_sample"
                 android:lineSpacingExtra="4pt"
                 android:padding="8dp"
-                android:textColor="@color/black"
+                android:textColorHint="@color/superBlack"
                 android:textDirection="rtl"
                 android:textSize="20sp" />
 
@@ -73,11 +72,12 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:layout_weight="1"
-                    android:background="@drawable/edit_text_rounded"
+                    android:background="?colorPrimary"
+                    android:drawablePadding="2dp"
                     android:drawableStart="@drawable/ic_delete_x"
                     android:padding="8dp"
-                    android:text="حذف النص"
-                    android:textColor="@color/black"
+                    android:text="@string/delete_text"
+                    android:textColor="@color/white"
                     android:textSize="18sp" />
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -86,11 +86,12 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:layout_weight="1"
-                    android:background="@drawable/edit_text_rounded"
+                    android:background="?colorPrimary"
                     android:drawableStart="@drawable/ic_send"
                     android:padding="8dp"
-                    android:text="نشر"
-                    android:textColor="@color/black"
+                    android:drawablePadding="2dp"
+                    android:text="@string/post"
+                    android:textColor="@color/white"
                     android:textSize="18sp" />
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -99,12 +100,13 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:layout_weight="1"
-                    android:background="@drawable/edit_text_rounded"
+                    android:background="?colorPrimary"
+                    android:drawablePadding="2dp"
                     android:drawableStart="@drawable/ic_eye"
                     android:padding="8dp"
-                    android:text="معاينة المنشور"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:text="@string/preview_text"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -114,30 +116,25 @@
                 android:background="@null"
                 android:drawableEnd="@drawable/ic_check_circle"
                 android:drawablePadding="8dp"
-                android:hint="@string/text_sample"
+                android:text="@string/text_sample"
                 android:padding="8dp"
                 android:textIsSelectable="false"
-                android:textColor="@color/black"
+                android:textColor="?textColor"
                 android:textSize="18sp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@null"
                 android:drawableEnd="@drawable/ic_check_circle"
                 android:drawablePadding="8dp"
-                android:hint="@string/text_sample"
+                android:text="@string/text_sample"
                 android:padding="8dp"
                 android:textIsSelectable="false"
-                android:textColor="@color/black"
+                android:textColor="?textColor"
                 android:textSize="18sp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_margin="8dp"
-                android:background="@color/black"
-                android:padding="2dp" />
+            <View style="@style/view_divider_style" />
+
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

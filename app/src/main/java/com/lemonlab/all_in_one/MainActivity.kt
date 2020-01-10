@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setDarkOrLight()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         navController = Navigation.findNavController(this, R.id.navHost)
@@ -26,6 +27,15 @@ class MainActivity : AppCompatActivity() {
         window.decorView.layoutDirection = View.LAYOUT_DIRECTION_RTL
     }
 
+
+    private fun setDarkOrLight() {
+        val sharedPrefs = getSharedPreferences("UserPrefs", 0)
+        val isDarkTheme = sharedPrefs.getBoolean("isDarkTheme", false)
+        if (isDarkTheme)
+            setTheme(R.style.DarkAppTheme)
+        else
+            setTheme(R.style.LightAppTheme)
+    }
 
     override fun onPause() {
         val uid = FirebaseAuth.getInstance().uid

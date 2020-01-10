@@ -2,6 +2,7 @@
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?backgroundColor"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -11,8 +12,9 @@
         android:layout_margin="8dp"
         android:gravity="center_horizontal"
         android:text="@string/app_name"
-        android:textColor="@color/colorPrimary"
-        android:textSize="24sp" />
+        android:textColor="?textColor"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/dialogMessageText"
@@ -21,7 +23,7 @@
         android:gravity="center_horizontal"
         android:padding="8dp"
         android:text="@string/text_sample"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="?textColor"
         android:textSize="20sp" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -36,9 +38,11 @@
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
             android:layout_weight="1"
-            android:background="@drawable/edit_text_rounded"
+            android:background="?buttonColor"
             android:text="@string/confirm"
-            android:textColor="@color/colorPrimaryDark"
+            android:padding="8dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
             android:textSize="20sp" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -48,9 +52,12 @@
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
             android:layout_weight="1"
-            android:background="@drawable/edit_text_rounded"
+            android:background="?buttonColor"
+            android:padding="8dp"
             android:text="@string/cancel"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/white"
+            android:textStyle="bold"
             android:textSize="20sp" />
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.appcompat.widget.LinearLayoutCompat>

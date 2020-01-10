@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?backgroundColor"
     android:orientation="vertical">
 
     <androidx.core.widget.ContentLoadingProgressBar
@@ -13,8 +14,8 @@
         android:visibility="gone" />
 
     <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
         android:id="@+id/viewPostFragmentView"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -32,6 +33,7 @@
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="?backgroundColor"
                     android:layoutDirection="rtl"
                     android:orientation="vertical">
 
@@ -42,7 +44,7 @@
                         android:gravity="start"
                         android:padding="8dp"
                         android:text="@string/app_name"
-                        android:textColor="@color/black"
+                        android:textColor="?textColor"
                         android:textDirection="rtl"
                         android:textSize="26sp"
                         android:textStyle="bold" />
@@ -54,7 +56,7 @@
                         android:gravity="start"
                         android:padding="8dp"
                         android:text="@string/text_sample"
-                        android:textColor="@color/greyDark"
+                        android:textColor="?textColor"
                         android:textDirection="rtl"
                         android:textSize="20sp" />
 
@@ -78,7 +80,7 @@
                     android:layout_weight="1"
                     android:gravity="start"
                     android:text="@string/app_name"
-                    android:textColor="@color/black"
+                    android:textColor="?textColor"
                     android:textDirection="rtl"
                     android:textStyle="bold" />
 
@@ -90,7 +92,7 @@
                     android:layout_weight="1"
                     android:padding="4dp"
                     android:text="@string/date_sample"
-                    android:textColor="@color/greyDark"
+                    android:textColor="?textColor"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
@@ -101,37 +103,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <androidx.appcompat.widget.AppCompatEditText
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/view_post_delete"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:layout_weight="1"
-                    android:background="@null"
-                    android:cursorVisible="false"
-                    android:drawableStart="@drawable/ic_delete_x"
                     android:drawablePadding="8dp"
-                    android:focusable="false"
-                    android:inputType="none"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
+                    android:src="@drawable/ic_delete_x"
+                    android:tint="?iconColor"
                     android:visibility="gone" />
 
 
-                <androidx.appcompat.widget.AppCompatEditText
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/view_post_report"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:layout_weight="1"
-                    android:background="@null"
-                    android:cursorVisible="false"
-                    android:drawableStart="@drawable/ic_report"
                     android:drawablePadding="8dp"
-                    android:focusable="false"
-                    android:inputType="none"
                     android:paddingStart="8dp"
-                    android:paddingEnd="8dp" />
+                    android:paddingEnd="8dp"
+                    android:src="@drawable/ic_report"
+                    android:tint="?iconColor" />
+
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/view_post_dislike"
@@ -159,28 +156,22 @@
                     android:focusable="false"
                     android:inputType="none" />
 
-                <androidx.appcompat.widget.AppCompatEditText
+
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/view_post_save"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:layout_weight="1"
-                    android:background="@null"
-                    android:cursorVisible="false"
-                    android:drawableStart="@drawable/ic_bookmark_border"
                     android:drawablePadding="8dp"
-                    android:focusable="false"
-                    android:inputType="none" />
-
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:src="@drawable/ic_report"
+                    android:tint="?iconColor" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_margin="8dp"
-                android:background="@color/colorPrimaryDark"
-                android:padding="4dp" />
+            <View style="@style/view_divider_style" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -192,13 +183,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:background="@drawable/edit_text_rounded"
+                    android:background="?buttonColor"
                     android:drawableStart="@drawable/ic_textsms"
                     android:drawablePadding="8dp"
                     android:padding="8dp"
                     android:text="@string/post"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/view_post_comment_text"
@@ -210,8 +202,8 @@
                     android:hint="@string/app_name"
                     android:minHeight="30dp"
                     android:padding="8dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/greyDark" />
+                    android:textColor="?textColor"
+                    android:textColorHint="?textHintColor" />
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -222,7 +214,7 @@
                 android:gravity="center_horizontal"
                 android:padding="8dp"
                 android:text="@string/comments"
-                android:textColor="@color/black"
+                android:textColor="?textColor"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -239,8 +231,9 @@
                 android:gravity="center_horizontal"
                 android:padding="8dp"
                 android:text="@string/no_comments"
-                android:textColor="@color/black"
+                android:textColor="?textColor"
                 android:textSize="20sp"
+                android:textDirection="rtl"
                 android:textStyle="bold"
                 android:visibility="gone" />
 

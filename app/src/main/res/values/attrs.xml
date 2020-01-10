@@ -3,12 +3,11 @@
     <declare-styleable name="no">
         <attr name="backgroundColor" format="color" />
         <attr name="buttonColor" format="color"/>
-        <attr name="uploadButtonColor" format="color"/>
         <attr name="textColor" format="color" />
         <attr name="textHintColor" format="color" />
+        <attr name="buttonTextColor" format="color" />
         <attr name="editTextBackgroundColor" format="color"/>
         <attr name="iconColor" format="color"/>
-        <attr name="FAQAnswerTextColor" format="color"/>
         <attr name="colorOnSurface" format="color"/>
     </declare-styleable>
 </resources>

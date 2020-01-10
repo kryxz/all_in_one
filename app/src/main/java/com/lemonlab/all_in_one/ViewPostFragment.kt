@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -103,11 +102,11 @@ class ViewPostFragment : Fragment() {
             savedPosts = it
         })
 
-        val saved = ContextCompat.getDrawable(context!!, R.drawable.ic_bookmark)
+        val saved = R.drawable.ic_bookmark
 
 
         if (savedPosts.contains(postID))
-            view_post_save.setCompoundDrawablesWithIntrinsicBounds(null, null, saved, null)
+            view_post_save.setImageResource(saved)
 
         initAdapter(postID)
     }
@@ -144,18 +143,18 @@ class ViewPostFragment : Fragment() {
         view_post_like.setText(post.likesCount().toString())
 
         // set bookmarked if post is saved!
-        val saved = ContextCompat.getDrawable(context!!, R.drawable.ic_bookmark)
-        val notSaved = ContextCompat.getDrawable(context!!, R.drawable.ic_bookmark_border)
+        val saved = R.drawable.ic_bookmark
+        val notSaved = R.drawable.ic_bookmark_border
         val thisUserID = postsViewModel.getUserID()
 
         fun deletePost() {
             postsViewModel.removePost(postID)
-            view_post_save.setCompoundDrawablesWithIntrinsicBounds(null, null, notSaved, null)
+            view_post_save.setImageResource(notSaved)
         }
 
         fun savePost() {
             postsViewModel.savePost(postID)
-            view_post_save.setCompoundDrawablesWithIntrinsicBounds(null, null, saved, null)
+            view_post_save.setImageResource(saved)
 
         }
 

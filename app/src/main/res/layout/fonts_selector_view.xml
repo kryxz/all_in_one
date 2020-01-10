@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="?backgroundColor"
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -21,6 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:textColor="?textColor"
             android:text="@string/select_fonts"
             android:textAlignment="center"
             android:textSize="28sp" />

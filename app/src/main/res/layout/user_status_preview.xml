@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="?backgroundColor"
     android:padding="8dp">
 
 
@@ -67,7 +68,7 @@
             android:layout_weight="1"
             android:padding="4dp"
             android:text="@string/app_name"
-            android:textColor="@color/black"
+            android:textColor="?textColor"
             android:textSize="15sp"
             android:textStyle="bold" />
 
@@ -79,7 +80,7 @@
             android:layout_weight="1"
             android:padding="4dp"
             android:text="@string/app_name"
-            android:textColor="@color/black"
+            android:textColor="?textColor"
             android:textSize="12sp"
             android:textStyle="bold" />
 
@@ -93,19 +94,14 @@
             android:drawablePadding="8dp"
             android:padding="4dp"
             android:text="@string/app_name"
-            android:textColor="@color/black"
+            android:textColor="?textColor"
             android:textSize="15sp"
             android:textStyle="bold" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:layout_margin="4dp"
-        android:background="@color/colorPrimaryDark"
-        android:padding="4dp" />
+    <View style="@style/view_divider_style" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/preview_status_done_btn"
@@ -114,10 +110,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:layout_weight="1"
-        android:background="@color/grey"
+        android:background="?buttonColor"
         android:padding="8dp"
         android:text="@string/okay"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="24sp" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

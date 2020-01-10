@@ -121,6 +121,7 @@
     <string name="report_comment">الإبلاغ عن التعليق</string>
     <string name="no_comments">يبدو أن المكان هادئٌ جدًا هنا…</string>
     <string name="cache_deleted">سيتم حذف البيانات المؤقتة</string>
+    <string name="cache_delete"> حذف البيانات المؤقتة</string>
 
     <string-array name="categoryEn">
         <item>Wisdom</item>
@@ -156,9 +157,9 @@
     </string-array>
 
     <string-array name="statusColors">
-        <item>أزرق داكن</item>
-        <item>أرجواني</item>
-        <item>أخضر داكن</item>
+        <item>أزرق</item>
+        <item>أحمر</item>
+        <item>أخضر</item>
         <item>رمادي</item>
     </string-array>
 
@@ -334,6 +335,11 @@
     </string>
     <string name="pictures">حالات صور</string>
     <string name="all_categories">جميع التصنيفات</string>
+    <string name="delete_text">حذف النص</string>
+    <string name="preview_text">معاينة المنشور</string>
+    <string name="tap_to_choose_image">انقر لاختيار أو تغيير الصّورة</string>
+    <string name="change_app_color">تغيير لون التطبيق</string>
+    <string name="app_will_restart">للمتابعة، سيتم إعادة تشغيل التطبيق</string>
 
 
 </resources>

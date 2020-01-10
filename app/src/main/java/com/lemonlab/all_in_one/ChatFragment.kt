@@ -63,7 +63,7 @@ class ChatFragment : Fragment() {
 
         // hide replay view
         chat_rv.setOnClickListener {
-            chat_replay_view.visibility = View.GONE
+            //  chat_replay_view.visibility = View.GONE
         }
     }
 
@@ -173,6 +173,6 @@ class ChatFragment : Fragment() {
     }
 
     private fun onLongLickChatItemTrigger(message: Message){
-        chat_replay_view.visibility = View.VISIBLE
+        //chat_replay_view.visibility = View.VISIBLE
     }
 }

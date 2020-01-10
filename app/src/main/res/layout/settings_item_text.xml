@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layoutDirection="rtl"
+    android:background="?backgroundColor"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -20,7 +21,7 @@
             android:drawablePadding="8dp"
             android:padding="8dp"
             android:text="@string/app_name"
-            android:textColor="@color/black"
+            android:textColor="?textColor"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -36,12 +37,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="0.8dp"
-        android:layout_margin="8dp"
-        android:background="@color/black"
-        android:padding="4dp" />
+    <View style="@style/view_divider_style" />
 
 
 </LinearLayout>

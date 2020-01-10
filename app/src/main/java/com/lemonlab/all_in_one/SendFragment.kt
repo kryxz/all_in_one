@@ -2,6 +2,7 @@ package com.lemonlab.all_in_one
 
 
 import android.app.AlertDialog
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
@@ -112,7 +114,7 @@ class SendFragment : Fragment() {
                 ContextCompat.getColor(
                     context!!,
                     colors[index].value
-                ), android.graphics.PorterDuff.Mode.SRC_IN
+                ), PorterDuff.Mode.SRC_IN
             )
         }
 
@@ -164,6 +166,7 @@ class SendFragment : Fragment() {
             if (text.isEmpty()) return@setOnClickListener
 
 
+            tintDrawable(likesTextView)
             dialogBuilder.setView(dialogView)
             dialogBuilder.show()
 
@@ -180,6 +183,18 @@ class SendFragment : Fragment() {
 
         }
 
+
+    }
+
+    private fun tintDrawable(editText: AppCompatTextView) {
+        var drawable = ContextCompat.getDrawable(context!!, R.drawable.ic_favorite)
+        drawable = DrawableCompat.wrap(drawable!!)
+        DrawableCompat.setTint(
+            drawable,
+            ContextCompat.getColor(context!!, statusColor.value)
+        )
+        DrawableCompat.setTintMode(drawable, PorterDuff.Mode.SRC_IN)
+        editText.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null)
 
     }
 

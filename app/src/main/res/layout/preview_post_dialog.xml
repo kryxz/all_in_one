@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="?backgroundColor"
     android:padding="8dp">
 
 
@@ -16,6 +17,7 @@
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
+            android:background="?backgroundColor"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
@@ -26,7 +28,7 @@
                 android:gravity="start"
                 android:padding="8dp"
                 android:text="@string/app_name"
-                android:textColor="@color/black"
+                android:textColor="?textColor"
                 android:textSize="21sp"
                 android:textStyle="bold" />
 
@@ -38,7 +40,7 @@
                 android:maxLength="64"
                 android:padding="8dp"
                 android:text="@string/text_sample"
-                android:textColor="@color/greyDark"
+                android:textColor="?textColor"
                 android:textSize="16sp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -54,6 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_weight="1"
+            android:tint="?iconColor"
             android:src="@drawable/ic_delete_x"
             android:visibility="gone" />
 
@@ -62,6 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_weight="1"
+            android:tint="?iconColor"
             android:src="@drawable/ic_report" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -83,17 +87,13 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_weight="1"
+            android:tint="?iconColor"
             android:src="@drawable/ic_bookmark_border" />
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:layout_margin="4dp"
-        android:background="@color/colorPrimaryDark"
-        android:padding="4dp" />
+    <View style="@style/view_divider_style" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -108,10 +108,10 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:background="@color/grey"
+            android:background="?buttonColor"
             android:padding="8dp"
             android:text="@string/okay"
-            android:textColor="@color/black"
+            android:textColor="?textColor"
             android:textSize="24sp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

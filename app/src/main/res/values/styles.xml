@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -9,9 +9,70 @@
 
         <!-- Color Picker -->
         <item name="colorSheetTitleFont">@font/aram</item>
-        <item name="colorSheetTitleLineHeightHint">100dp</item> // in sp
+        <item name="colorSheetTitleLineHeightHint">100dp</item>
         <item name="colorSheetTitleLetterSpacing">0</item>
     </style>
+
+
+    <!-- Light application theme. -->
+    <style name="LightAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!-- Colors used in this theme -->
+        <item name="backgroundColor">@color/white</item>
+        <item name="textHintColor">@color/greyDark</item>
+        <item name="buttonColor">@color/colorPrimaryDark</item>
+        <item name="textColor">#070404</item>
+        <item name="buttonTextColor">@color/white</item>
+        <item name="editTextBackgroundColor">@color/white</item>
+        <item name="iconColor">#1B1464</item>
+        <item name="actionBarTheme">@style/lightAppBar</item>
+        <item name="colorOnSurface">#636e72</item>
+
+        <!-- Support library compatibility -->
+        <item name="android:windowContentTransitions" tools:ignore="NewApi">true</item>
+        <item name="android:windowTransitionBackgroundFadeDuration" tools:ignore="NewApi">1000
+        </item>
+    </style>
+
+    <style name="lightAppBar" parent="@style/Widget.AppCompat.ActionBar">
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!-- Dark application theme. -->
+    <style name="DarkAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">#636e72</item>
+        <item name="colorPrimaryDark">#2d3436</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!-- Colors used in this theme -->
+        <item name="backgroundColor">#2d3436</item>
+        <item name="buttonColor">#192a56</item>
+        <item name="buttonTextColor">@color/white</item>
+        <item name="textHintColor">@color/grey</item>
+        <item name="textColor">#dfe6e9</item>
+        <item name="editTextBackgroundColor">#636e72</item>
+        <item name="iconColor">#747d8c</item>
+        <item name="colorOnSurface">#636e72</item>
+        <item name="actionBarTheme">@style/darkAppBar</item>
+        <!-- Support library compatibility -->
+        <item name="android:windowContentTransitions" tools:ignore="NewApi">true</item>
+        <item name="android:windowTransitionBackgroundFadeDuration" tools:ignore="NewApi">1000
+        </item>
+
+    </style>
+
+    <style name="darkAppBar" parent="@style/Widget.AppCompat.ActionBar">
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="colorPrimary">#636e72</item>
+        <item name="colorPrimaryDark">#2d3436</item>
+        <item name="colorAccent">#b2bec3</item>
+    </style>
+
 
     <style name="textAboveImageButtonStyle">
         <item name="android:layout_width">wrap_content</item>
@@ -28,6 +89,14 @@
         <item name="android:layout_marginStart">8dp</item>
         <item name="android:layout_marginEnd">8dp</item>
         <item name="android:tint">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="view_divider_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.1dp</item>
+        <item name="android:layout_margin">4dp</item>
+        <item name="android:background">?colorPrimaryDark</item>
+        <item name="android:padding">4dp</item>
     </style>
 
 </resources>

@@ -46,7 +46,7 @@ class SettingsFragment : Fragment() {
 
 
         for (item in options)
-            adapter.add(SettingsItem(item))
+            adapter.add(SettingsItem(item, activity!!))
 
 
     }
