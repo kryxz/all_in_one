@@ -35,7 +35,7 @@
             android:layout_gravity="bottom|start"
             android:layout_margin="16dp"
             android:layout_weight="1"
-            android:background="@color/grey"
+            android:background="@color/transparentGrey"
             android:padding="2dp"
             android:src="@drawable/ic_report"
             android:tint="@color/colorAccent" />
@@ -47,7 +47,7 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             android:layout_weight="1"
-            android:background="@color/grey"
+            android:background="@color/transparentGrey"
             android:padding="2dp"
             android:src="@drawable/ic_arrow_downward"
             android:tint="@color/colorAccent" />
