@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/createSend"
+        android:icon="@drawable/ic_send"
+        android:iconTint="@color/grey"
+        android:title="@string/sendImage"
+        app:showAsAction="ifRoom" />
+
     <item
         android:id="@+id/createCamera"
         android:icon="@drawable/ic_cam"
