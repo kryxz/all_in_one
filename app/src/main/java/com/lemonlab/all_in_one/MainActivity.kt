@@ -73,9 +73,12 @@ class MainActivity : AppCompatActivity() {
             AppBarConfiguration.Builder(fragmentsWithNoBackButton).build()
         )
 
+        val fragmentsWithoutAppBar = listOf(
+            R.id.loginFragment, R.id.registerFragment, R.id.viewImageFragment
+        )
         // hide bottom nav if user is in register or login fragments.
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
-            if (destination.id == R.id.loginFragment || destination.id == R.id.registerFragment)
+            if (fragmentsWithoutAppBar.contains(destination.id))
                 bottom_nav.visibility = View.INVISIBLE
             else
                 bottom_nav.visibility = View.VISIBLE

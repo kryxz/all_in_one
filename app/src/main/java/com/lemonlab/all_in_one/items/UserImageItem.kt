@@ -1,8 +1,10 @@
 package com.lemonlab.all_in_one.items
 
 import android.view.View
+import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.lemonlab.all_in_one.PicturesFragment
+import com.lemonlab.all_in_one.PicturesFragmentDirections
 import com.lemonlab.all_in_one.R
 import com.lemonlab.all_in_one.extensions.showYesNoDialog
 import com.lemonlab.all_in_one.model.UserStatusImage
@@ -29,6 +31,9 @@ class UserImageItem(
         val context = view.context
         val thisUserID = FirebaseAuth.getInstance().uid.toString()
 
+        view.setOnClickListener {
+            it.findNavController().navigate(PicturesFragmentDirections.ViewImageNow(image.url))
+        }
         view.user_image_report.setOnClickListener {
             context.showYesNoDialog(
                 functionToPerform = { image.report(thisUserID) },

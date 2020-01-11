@@ -134,5 +134,18 @@
         android:id="@+id/picturesFragment"
         android:name="com.lemonlab.all_in_one.PicturesFragment"
         android:label="@string/pictures"
-        tools:layout="@layout/fragment_pictures" />
+        tools:layout="@layout/fragment_pictures">
+        <action
+            android:id="@+id/ViewImageNow"
+            app:destination="@id/viewImageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewImageFragment"
+        android:name="com.lemonlab.all_in_one.ViewImageFragment"
+        android:label="fragment_view_image"
+        tools:layout="@layout/fragment_view_image">
+        <argument
+            android:name="URL"
+            app:argType="string" />
+    </fragment>
 </navigation>
