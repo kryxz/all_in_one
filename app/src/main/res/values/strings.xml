@@ -340,6 +340,10 @@
     <string name="tap_to_choose_image">انقر لاختيار أو تغيير الصّورة</string>
     <string name="change_app_color">تغيير لون التطبيق</string>
     <string name="app_will_restart">للمتابعة، سيتم إعادة تشغيل التطبيق</string>
+    <string name="confirm_report_image">هل أنت متأكد أن الصّورة غير لائقة؟</string>
+    <string name="confirm_delete_image">هل أنت متأكد من رغبتك في حذف الصّورة؟</string>
+    <string name="report_image">الإبلاغ عن الصّورة</string>
+    <string name="delete_image">حذف الصورة</string>
 
 
 </resources>

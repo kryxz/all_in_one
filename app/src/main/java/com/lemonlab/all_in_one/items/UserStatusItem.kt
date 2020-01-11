@@ -21,9 +21,8 @@ import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.user_status_item.view.*
 
 
-class UserStatusItem(
-    private val userStatus: UserStatus
-) :
+class UserStatusItem(private val userStatus: UserStatus) :
+
     Item<ViewHolder>() {
 
 
@@ -166,10 +165,10 @@ class UserStatusItem(
 
     private fun favorite() {
         val auth = FirebaseAuth.getInstance()
+
         val thisFavorite = Favorite(
             category = userStatus.category,
-            text = text,
-            hashcode = text.hashCode()
+            text = text, hashcode = text.hashCode()
         )
 
 

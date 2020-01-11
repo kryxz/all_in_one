@@ -1,7 +1,6 @@
 package com.lemonlab.all_in_one
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -67,6 +66,10 @@ class FireStoreRepository {
     }
 
 
+    fun getImagesRef(): CollectionReference {
+        return db.collection("users_images")
+    }
+
 }
 
 class UsersTextsViewModel(application: Application) : AndroidViewModel(application) {
@@ -116,7 +119,6 @@ class UsersTextsViewModel(application: Application) : AndroidViewModel(applicati
 
 
     fun getPost(id: String): MutableLiveData<ForumPost> {
-        Log.i("MutableLiveData", id)
         repository.getPostRef(id).addSnapshotListener { snapshot, e ->
             if (e != null) return@addSnapshotListener
             if (snapshot == null) return@addSnapshotListener
