@@ -37,11 +37,11 @@ class CategoryItem(private val category: Category) :
 }
 
 
-enum class MainItem {
-    Favorites,
-    UsersTexts,
-    Pictures,
-    Quotes
+enum class MainItem(val textID: Int) {
+    Favorites(R.string.favorites),
+    UsersTexts(R.string.usersTexts),
+    Pictures(R.string.pictures),
+    Quotes(R.string.all_categories)
 }
 
 
@@ -59,14 +59,9 @@ class MainFragmentItem(private val mainItem: MainItem) :
 
         view.category_image.setImageResource(pic)
         val context = view.context
-        val text = when (mainItem) {
-            MainItem.Favorites -> context.getString(R.string.favorites)
-            MainItem.UsersTexts -> context.getString(R.string.usersTexts)
-            MainItem.Pictures -> context.getString(R.string.pictures)
-            MainItem.Quotes -> context.getString(R.string.all_categories)
-        }
 
-        view.category_tv.text = context.highlightText(text)
+        view.category_tv.text =
+            context.highlightText(context.getString(mainItem.textID))
 
         view.setOnClickListener {
             when (mainItem) {

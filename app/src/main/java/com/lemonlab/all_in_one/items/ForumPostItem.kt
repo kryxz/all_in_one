@@ -20,9 +20,8 @@ import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.forum_post_item.view.*
 
 
-class ForumPostItem(
-    private val forumPost: ForumPost
-) :
+class ForumPostItem(private val forumPost: ForumPost) :
+
     Item<ViewHolder>() {
 
 

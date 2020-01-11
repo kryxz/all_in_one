@@ -133,6 +133,6 @@
     <fragment
         android:id="@+id/picturesFragment"
         android:name="com.lemonlab.all_in_one.PicturesFragment"
-        android:label="fragment_pictures"
+        android:label="@string/pictures"
         tools:layout="@layout/fragment_pictures" />
 </navigation>

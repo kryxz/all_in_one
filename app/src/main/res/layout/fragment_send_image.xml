@@ -57,7 +57,7 @@
                 android:drawableStart="@drawable/ic_send"
                 android:padding="8dp"
                 android:text="@string/post"
-                android:textColor="?textColor"
+                android:textColor="@color/white"
                 android:textSize="22sp"
                 app:layout_constraintEnd_toEndOf="@+id/send_image_image_view"
                 app:layout_constraintHorizontal_bias="0.5"

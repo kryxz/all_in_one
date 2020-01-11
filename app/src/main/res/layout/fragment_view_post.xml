@@ -166,7 +166,7 @@
                     android:drawablePadding="8dp"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
-                    android:src="@drawable/ic_report"
+                    android:src="@drawable/ic_bookmark_border"
                     android:tint="?iconColor" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>

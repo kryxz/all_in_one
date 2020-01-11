@@ -36,11 +36,11 @@ class SettingsFragment : Fragment() {
         val adapter = GroupAdapter<ViewHolder>()
         settings_rv.adapter = adapter
         val options = listOf(
-            Option.ClearCache,
             Option.DarkTheme,
+            Option.ClearCache,
             Option.SignOut,
-            Option.PrivacyPolicy,
             Option.FAQ,
+            Option.PrivacyPolicy,
             Option.MoreApps
         )
 

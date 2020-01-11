@@ -26,29 +26,41 @@ class FavoriteItem(
     override fun bind(viewHolder: ViewHolder, position: Int) {
         val view = viewHolder.itemView
         val context = view.context
-        view.fav_text_tv.text = context.highlightText(text)
-        view.fav_text_image.setImageResource(pic)
 
-        view.fav_download_btn.setOnClickListener {
-            val bitmap = view.fav_item_layout.getBitmapFromView()
-            QuoteItem.saveImage(bitmap, context)
-        }
+        with(view) {
+            fav_text_tv.text = context.highlightText(text)
+            fav_text_image.setImageResource(pic)
 
-        view.fav_content_btn.setOnClickListener {
-            QuoteItem.copyItem(context = context, text = text, button = it as AppCompatImageView)
-        }
+            val allButtons = listOf(
+                fav_download_btn, fav_content_btn,
+                fav_delete_btn, fav_whats_share_btn,
+                fav_share_btn
+            )
 
-        view.fav_delete_btn.setOnClickListener {
-            deleteFav()
-        }
+            for (button in allButtons) {
+                button.setOnClickListener {
 
-        view.fav_whats_share_btn.setOnClickListener {
-            QuoteItem.shareWhatsApp(text, context)
-        }
+                    when (button) {
 
-        view.fav_share_btn.setOnClickListener {
-            QuoteItem.shareText(text, context)
+                        fav_download_btn ->
+                            QuoteItem.saveImage(view.fav_item_layout.getBitmapFromView(), context)
 
+                        fav_content_btn ->
+                            QuoteItem.copyItem(
+                                context = context, text = text,
+                                button = it as AppCompatImageView
+                            )
+
+                        fav_delete_btn -> deleteFav()
+
+                        fav_whats_share_btn -> QuoteItem.shareWhatsApp(text, context)
+
+                        fav_share_btn -> QuoteItem.shareText(text, context)
+
+
+                    }
+                }
+            }
         }
 
     }

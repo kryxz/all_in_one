@@ -16,9 +16,10 @@ class FontItem(
     }
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
-        val textView = viewHolder.itemView.font_item_text_view
+        val view = viewHolder.itemView
+        val textView = view.font_item_text_view
         textView.typeface = fontFace // change type
-        textView.text = "بسم الله الرحمن الرحيم" //TODO:: change to sample text
+        textView.text = view.context.getString(R.string.app_name)
 
         // pass the text to action and invoke it, this will trigger the action and change the editor
         // current font
