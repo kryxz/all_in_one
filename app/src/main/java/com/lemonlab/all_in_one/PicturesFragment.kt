@@ -1,8 +1,8 @@
 package com.lemonlab.all_in_one
 
 
+import android.app.Activity
 import android.app.Application
-import android.content.Context
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -56,7 +56,7 @@ class PicturesFragment : Fragment() {
             oldSize = it.size
             adapter.clear()
             for (image in it)
-                adapter.add(UserImageItem(image, adapter))
+                adapter.add(UserImageItem(image, adapter, activity!!))
         })
     }
 
@@ -86,18 +86,20 @@ class PicturesViewModel(application: Application) : AndroidViewModel(application
     }
 
 
-    fun saveImage(url: String, context: Context) {
+    fun saveImage(url: String, activity: Activity) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val bitmap = Picasso.get().load(url).get()
                 val uuid = UUID.randomUUID().toString().subSequence(0, 10)
                 MediaStore.Images.Media.insertImage(
-                    context.contentResolver,
+                    activity.contentResolver,
                     bitmap,
-                    context.getString(R.string.app_name) + uuid,
-                    context.getString(R.string.app_name)
+                    activity.getString(R.string.app_name) + uuid,
+                    activity.getString(R.string.app_name)
                 )
-                context.showMessage(context.getString(R.string.image_saved))
+                activity.runOnUiThread {
+                    activity.showMessage(activity.getString(R.string.image_saved))
+                }
             }
         }
 

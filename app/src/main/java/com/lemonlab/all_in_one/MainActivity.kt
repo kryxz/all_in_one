@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         // check if there user logged in
         if (!uid.isNullOrEmpty())
             FirebaseFirestore.getInstance().collection("users").document("$uid")
-                .update("online", "false")
+                .update("online", true)
         super.onPause()
     }
 
@@ -58,7 +58,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpNavigation() {
         bottom_nav.setupWithNavController(navController)
-
         val fragmentsWithNoBackButton = setOf(
             R.id.mainFragment,
             R.id.sendFragment,
@@ -76,6 +75,7 @@ class MainActivity : AppCompatActivity() {
         val fragmentsWithoutAppBar = listOf(
             R.id.loginFragment, R.id.registerFragment, R.id.viewImageFragment
         )
+
         // hide bottom nav if user is in register or login fragments.
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             if (fragmentsWithoutAppBar.contains(destination.id))

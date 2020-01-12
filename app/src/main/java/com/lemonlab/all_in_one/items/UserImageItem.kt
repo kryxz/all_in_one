@@ -1,5 +1,6 @@
 package com.lemonlab.all_in_one.items
 
+import android.app.Activity
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
@@ -19,7 +20,8 @@ import kotlinx.android.synthetic.main.user_image_item.view.*
 
 class UserImageItem(
     private val image: UserStatusImage,
-    private val adapter: GroupAdapter<ViewHolder>
+    private val adapter: GroupAdapter<ViewHolder>,
+    private val activity: Activity
 
 ) :
 
@@ -48,7 +50,7 @@ class UserImageItem(
         }
 
         view.user_image_save.setOnClickListener {
-            PicturesFragment.picturesViewModel.saveImage(image.url, context)
+            PicturesFragment.picturesViewModel.saveImage(image.url, activity = activity)
         }
         if (image.userId == thisUserID) {
             view.user_image_delete.visibility = View.VISIBLE
