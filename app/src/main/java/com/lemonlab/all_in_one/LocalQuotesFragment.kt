@@ -84,7 +84,6 @@ class LocalQuotesFragment : Fragment() {
         activity!!.setFragmentTitle(getString(category.textID))
 
 
-
     fun getStatuses(category: Category, resources: Resources): List<String> {
         return when (category) {
             Category.Wisdom -> resources.getStringArray(R.array.wisdom).toList()
@@ -96,6 +95,11 @@ class LocalQuotesFragment : Fragment() {
             Category.Morning -> resources.getStringArray(R.array.morning).toList()
             Category.Islam -> resources.getStringArray(R.array.islam).toList()
             Category.Sadness -> resources.getStringArray(R.array.sadness).toList()
+            Category.Proverbs -> resources.getStringArray(R.array.proverbs).toList()
+            Category.Funny -> resources.getStringArray(R.array.funny).toList()
+            Category.Eid -> resources.getStringArray(R.array.eid).toList()
+            Category.Ramadan -> resources.getStringArray(R.array.ramadan).toList()
+            Category.Prayer -> resources.getStringArray(R.array.prayer).toList()
         }
 
     }

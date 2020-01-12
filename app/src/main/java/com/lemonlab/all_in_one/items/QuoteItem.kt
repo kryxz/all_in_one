@@ -29,7 +29,12 @@ enum class Category(val textID: Int) {
     Morning(R.string.morning),
     Afternoon(R.string.afternoon),
     Love(R.string.love),
-    Winter(R.string.winter)
+    Winter(R.string.winter),
+    Proverbs(R.string.proverbs),
+    Funny(R.string.funny),
+    Eid(R.string.eid),
+    Ramadan(R.string.ramadan),
+    Prayer(R.string.prayer),
 }
 
 // used to get the category of the quote using categories.indexOf(category)
@@ -43,7 +48,12 @@ val categories = listOf(
     Category.Morning,
     Category.Afternoon,
     Category.Love,
-    Category.Winter
+    Category.Funny,
+    Category.Winter,
+    Category.Proverbs,
+    Category.Eid,
+    Category.Ramadan,
+    Category.Prayer
 )
 
 // pictures for each category. Will add more later.
@@ -137,8 +147,50 @@ class CategoryPics {
             R.drawable.winter_man
         )
 
+        private val proverbs = listOf(
+            R.drawable.coffee_book,
+            R.drawable.proverbs_1,
+            R.drawable.book_dark,
+            R.drawable.three_books,
+            R.drawable.proverbs_2,
+            R.drawable.notepad_ideas
+        )
+
+        private val funny = listOf(
+            R.drawable.fun_1,
+            R.drawable.fun_2,
+            R.drawable.fun_4,
+            R.drawable.friends_smile,
+            R.drawable.fun_3,
+            R.drawable.fun_5
+        )
+
+        private val prayer = listOf(
+            R.drawable.man_islam,
+            R.drawable.mosque_islam,
+            R.drawable.prayer_1,
+            R.drawable.islam_madina,
+            R.drawable.prayer_2,
+            R.drawable.islam_masjid
+        )
+
         private val allPics =
-            listOf(wisdom, friendship, sadness, islam, other, morning, afternoon, love, winter)
+            listOf(
+                wisdom,
+                friendship,
+                sadness,
+                islam,
+                other,
+                morning,
+                afternoon,
+                love,
+                funny,
+                winter,
+                proverbs,
+                islam,
+                islam.shuffled(),
+                prayer
+            )
 
         fun categoryLimit() = allPics.size
         fun picsLimit() = size

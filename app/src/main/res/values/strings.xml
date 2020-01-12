@@ -82,6 +82,11 @@
     <string name="afternoon">رسائلٌ مسائيّة</string>
     <string name="love">عن الحُب</string>
     <string name="winter">عن الشتاء</string>
+    <string name="proverbs">أمثال شعبيّة</string>
+    <string name="funny">نكت وضحك</string>
+    <string name="eid">منشورات للعيد</string>
+    <string name="ramadan">عن رمضان</string>
+    <string name="prayer">أدعية</string>
     <string name="saved_posts">المنشورات المحفوظة</string>
     <string name="select_fonts">اختر احد الخطوط التالية</string>
     <string name="select_emoji">اختر احد هذه الايموجي</string>
