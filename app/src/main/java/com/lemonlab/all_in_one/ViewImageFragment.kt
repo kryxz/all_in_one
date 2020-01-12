@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.lemonlab.all_in_one.extensions.getBitmapFromView
 import com.lemonlab.all_in_one.extensions.showMessage
 import com.squareup.picasso.Picasso
@@ -17,7 +19,7 @@ import java.util.*
 
 
 /**
- * A simple [Fragment] subclass.
+ * A full screen fragment to view image.
  */
 class ViewImageFragment : Fragment() {
 
@@ -39,9 +41,18 @@ class ViewImageFragment : Fragment() {
         activity!!.window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         activity!!.window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+        (activity!!.findViewById(R.id.mainActivity) as View)
+            .setBackgroundColor(getColor(R.color.black))
 
         val url = ViewImageFragmentArgs.fromBundle(arguments!!).url
-        Picasso.get().load(url).into(view_ImageView)
+
+        CircularProgressDrawable(context!!).apply {
+            strokeWidth = 12f
+            centerRadius = 120f
+            start()
+            setColorSchemeColors(ContextCompat.getColor(context!!, R.color.white))
+            Picasso.get().load(url).placeholder(this).into(view_ImageView)
+        }
 
         view_image_save.setOnClickListener {
             saveImage()
@@ -63,7 +74,22 @@ class ViewImageFragment : Fragment() {
     override fun onDestroyView() {
         activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        revertBackgroundColor()
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
         super.onDestroyView()
     }
+
+    private fun revertBackgroundColor() {
+        val backgroundView = activity!!.findViewById(R.id.mainActivity) as View
+        val sharedPrefs = context!!.getSharedPreferences("UserPrefs", 0)
+        val isDarkTheme = sharedPrefs.getBoolean("isDarkTheme", false)
+        if (isDarkTheme)
+            backgroundView.setBackgroundColor(
+                getColor(R.color.darkBackgroundColor)
+            )
+        else
+            backgroundView.setBackgroundColor(getColor(R.color.white))
+    }
+
+    private fun getColor(id: Int) = ContextCompat.getColor(context!!, id)
 }

@@ -128,12 +128,12 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
 
     }
 
-    fun getUserID(): String {
-        return repository.getUserID()
-    }
+    fun getUserID() =
+        repository.getUserID()
 
-    fun getUsername(): String {
-        return repository.auth.currentUser!!.displayName.toString()
-    }
+
+    fun getUsername() =
+        repository.auth.currentUser!!.displayName.toString()
+
 
 }

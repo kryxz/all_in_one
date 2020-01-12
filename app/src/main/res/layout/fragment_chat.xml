@@ -33,6 +33,7 @@
             android:inputType="textPersonName"
             android:minHeight="50dp"
             android:padding="8dp"
+            android:textColorHint="?textHintColor"
             android:textColor="?textColor"
             android:textDirection="rtl" />
 

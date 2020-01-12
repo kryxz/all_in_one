@@ -29,7 +29,7 @@
         <item name="editTextBackgroundColor">@color/white</item>
         <item name="iconColor">#1B1464</item>
         <item name="actionBarTheme">@style/lightAppBar</item>
-        <item name="colorOnSurface">#636e72</item>
+        <item name="colorOnSurface">@color/white</item>
 
         <!-- Support library compatibility -->
         <item name="android:windowContentTransitions" tools:ignore="NewApi">true</item>
@@ -46,18 +46,18 @@
 
     <!-- Dark application theme. -->
     <style name="DarkAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">#636e72</item>
-        <item name="colorPrimaryDark">#2d3436</item>
+        <item name="colorPrimary">#2f3542</item>
+        <item name="colorPrimaryDark">#1e272e</item>
         <item name="colorAccent">@color/colorAccent</item>
         <!-- Colors used in this theme -->
-        <item name="backgroundColor">#2d3436</item>
+        <item name="backgroundColor">#2f3542</item>
         <item name="buttonColor">#192a56</item>
         <item name="buttonTextColor">@color/white</item>
         <item name="textHintColor">@color/grey</item>
         <item name="textColor">#dfe6e9</item>
-        <item name="editTextBackgroundColor">#636e72</item>
+        <item name="editTextBackgroundColor">#1e272e</item>
         <item name="iconColor">#747d8c</item>
-        <item name="colorOnSurface">#636e72</item>
+        <item name="colorOnSurface">@color/grey</item>
         <item name="actionBarTheme">@style/darkAppBar</item>
         <!-- Support library compatibility -->
         <item name="android:windowContentTransitions" tools:ignore="NewApi">true</item>
@@ -68,9 +68,9 @@
 
     <style name="darkAppBar" parent="@style/Widget.AppCompat.ActionBar">
         <item name="android:textColorPrimary">@color/white</item>
-        <item name="colorPrimary">#636e72</item>
-        <item name="colorPrimaryDark">#2d3436</item>
-        <item name="colorAccent">#b2bec3</item>
+        <item name="colorPrimary">#2f3542</item>
+        <item name="colorPrimaryDark">#1e272e</item>
+        <item name="colorAccent">#2f3542</item>
     </style>
 
 

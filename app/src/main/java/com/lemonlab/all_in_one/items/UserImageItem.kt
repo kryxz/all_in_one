@@ -1,7 +1,9 @@
 package com.lemonlab.all_in_one.items
 
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.google.firebase.auth.FirebaseAuth
 import com.lemonlab.all_in_one.PicturesFragment
 import com.lemonlab.all_in_one.PicturesFragmentDirections
@@ -13,6 +15,7 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.user_image_item.view.*
+
 
 class UserImageItem(
     private val image: UserStatusImage,
@@ -34,6 +37,7 @@ class UserImageItem(
         view.setOnClickListener {
             it.findNavController().navigate(PicturesFragmentDirections.ViewImageNow(image.url))
         }
+
         view.user_image_report.setOnClickListener {
             context.showYesNoDialog(
                 functionToPerform = { image.report(thisUserID) },
@@ -61,8 +65,14 @@ class UserImageItem(
             }
 
         }
+        CircularProgressDrawable(context).apply {
+            strokeWidth = 12f
+            centerRadius = 120f
+            start()
+            setColorSchemeColors(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+            Picasso.get().load(image.url).placeholder(this).into(view.user_image_image_view)
+        }
 
-        Picasso.get().load(image.url).into(view.user_image_image_view)
 
     }
 
