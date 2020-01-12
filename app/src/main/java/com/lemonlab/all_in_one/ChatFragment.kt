@@ -2,18 +2,19 @@ package com.lemonlab.all_in_one
 
 
 import android.os.Bundle
-import android.util.Log
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.lemonlab.all_in_one.extensions.checkUser
 import com.lemonlab.all_in_one.items.ChatItem
+import com.lemonlab.all_in_one.items.ChatViewModel
 import com.lemonlab.all_in_one.model.Message
-import com.lemonlab.all_in_one.model.User
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_chat.*
@@ -27,8 +28,12 @@ class ChatFragment : Fragment() {
 
 
     private val adapter: GroupAdapter<ViewHolder> = GroupAdapter()
-    private var currentUser: User? = null
     private var onlineUsersCount: Int = 0
+
+    companion object {
+        lateinit var chatViewModel: ChatViewModel
+        lateinit var lifecycleOwner: LifecycleOwner
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,108 +47,79 @@ class ChatFragment : Fragment() {
         view.checkUser()
         super.onViewCreated(view, savedInstanceState)
 
-        // init
+        init()
 
-        // get current user from fireStore to use it when user send a message
-        //TODO:: Add loading ui and disabled all ui until getting user complete
-        getCurrentUser()
-        getUsersOnline()
+    }
 
+    private fun init() {
+        chatViewModel = ViewModelProviders.of(this).get(ChatViewModel::class.java)
+        lifecycleOwner = this
         chat_rv.adapter = adapter
         slideToLastMessage()
 
+        // observe messages
+        chatViewModel.getMessages().observe(this, Observer {
+            adapter.clear()
+            for (message in it)
+                adapter.add(ChatItem(message))
+
+            slideToLastMessage()
+        })
+
+
+        // observe online users count
+        chatViewModel.getOnlineCount().observe(this, Observer {
+            onlineUsersCount = it
+        })
+
+
         send_message_btn.setOnClickListener {
-            val messageText = chat_edit_text.text.toString()
-            if (messageText.isEmpty()) return@setOnClickListener
-            // clear the edit text
-            chat_edit_text.text!!.clear()
-            // add the message to rv adapter and store it in the database
-            sendMessage(messageText)
+            sendMessage()
         }
 
         // hide replay view
         chat_rv.setOnClickListener {
             //  chat_replay_view.visibility = View.GONE
         }
+
     }
 
-    override fun onResume() {
-        slideToLastMessage()
-        super.onResume()
-    }
+    private fun sendMessage() {
 
-    override fun onPause() {
-        adapter.clear()
-        super.onPause()
-    }
+        send_message_btn.setBackgroundColor(ContextCompat.getColor(context!!, R.color.greyDark))
+        val messageText = chat_edit_text.text.toString()
+        if (messageText.isEmpty()) return
+        // clear the edit text
+        chat_edit_text.text!!.clear()
 
-    private fun getCurrentUser() {
-        val db = FirebaseFirestore.getInstance()
-        val uid = FirebaseAuth.getInstance().uid
-        db.collection("users").document("$uid").get().addOnCompleteListener {
-            if (it.isSuccessful) {
-                val document = it.result
-                if (document != null && document.exists()) {
-                    val username = document.get("name").toString()
-                    val email = document.get("email").toString()
-                    val userStatus = document.get("online").toString()
-                    currentUser = User(username, email, userStatus)
-                }
-                listenToMessages()
-            }
-        }
-    }
-
-    private fun sendMessage(text: String) {
-        Log.i("sendMessage", "sending: $text")
         val message = Message(
-            text = text,
-            username = currentUser!!.name, // temp code for test
-            userUid = FirebaseAuth.getInstance().uid.toString(),
+            text = messageText,
+            username = chatViewModel.getUsername(), // temp code for test
+            userUid = chatViewModel.getUserID(),
             timestamp = Timestamp(System.currentTimeMillis())
         )
-        val chatItem = ChatItem(message = message)
 
-        adapter.add(chatItem)
+        // 2 seconds delay between messages
+        send_message_btn.setOnClickListener(null)
+        Handler().postDelayed({
+            if (view != null) {
+                send_message_btn.setBackgroundColor(
+                    ContextCompat.getColor(
+                        context!!,
+                        R.color.colorPrimaryDark
+                    )
+                )
+                send_message_btn.setOnClickListener { sendMessage() }
+            }
+        }, 2000)
+
+        chatViewModel.sendMessage(message)
         slideToLastMessage()
 
-        val db = FirebaseFirestore.getInstance()
-        db.collection("chats").add(message)
     }
 
-    private fun listenToMessages() {
 
-        val db = FirebaseFirestore.getInstance()
-        val docRef = db.collection("chats").orderBy("timestamp")
-        docRef.addSnapshotListener { snapshot, e ->
-            if (e != null) {
-                return@addSnapshotListener
-            }
-
-            if (context == null) return@addSnapshotListener
-
-            if (snapshot != null) {
-                // clear the adapter
-                adapter.clear()
-                // get all messages and clear the old
-                var documents = snapshot.documents
-                documents = deleteOldMessages(documents)
-                for (doc in documents) {
-                    adapter.add(
-                        ChatItem(
-                            Message(
-                                text = doc.data!!["text"].toString(),
-                                userUid = doc.data!!["userUid"].toString(),
-                                username = doc.data!!["username"].toString(),
-                                timestamp = Timestamp(0)//TODO:: Some work here
-                            )
-                        )
-                    )
-                }
-            }
-        }
-    }
-
+/*
     private fun deleteOldMessages(documents: List<DocumentSnapshot>): List<DocumentSnapshot> {
         val maxMessages = 51
         if (documents.size > maxMessages) {
@@ -155,24 +131,16 @@ class ChatFragment : Fragment() {
         }
         return documents
     }
+ */
+
 
     private fun slideToLastMessage() {
         if (adapter.itemCount >= 1)
             chat_rv.scrollToPosition(adapter.itemCount - 1)
     }
 
-    private fun getUsersOnline() {
-        val db = FirebaseFirestore.getInstance()
-        db.collection("users").whereEqualTo("online", "true").addSnapshotListener { snapshot, e ->
-            if (e != null) {
-                return@addSnapshotListener
-            }
-            if (snapshot != null)
-                onlineUsersCount = snapshot.documents.size
-        }
-    }
 
-    private fun onLongLickChatItemTrigger(message: Message){
+    private fun onLongLickChatItemTrigger(message: Message) {
         //chat_replay_view.visibility = View.VISIBLE
     }
 }

@@ -177,10 +177,9 @@ class ViewPostFragment : Fragment() {
         val userRef = FirebaseFirestore.getInstance().collection("users").document(post.userID)
         // get name only once.
         userRef.get().addOnSuccessListener {
+            if (context == null || it == null || view == null) return@addOnSuccessListener
             viewPostFragmentView.visibility = View.VISIBLE
             postLoadingProgressBar.visibility = View.GONE
-            if (context == null || it == null || view == null) return@addOnSuccessListener
-
             view_post_postedBy.text = it.data!!["name"].toString()
 
         }

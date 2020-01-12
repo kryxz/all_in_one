@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 import com.lemonlab.all_in_one.extensions.navigateToAndClear
 import com.lemonlab.all_in_one.extensions.removeWhitespace
@@ -78,10 +79,15 @@ class RegisterFragment : Fragment() {
     }
 
     private fun registerNewUser(email: String, password: String, name: String) {
-        val user = User(name = name, email = email, online = "true")
-
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+        val user = User(name = name, email = email, online = true)
+        val auth = FirebaseAuth.getInstance()
+        auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener {
+                auth.currentUser!!.updateProfile(
+                    UserProfileChangeRequest.Builder().setDisplayName(
+                        name
+                    ).build()
+                )
                 addUserToFireStore(user)
             }.addOnFailureListener {
                 context!!.showMessage(getString(R.string.problem_occurred))

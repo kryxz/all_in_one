@@ -7,6 +7,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.firestore.FirebaseFirestore
 import com.lemonlab.all_in_one.extensions.hideKeypad
 import com.lemonlab.all_in_one.extensions.makeTheUserOnline
 import com.lemonlab.all_in_one.items.MainFragmentItem
@@ -33,6 +36,9 @@ class MainFragment : Fragment() {
         init()
         activity!!.hideKeypad(view)
         makeTheUserOnline()
+
+
+        checkName()
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -75,6 +81,24 @@ class MainFragment : Fragment() {
         adapter.add(MainFragmentItem(MainItem.UsersTexts))
         adapter.add(MainFragmentItem(MainItem.Pictures))
 
+    }
+
+
+    // will remove later...
+    private fun checkName() {
+
+        val auth = FirebaseAuth.getInstance()
+        if (auth.currentUser == null) return
+        val userID = auth.uid!!
+        FirebaseFirestore.getInstance().collection("users").document(userID).get()
+            .addOnSuccessListener {
+                if (it == null) return@addOnSuccessListener
+                auth.currentUser!!.updateProfile(
+                    UserProfileChangeRequest.Builder().setDisplayName(
+                        it.data!!["name"].toString()
+                    ).build()
+                )
+            }
     }
 
 

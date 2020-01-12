@@ -70,6 +70,10 @@ class FireStoreRepository {
         return db.collection("users_images")
     }
 
+    fun getMessagesRef(): CollectionReference {
+        return db.collection("chats")
+    }
+
 }
 
 class UsersTextsViewModel(application: Application) : AndroidViewModel(application) {

@@ -129,7 +129,7 @@ class PostFragment : Fragment() {
                 text = postText,
                 userID = uid,
                 timestamp = timestamp,
-                comments = null,
+                comments = ArrayList(),
                 likesIDs = ArrayList(),
                 dislikesIDs = ArrayList(),
                 reportIDs = ArrayList(),

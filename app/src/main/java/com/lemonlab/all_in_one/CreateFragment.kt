@@ -13,7 +13,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.*
 import android.widget.SeekBar
 import android.widget.TextView
@@ -46,7 +45,6 @@ import kotlinx.android.synthetic.main.fragment_create.*
 import kotlinx.android.synthetic.main.fragment_send_image.*
 import kotlinx.android.synthetic.main.input_text.view.*
 import kotlinx.android.synthetic.main.stickers_view.view.*
-import kotlinx.coroutines.awaitAll
 import java.io.ByteArrayOutputStream
 import java.sql.Timestamp
 import java.util.*
@@ -63,11 +61,11 @@ class CreateFragment : Fragment() {
     private val minBrushSize = 8f
 
     private lateinit var photoEditor: PhotoEditor
-    private var currentEditorBackground:Int = R.drawable.editor_image0
+    private var currentEditorBackground: Int = R.drawable.editor_image0
     private var currentFontTypeFace: Typeface? = null // TODO:: Change the first color
-    private var imageUri:Uri? = null
+    private var imageUri: Uri? = null
 
-    enum class PhotoTool{
+    enum class PhotoTool {
         Brush, Text, Eraser, EmojiPicker, ColorPicker
     }
 
@@ -111,6 +109,12 @@ class CreateFragment : Fragment() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        editor()
+        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun saveEditorImage() {
@@ -212,12 +216,8 @@ class CreateFragment : Fragment() {
         })
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        editor()
-        super.onViewCreated(view, savedInstanceState)
-    }
 
-    private fun showEditTextDialog(){
+    private fun showEditTextDialog() {
         val dialogBuilder = AlertDialog.Builder(context!!).create()
         val dialogView = layoutInflater.inflate(
             R.layout.input_text,
@@ -233,9 +233,9 @@ class CreateFragment : Fragment() {
         // cancels focus(clears view dim)
         dialogBuilder.window!!.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
 
-        dialogBuilder.setOnDismissListener{
-            if(inputText.text.toString().removeWhitespace().isNotEmpty())
-            photoEditor.addText(inputText.text.toString(), ColorSheet.NO_COLOR)
+        dialogBuilder.setOnDismissListener {
+            if (inputText.text.toString().removeWhitespace().isNotEmpty())
+                photoEditor.addText(inputText.text.toString(), ColorSheet.NO_COLOR)
         }
 
         dialogBuilder.show()
@@ -419,10 +419,11 @@ class CreateFragment : Fragment() {
         }
     }
 
-    private fun changeEditorImage(){
+    private fun changeEditorImage() {
 
         // get images from drawables
-        val images = listOf(R.drawable.editor_image0,
+        val images = listOf(
+            R.drawable.editor_image0,
             R.drawable.editor_image1,
             R.drawable.editor_image2,
             R.drawable.editor_image3,
@@ -437,7 +438,8 @@ class CreateFragment : Fragment() {
             R.drawable.editor_image12,
             R.drawable.editor_image13,
             R.drawable.editor_image14,
-            R.drawable.editor_image15)
+            R.drawable.editor_image15
+        )
 
         // get the current index
         var index = images.indexOf(currentEditorBackground)
@@ -450,26 +452,26 @@ class CreateFragment : Fragment() {
         photoEditorView.source.setImageResource(images[index])
     }
 
-    private fun incrementBrushSize(){
+    private fun incrementBrushSize() {
         increment_brush_size_btn.setOnClickListener {
             if (photoEditor.brushSize + 8f <= maxBrushSize)
                 photoEditor.brushSize += 8f
         }
     }
 
-    private fun decrementBrushSize(){
+    private fun decrementBrushSize() {
         decrement_brush_size_btn.setOnClickListener {
             if (photoEditor.brushSize - 8f >= minBrushSize)
                 photoEditor.brushSize -= 8f
         }
     }
 
-    private fun hideBrushTools(){
+    private fun hideBrushTools() {
         increment_brush_size_btn.visibility = View.INVISIBLE
         decrement_brush_size_btn.visibility = View.INVISIBLE
     }
-    
-    private fun showEmojiDialog(){
+
+    private fun showEmojiDialog() {
 
         // get the view
         val stickerDialogView = layoutInflater.inflate(
@@ -535,7 +537,7 @@ class CreateFragment : Fragment() {
     }
 
     // function to get data from Sticker Item when user click on it
-    private fun getDataFromStickerItem(textView: TextView){
+    private fun getDataFromStickerItem(textView: TextView) {
         photoEditor.addEmoji(textView.text.toString())
     }
 
@@ -596,7 +598,7 @@ class CreateFragment : Fragment() {
         currentFontTypeFace = typeface
     }
 
-    private fun showPhotoFilterDialog(){
+    private fun showPhotoFilterDialog() {
         // get the view
         val filterDialogView = layoutInflater.inflate(
             R.layout.fillters_selector_view,
@@ -623,9 +625,13 @@ class CreateFragment : Fragment() {
         pairs.add(Pair(PhotoFilter.VIGNETTE, R.drawable.vignette))
 
         val adapter = GroupAdapter<ViewHolder>()
-        for (pair in pairs){
-            adapter.add(FilterItem(image = pair.second, filterType = pair.first,
-                action = ::getDataFromFilterDialog))
+        for (pair in pairs) {
+            adapter.add(
+                FilterItem(
+                    image = pair.second, filterType = pair.first,
+                    action = ::getDataFromFilterDialog
+                )
+            )
         }
 
         fontsRv.adapter = adapter
@@ -638,24 +644,26 @@ class CreateFragment : Fragment() {
     }
 
     // function to get data from filter Item when user click on it
-    private fun getDataFromFilterDialog(filter: PhotoFilter){
+    private fun getDataFromFilterDialog(filter: PhotoFilter) {
         photoEditor.setFilterEffect(filter)
     }
 
     // send image to firestore
-    private fun sendImageStatus(){
+    private fun sendImageStatus() {
 
         saveEditorImage() // generate image uri
 
-        if(imageUri != null){ // upload the image
+        if (imageUri != null) { // upload the image
             uploadImage(imageUri!!)
-        }else{
-            Toast.makeText(context!!, resources.getString(R.string.statusImageUploadedFailed),
-                Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(
+                context!!, resources.getString(R.string.statusImageUploadedFailed),
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
-    private fun uploadImage(imageUri:Uri) {
+    private fun uploadImage(imageUri: Uri) {
 
         // convert the uri to image path
 

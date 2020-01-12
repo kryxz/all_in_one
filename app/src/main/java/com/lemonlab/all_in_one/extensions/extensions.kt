@@ -10,7 +10,6 @@ import android.os.Environment
 import android.text.SpannableString
 import android.text.format.DateFormat
 import android.text.style.BackgroundColorSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -51,13 +50,12 @@ fun Context.showMessage(m: String) {
 
 fun makeTheUserOnline() {
     val uid = FirebaseAuth.getInstance().uid
-    Log.i("MainFragment", "user uid: $uid")
     // check if there user logged in
     if (!uid.isNullOrEmpty()) {
         val db = FirebaseFirestore.getInstance()
 
         db.collection("users").document("$uid")
-            .update("online", "true")
+            .update("online", true)
 
         // store the data in the real time database
         FirebaseDatabase.getInstance().getReference("status/$uid").setValue("online")
