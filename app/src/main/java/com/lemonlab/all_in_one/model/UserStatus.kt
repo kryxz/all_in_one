@@ -21,40 +21,75 @@ data class UserStatus(
     val timestamp: Date
 ) {
 
+
     constructor() : this(
         "", "", Category.Other, StatusColor.Blue,
         "", ArrayList<String>(), ArrayList<String>(), Timestamp(System.currentTimeMillis())
     )
 
     private fun update() {
-        val ref = FirebaseFirestore.getInstance().collection("statuses")
-
-        ref.document(this.statusID).set(this)
+        val ref = FirebaseFirestore.getInstance()
+            .collection("statuses").document(this.statusID)
+        ref.set(this)
     }
 
 
     fun like(likeID: String) {
+        val ref = FirebaseFirestore.getInstance()
+            .collection("statuses").document(this.statusID)
+
         if (likesIDs == null)
             likesIDs = ArrayList()
 
-        if (likesIDs!!.contains(likeID)) return
+        ref.get().addOnSuccessListener {
+            if (it == null) return@addOnSuccessListener
+            this.likesIDs = it.toObject(UserStatus::class.java)!!.likesIDs
 
-        likesIDs!!.add(likeID)
+            if (likesIDs!!.contains(likeID)) return@addOnSuccessListener
 
-        update()
+            likesIDs!!.add(likeID)
+            update()
+        }
+
 
     }
 
     fun cancelLike(likeID: String) {
+        val ref = FirebaseFirestore.getInstance()
+            .collection("statuses").document(this.statusID)
+
         if (likesIDs == null)
             likesIDs = ArrayList()
 
-        if (likesIDs!!.contains(likeID))
+        ref.get().addOnSuccessListener {
+            if (it == null) return@addOnSuccessListener
+            this.likesIDs = it.toObject(UserStatus::class.java)!!.likesIDs
+
+            if (!likesIDs!!.contains(likeID)) return@addOnSuccessListener
+
             likesIDs!!.remove(likeID)
-        update()
+            update()
+        }
+
 
     }
 
+    fun report(reportID: String) {
+        val ref = FirebaseFirestore.getInstance()
+            .collection("statuses").document(this.statusID)
+
+        if (reportsIDs == null)
+            reportsIDs = ArrayList()
+
+        ref.get().addOnSuccessListener {
+            if (it == null) return@addOnSuccessListener
+            this.reportsIDs = it.toObject(UserStatus::class.java)!!.reportsIDs
+            if (reportsIDs!!.contains(reportID)) return@addOnSuccessListener
+            reportsIDs!!.add(reportID)
+            update()
+            checkReports()
+        }
+    }
 
     fun likesCount(): Int {
         if (likesIDs == null)
@@ -63,19 +98,15 @@ data class UserStatus(
     }
 
 
-    fun reportsCount(): Int {
-        if (reportsIDs == null)
-            return 0
-        return reportsIDs!!.size
+    private fun checkReports() {
+        if (reportsIDs!!.size >= 5)
+            delete()
     }
 
-    fun report(reportID: String) {
-        if (reportsIDs == null)
-            reportsIDs = ArrayList()
+    private fun delete() {
+        FirebaseFirestore.getInstance()
+            .collection("statuses")
+            .document(this.statusID).delete()
 
-
-        reportsIDs!!.add(reportID)
-
-        update()
     }
 }

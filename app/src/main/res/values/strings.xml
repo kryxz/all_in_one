@@ -16,7 +16,6 @@
     <string name="alreadyHere">لديك حساب؟ سجّل الدّخول</string>
     <string name="newHere">ليس لديك حساب؟</string>
     <string name="loginOrRegister">إنشاء حساب/تسجيل الدخول</string>
-    <!-- TODO:: change this if you want-->
     <string name="invalidEmailPassword">يجب ملء جميع الحقول</string>
     <string name="invalidEmail">بريد إلكتروني غير صالح</string>
     <string name="invalidPassword">كلمة السر قصيرة جدًا</string>
@@ -73,20 +72,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
-    <string name="wisdom">أقوال وحكم</string>
-    <string name="friendship">عن الصداقة</string>
-    <string name="sadness">عن الحزن</string>
-    <string name="islam">مواعظ إسلاميّة</string>
-    <string name="other">منوّعات</string>
-    <string name="morning">رسائلٌ صباحيّة</string>
-    <string name="afternoon">رسائلٌ مسائيّة</string>
-    <string name="love">عن الحُب</string>
-    <string name="winter">عن الشتاء</string>
-    <string name="proverbs">أمثال شعبيّة</string>
-    <string name="funny">نكت وضحك</string>
-    <string name="eid">منشورات للعيد</string>
-    <string name="ramadan">عن رمضان</string>
-    <string name="prayer">أدعية</string>
     <string name="saved_posts">المنشورات المحفوظة</string>
     <string name="select_fonts">اختر احد الخطوط التالية</string>
     <string name="select_emoji">اختر احد هذه الايموجي</string>
@@ -112,8 +97,13 @@
     <string name="save_image_item">حفظ الصورة</string>
     <string name="save_image_text">هل ترغب بحفظ الصورة مع النص؟</string>
 
+    <string name="sortBy">ترتيب حسب</string>
+    <string name="sortByLikes">الأكثر إعجابًا</string>
+    <string name="sortByTime">الأحدث زمنيًا</string>
+
     <string name="register_tip_1"> تعرّف على المنتديات المليئة بالمنشورات النقاشيّة، علّق وتفاعل مع الجميع.</string>
     <string name="register_tip_2">قم بالدخول إلى الدردشة العالميّة، ملتقى مستخدمي التطبيق الأكبر. إرسال الرسائل لم يعد صعبًا!</string>
+
     <string name="signing_in">يجري تسجيل الدّخول</string>
     <string name="no_user">تعذّر العثور على المستخدم</string>
     <string name="problem_occurred">تعذّر الإتصال. يرجى المحاولة مرّة أخرى</string>
@@ -129,6 +119,14 @@
     <string name="cache_deleted">سيتم حذف البيانات المؤقتة</string>
     <string name="cache_delete"> حذف البيانات المؤقتة</string>
 
+    <string name="send_text_tip1">احرص على أن تكون حالتك مميزة وغير مكرّرة، وذلك لتنال إعجاب المستخدمين</string>
+    <string name="send_text_tip2">لا تستخدم ألفاظًا غير لائقة، وحاول أن تقلل من التعابير الوجهيّة</string>
+    <string name="post_forum_tip1">ابدأ نقاشًا، أو انشر قصّة جميلة حصلت معك، تفاعل مع المستخدمين بكل سهولة</string>
+    <string name="post_forum_tip2">قم بالإبلاغ عن أي إساءة تراها سواء لشخص أو لفئة ما، وسيتم التعامل معها بأسرع وقت</string>
+
+
+    <!-- Categories -->
+
     <string-array name="categoryEn">
         <item>Wisdom</item>
         <item>Friendship</item>
@@ -139,7 +137,28 @@
         <item>Afternoon</item>
         <item>Love</item>
         <item>Winter</item>
+        <item>Proverbs</item>
+        <item>Funny</item>
+        <item>Eid</item>
+        <item>Ramadan</item>
+        <item>Prayer</item>
     </string-array>
+
+
+    <string name="wisdom">أقوال وحكم</string>
+    <string name="friendship">عن الصداقة</string>
+    <string name="sadness">عن الحزن</string>
+    <string name="islam">مواعظ إسلاميّة</string>
+    <string name="other">منوّعات</string>
+    <string name="morning">رسائلٌ صباحيّة</string>
+    <string name="afternoon">رسائلٌ مسائيّة</string>
+    <string name="love">عن الحُب</string>
+    <string name="winter">عن الشتاء</string>
+    <string name="proverbs">أمثال شعبيّة</string>
+    <string name="funny">نكت وضحك</string>
+    <string name="eid">منشورات للعيد</string>
+    <string name="ramadan">عن رمضان</string>
+    <string name="prayer">أدعية</string>
 
     <string-array name="category">
         <item>أقوال وحكم</item>
@@ -151,6 +170,11 @@
         <item>رسائلٌ مسائيّة</item>
         <item>عن الحُب</item>
         <item>عن الشتاء</item>
+        <item>أمثال شعبيّة</item>
+        <item>نكت وضحك</item>
+        <item>منشورات للعيد</item>
+        <item>عن رمضان</item>
+        <item>أدعية</item>
     </string-array>
 
     <string-array name="options">
@@ -181,6 +205,18 @@
     <string name="privacyPolicyTitle">Privacy Policy and Terms of Service</string>
     <string name="privacyPolicyTitleAr">سياسة الخصوصية والاستخدام</string>
     <string name="storeURL">https://play.google.com/store/apps/developer?id=Lemon+Lab</string>
+    <string name="pictures">حالات صور</string>
+    <string name="all_categories">جميع التصنيفات</string>
+    <string name="delete_text">حذف النص</string>
+    <string name="preview_text">معاينة المنشور</string>
+    <string name="tap_to_choose_image">انقر لاختيار أو تغيير الصّورة</string>
+    <string name="change_app_color">تغيير لون التطبيق</string>
+    <string name="app_will_restart">للمتابعة، سيتم إعادة تشغيل التطبيق</string>
+    <string name="confirm_report_image">هل أنت متأكد أن الصّورة غير لائقة؟</string>
+    <string name="confirm_delete_image">هل أنت متأكد من رغبتك في حذف الصّورة؟</string>
+    <string name="report_image">الإبلاغ عن الصّورة</string>
+    <string name="delete_image">حذف الصورة</string>
+
 
     <string name="privacyPolicyTextAr">سياسة الخصوصية لدى مختبر الليمون\n
         \n
@@ -339,17 +375,9 @@
         If you have any questions or suggestions about our Privacy Policy، do not hesitate to contact us at
         zaka7024@gmail.com.\n
     </string>
-    <string name="pictures">حالات صور</string>
-    <string name="all_categories">جميع التصنيفات</string>
-    <string name="delete_text">حذف النص</string>
-    <string name="preview_text">معاينة المنشور</string>
-    <string name="tap_to_choose_image">انقر لاختيار أو تغيير الصّورة</string>
-    <string name="change_app_color">تغيير لون التطبيق</string>
-    <string name="app_will_restart">للمتابعة، سيتم إعادة تشغيل التطبيق</string>
-    <string name="confirm_report_image">هل أنت متأكد أن الصّورة غير لائقة؟</string>
-    <string name="confirm_delete_image">هل أنت متأكد من رغبتك في حذف الصّورة؟</string>
-    <string name="report_image">الإبلاغ عن الصّورة</string>
-    <string name="delete_image">حذف الصورة</string>
+    <string name="text_will_be_deleted">تم جدولة حذف الحالة</string>
+    <string name="report_status">الإبلاغ عن الحالة</string>
+    <string name="report_status_confirm">هل أنت متأكد أن المكتوب غير لائق؟</string>
 
 
 </resources>

@@ -14,6 +14,7 @@ import com.lemonlab.all_in_one.UsersTextsFragment
 import com.lemonlab.all_in_one.extensions.getBitmapFromView
 import com.lemonlab.all_in_one.extensions.getDateAsString
 import com.lemonlab.all_in_one.extensions.highlightTextWithColor
+import com.lemonlab.all_in_one.extensions.showYesNoDialog
 import com.lemonlab.all_in_one.model.Favorite
 import com.lemonlab.all_in_one.model.UserStatus
 import com.xwray.groupie.Item
@@ -36,10 +37,11 @@ class UserStatusItem(private val userStatus: UserStatus) :
 
     private val randomPic = CategoryPics.getRandomPic(userStatus.category)
 
-
+    private val thisUserId = model.getUserID()
     override fun bind(viewHolder: ViewHolder, position: Int) {
         val view = viewHolder.itemView
         val context = view.context
+
 
         // set likes count
         view.user_status_likes_text.text = userStatus.likesCount().toString()
@@ -94,8 +96,12 @@ class UserStatusItem(private val userStatus: UserStatus) :
             view.user_status_whats_share_btn,
             view.user_status_share_btn,
             view.user_status_content_btn,
-            view.user_status_favorite_btn
+            view.user_status_favorite_btn,
+            view.user_status_report_btn
         )
+
+        if (userStatus.userID == thisUserId)
+            view.user_status_report_btn.visibility = View.GONE
 
         for (button in buttons) {
             button.setOnClickListener {
@@ -144,10 +150,28 @@ class UserStatusItem(private val userStatus: UserStatus) :
                     // add to favorites. send like to remote database.
                     R.id.user_status_favorite_btn ->
                         favorite()
+
+                    R.id.user_status_report_btn ->
+                        report(context)
+
                 }
             }
         }
 
+
+    }
+
+    private fun report(context: Context) {
+        val auth = FirebaseAuth.getInstance()
+        context.showYesNoDialog(
+            {
+                if (auth.currentUser != null)
+                    userStatus.report(auth.uid!!)
+            },
+            {},
+            context.getString(R.string.report_status),
+            context.getString(R.string.report_status_confirm)
+        )
 
     }
 
@@ -176,10 +200,11 @@ class UserStatusItem(private val userStatus: UserStatus) :
             favoritesViewModel.remove(thisFavorite)
             if (auth.currentUser != null)
                 userStatus.cancelLike(auth.uid!!)
+
         } else {
-            favoritesViewModel.insert(thisFavorite)
             if (auth.currentUser != null)
                 userStatus.like(auth.uid!!)
+            favoritesViewModel.insert(thisFavorite)
         }
 
 

@@ -161,7 +161,7 @@ class CategoryPics {
             R.drawable.fun_2,
             R.drawable.fun_4,
             R.drawable.friends_smile,
-            R.drawable.fun_3,
+            R.drawable.friend_guys,
             R.drawable.fun_5
         )
 

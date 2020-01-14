@@ -13,6 +13,11 @@ import com.lemonlab.all_in_one.model.*
 import kotlinx.coroutines.launch
 
 
+enum class SortBy {
+    Time, Likes
+
+}
+
 class SavedPostsRepo(private val savedPostsDao: SavedPostsDao) {
 
     var savedPostsIDs: LiveData<List<String>> = savedPostsDao.getAllSavedPosts()
@@ -179,7 +184,8 @@ class UsersTextsViewModel(application: Application) : AndroidViewModel(applicati
     }
 
 
-    fun getStatuses(): MutableLiveData<List<UserStatus>> {
+    fun getStatuses(sortBy: SortBy): MutableLiveData<List<UserStatus>> {
+        usersStatuses.value = mutableListOf()
         viewModelScope.launch {
             repository.getStatusesRef().addSnapshotListener { snapshot, e ->
                 if (e != null) return@addSnapshotListener
@@ -190,10 +196,14 @@ class UsersTextsViewModel(application: Application) : AndroidViewModel(applicati
                 for (item in documents)
                     theStatuses.add(item.toObject(UserStatus::class.java)!!)
 
-                theStatuses.sortByDescending {
-                    it.timestamp.time
+                when (sortBy) {
+                    SortBy.Time -> theStatuses.sortByDescending {
+                        it.timestamp.time
+                    }
+                    SortBy.Likes -> theStatuses.sortByDescending {
+                        it.likesCount()
+                    }
                 }
-
                 usersStatuses.value = theStatuses
             }
 
@@ -207,9 +217,9 @@ class UsersTextsViewModel(application: Application) : AndroidViewModel(applicati
                 if (e != null) return@addSnapshotListener
                 if (snapshot == null) return@addSnapshotListener
 
-                val status = snapshot.toObject(UserStatus::class.java)
-
-                statusLikes.value = Pair(status!!.likesCount(), snapshot.id)
+                val status = snapshot.toObject(UserStatus::class.java)!!
+                val id = snapshot.id
+                statusLikes.value = Pair(status.likesCount(), id)
 
             }
         }

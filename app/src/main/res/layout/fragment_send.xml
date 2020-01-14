@@ -92,6 +92,35 @@
 
             <View style="@style/view_divider_style" />
 
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layoutDirection="rtl">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_weight="2"
+                    android:padding="8dp"
+                    android:text="@string/statusCategory"
+                    android:textColor="?textColor"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/send_status_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1"
+                    android:minHeight="40dp"
+                    android:padding="8dp"
+                    android:prompt="@string/app_name" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -137,35 +166,6 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layoutDirection="rtl">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:layout_weight="2"
-                    android:padding="8dp"
-                    android:text="@string/statusCategory"
-                    android:textColor="?textColor"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
-
-                <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/send_status_category"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:layout_weight="1"
-                    android:minHeight="40dp"
-                    android:padding="8dp"
-                    android:prompt="@string/app_name" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-
             <View style="@style/view_divider_style" />
 
 
@@ -178,9 +178,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:drawableEnd="@drawable/ic_check_circle"
+                    android:drawableEnd="@drawable/ic_info"
                     android:drawablePadding="8dp"
-                    android:text="@string/text_sample"
+                    android:text="@string/send_text_tip1"
                     android:padding="8dp"
                     android:textColor="?textColor"
                     android:textIsSelectable="false"
@@ -190,9 +190,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:drawableEnd="@drawable/ic_check_circle"
+                    android:drawableEnd="@drawable/ic_info"
                     android:drawablePadding="8dp"
-                    android:text="@string/text_sample"
+                    android:text="@string/send_text_tip2"
                     android:padding="8dp"
                     android:textColor="?textColor"
                     android:textIsSelectable="false"

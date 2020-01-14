@@ -219,11 +219,12 @@ class SendFragment : Fragment() {
             category = statusCategory,
             statusColor = statusColor,
             timestamp = Timestamp(System.currentTimeMillis()),
-            userID = id.toString()
+            userID = id.toString(),
+            reportsIDs = ArrayList(),
+            likesIDs = ArrayList()
         )
 
         val db = FirebaseFirestore.getInstance()
-
         db.collection("statuses").add(userStatus).addOnSuccessListener {
             sendFragmentView.visibility = View.VISIBLE
             textSendingProgressBar.visibility = View.GONE
@@ -233,7 +234,6 @@ class SendFragment : Fragment() {
             send_status_edit_text.text!!.clear()
 
         }.addOnFailureListener {
-
             context!!.showMessage(getString(R.string.warningSentStatus))
         }
 
