@@ -148,4 +148,9 @@
             android:name="URL"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/faqFragment"
+        android:name="com.lemonlab.all_in_one.FaqFragment"
+        android:label="@string/faq"
+        tools:layout="@layout/fragment_faq" />
 </navigation>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layoutDirection="rtl"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/faq_question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:background="?backgroundColor"
+        android:drawableStart="@drawable/ic_help"
+        android:drawablePadding="8dp"
+        android:padding="8dp"
+        android:text="@string/text_sample"
+        android:textColor="?textColor"
+        android:textSize="22sp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/faq_answer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?backgroundColor"
+        android:drawableStart="@drawable/ic_info"
+        android:drawablePadding="8dp"
+        android:padding="4dp"
+        android:text="@string/text_sample"
+        android:textColor="?textColor"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <View style="@style/view_divider_style" />
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
