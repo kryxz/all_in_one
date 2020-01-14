@@ -109,7 +109,7 @@
     <string name="problem_occurred">تعذّر الإتصال. يرجى المحاولة مرّة أخرى</string>
     <string name="search">ابحث</string>
     <string name="no_result">تعذّر العثور على أي نتيجة</string>
-    <string name="status_color">لون نص الحالة</string>
+    <string name="status_color">خلفية نص الحالة</string>
     <string name="user_not_found">مستخدم محذوف</string>
     <string name="delete_comment_confirm">سيتم حذف تعليقك فورًا، هل أنت متأكد؟</string>
     <string name="delete_comment">حذف التعليق</string>

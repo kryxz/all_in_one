@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.lemonlab.all_in_one.R
+import com.lemonlab.all_in_one.model.StatusColor
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -71,9 +72,13 @@ fun makeTheUserOnline() {
 
 // Highlights text background.
 fun Context.highlightText(text: String): SpannableString {
+    val sharedPrefs = getSharedPreferences("UserPrefs", 0)
+
+    val mainColor = sharedPrefs.getInt("mainColor", StatusColor.Blue.value)
+
     val str = SpannableString(text)
     str.setSpan(
-        BackgroundColorSpan(ContextCompat.getColor(this, R.color.colorPrimaryDark)),
+        BackgroundColorSpan(ContextCompat.getColor(this, mainColor)),
         0,
         text.length,
         0

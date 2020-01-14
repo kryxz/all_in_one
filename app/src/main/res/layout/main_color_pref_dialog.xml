@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?backgroundColor"
+    android:layoutDirection="rtl"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:gravity="center_horizontal"
+        android:text="@string/status_color"
+        android:textColor="?textColor"
+        android:textSize="23sp"
+        android:textStyle="bold" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl">
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/dialog_status_color_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:minHeight="50dp"
+            android:padding="8dp" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/dialog_statusColorImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_check_circle" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/statusColor_dialog_done"
+        style="@style/Widget.AppCompat.ActionButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:background="?buttonColor"
+        android:padding="8dp"
+        android:text="@string/okay"
+        android:textColor="@color/white"
+        android:textSize="24sp" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

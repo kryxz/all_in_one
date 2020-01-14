@@ -4,19 +4,28 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.TaskStackBuilder
 import android.content.Intent
+import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Handler
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.CompoundButton
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.lemonlab.all_in_one.MainActivity
 import com.lemonlab.all_in_one.R
+import com.lemonlab.all_in_one.extensions.recreateFragment
 import com.lemonlab.all_in_one.extensions.showMessage
 import com.lemonlab.all_in_one.extensions.showYesNoDialog
+import com.lemonlab.all_in_one.model.StatusColor
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
+import kotlinx.android.synthetic.main.main_color_pref_dialog.view.*
 import kotlinx.android.synthetic.main.settings_item_text.view.*
 
 enum class Option(val textID: Int) {
@@ -26,6 +35,7 @@ enum class Option(val textID: Int) {
     MoreApps(R.string.moreApps),
     PrivacyPolicy(R.string.privacyPolicyTitleAr),
     FAQ(R.string.faq),
+    StatusColor(R.string.status_color),
 
 }
 
@@ -56,7 +66,11 @@ class SettingsItem(
                 setIcon(R.drawable.ic_clear_all)
                 textView.setOnClickListener { clearCache(it) }
             }
-
+            Option.StatusColor -> {
+                setIcon(R.drawable.ic_check_circle)
+                tintDrawable(textView)
+                textView.setOnClickListener { colorDialog(it) }
+            }
             Option.SignOut -> {
                 setIcon(R.drawable.ic_logout)
                 textView.setOnClickListener { signOut(it) }
@@ -86,6 +100,102 @@ class SettingsItem(
 
     }
 
+    private fun tintDrawable(textView: AppCompatTextView) {
+        // sets circle color to match user current preference
+        val context = textView.context
+        val sharedPrefs = context.getSharedPreferences("UserPrefs", 0)
+
+        val mainColor = sharedPrefs.getInt("mainColor", StatusColor.Blue.value)
+        var drawable = ContextCompat.getDrawable(context, R.drawable.ic_check_circle)
+        drawable = DrawableCompat.wrap(drawable!!)
+        DrawableCompat.setTint(drawable, ContextCompat.getColor(context, mainColor))
+        DrawableCompat.setTintMode(drawable, PorterDuff.Mode.SRC_IN)
+        textView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
+
+    }
+
+    private fun colorDialog(view: View) {
+        val context = view.context
+        val sharedPrefs = context.getSharedPreferences("UserPrefs", 0)
+        val dialogBuilder = AlertDialog.Builder(context).create()
+        val dialogView = with(LayoutInflater.from(context)) {
+            inflate(
+                R.layout.main_color_pref_dialog,
+                null
+            )
+        }
+        val colors = listOf(
+            StatusColor.Blue,
+            StatusColor.Red,
+            StatusColor.Green,
+            StatusColor.Black
+        )
+        var statusColor = StatusColor.Blue
+
+        val mainColor = sharedPrefs
+            .getInt("mainColor", StatusColor.Blue.value)
+
+
+        when (mainColor) {
+            R.color.colorPrimaryDark -> statusColor = StatusColor.Blue
+            R.color.magentaPurple -> statusColor = StatusColor.Red
+            R.color.darkGreen -> statusColor = StatusColor.Green
+            R.color.superBlack -> statusColor = StatusColor.Black
+        }
+
+        with(dialogBuilder) {
+            setView(dialogView)
+            show()
+        }
+        val colorsTexts = context.resources.getStringArray(R.array.statusColors)
+        val colorAdapter = ArrayAdapter<String>(
+            context!!, R.layout.app_spinner, colorsTexts
+        )
+
+
+        val spinner = dialogView.dialog_status_color_spinner
+        val imageColor = dialogView.dialog_statusColorImage
+        val doneButton = dialogView.statusColor_dialog_done
+
+        spinner.adapter = colorAdapter
+        // set current color in spinner and image
+        spinner.setSelection(colors.indexOf(statusColor))
+
+        imageColor.setColorFilter(
+            ContextCompat.getColor(context, mainColor), PorterDuff.Mode.SRC_IN
+        )
+
+
+        imageColor.setOnClickListener {
+            spinner.performClick()
+
+        }
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                statusColor = colors[position]
+                imageColor.setColorFilter(
+                    ContextCompat.getColor(context, statusColor.value), PorterDuff.Mode.SRC_IN
+                )
+                sharedPrefs.edit().putInt("mainColor", statusColor.value).apply()
+
+            }
+        }
+
+        doneButton.setOnClickListener {
+            dialogBuilder.dismiss()
+            view.recreateFragment(R.id.settingsFragment)
+        }
+
+
+    }
 
     private fun changeTheme(view: CompoundButton, isDark: Boolean) {
 

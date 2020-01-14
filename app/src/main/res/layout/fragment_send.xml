@@ -106,7 +106,7 @@
                     android:padding="8dp"
                     android:text="@string/statusCategory"
                     android:textColor="?textColor"
-                    android:textSize="17sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatSpinner
@@ -134,7 +134,7 @@
                     android:padding="8dp"
                     android:text="@string/status_color"
                     android:textColor="?textColor"
-                    android:textSize="17sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
