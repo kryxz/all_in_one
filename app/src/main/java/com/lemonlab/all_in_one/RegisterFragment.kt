@@ -81,6 +81,8 @@ class RegisterFragment : Fragment() {
     private fun registerNewUser(email: String, password: String, name: String) {
         val user = User(name = name, email = email, online = true)
         val auth = FirebaseAuth.getInstance()
+        registerProgressBar.visibility = View.VISIBLE
+        context!!.showMessage(getString(R.string.signing_in))
         auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener {
                 auth.currentUser!!.updateProfile(
@@ -90,6 +92,7 @@ class RegisterFragment : Fragment() {
                 )
                 addUserToFireStore(user)
             }.addOnFailureListener {
+                registerProgressBar.visibility = View.GONE
                 context!!.showMessage(getString(R.string.problem_occurred))
             }
 
@@ -97,9 +100,13 @@ class RegisterFragment : Fragment() {
 
     private fun addUserToFireStore(user: User) {
         val db = FirebaseFirestore.getInstance()
-        val uid = FirebaseAuth.getInstance().uid
-        db.collection("users").document("$uid").set(user)
-        view!!.navigateToAndClear(R.id.registerFragment, R.id.mainFragment)
+        val uid = FirebaseAuth.getInstance().uid!!
+        db.collection("users").document(uid).set(user).addOnSuccessListener {
+            view!!.navigateToAndClear(R.id.registerFragment, R.id.mainFragment)
+        }.addOnFailureListener {
+            registerProgressBar.visibility = View.GONE
+            context!!.showMessage(getString(R.string.problem_occurred))
+        }
     }
 
 }

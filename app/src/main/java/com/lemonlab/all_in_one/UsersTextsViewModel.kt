@@ -131,6 +131,7 @@ class UsersTextsViewModel(application: Application) : AndroidViewModel(applicati
         repository.getPostRef(id).addSnapshotListener { snapshot, e ->
             if (e != null) return@addSnapshotListener
             if (snapshot == null) return@addSnapshotListener
+            if (snapshot.data == null) return@addSnapshotListener
             viewPost.value = snapshot.toObject(ForumPost::class.java)
 
         }
@@ -169,8 +170,10 @@ class UsersTextsViewModel(application: Application) : AndroidViewModel(applicati
                 if (snapshot == null) return@addSnapshotListener
                 val documents = snapshot.documents
                 val posts: MutableList<ForumPost> = mutableListOf()
-                for (item in documents)
+                for (item in documents) {
+                    if (item.data == null) continue
                     posts.add(item.toObject(ForumPost::class.java)!!)
+                }
 
                 posts.sortByDescending {
                     it.timestamp.time
@@ -193,8 +196,10 @@ class UsersTextsViewModel(application: Application) : AndroidViewModel(applicati
 
                 val documents = snapshot.documents
                 val theStatuses: MutableList<UserStatus> = mutableListOf()
-                for (item in documents)
+                for (item in documents) {
+                    if (item.data == null) continue
                     theStatuses.add(item.toObject(UserStatus::class.java)!!)
+                }
 
                 when (sortBy) {
                     SortBy.Time -> theStatuses.sortByDescending {
@@ -216,6 +221,7 @@ class UsersTextsViewModel(application: Application) : AndroidViewModel(applicati
             repository.getStatusesRef().document(statusID).addSnapshotListener { snapshot, e ->
                 if (e != null) return@addSnapshotListener
                 if (snapshot == null) return@addSnapshotListener
+                if (snapshot.data == null) return@addSnapshotListener
 
                 val status = snapshot.toObject(UserStatus::class.java)!!
                 val id = snapshot.id
@@ -233,7 +239,7 @@ class UsersTextsViewModel(application: Application) : AndroidViewModel(applicati
 
 
         repository.getUsersRef().document(userID).get().addOnSuccessListener {
-            if (it == null) return@addOnSuccessListener
+            if (it == null || it.data == null) return@addOnSuccessListener
             name.value = it.data!!["name"].toString()
 
         }
@@ -252,6 +258,7 @@ class UsersTextsViewModel(application: Application) : AndroidViewModel(applicati
         repository.getPostRef(postID).addSnapshotListener { snapshot, e ->
             if (e != null) return@addSnapshotListener
             if (snapshot == null) return@addSnapshotListener
+            if (snapshot.data == null) return@addSnapshotListener
 
             comments.value = snapshot.toObject(ForumPost::class.java)!!.comments
 

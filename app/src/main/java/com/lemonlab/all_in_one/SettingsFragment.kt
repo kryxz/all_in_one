@@ -38,6 +38,7 @@ class SettingsFragment : Fragment() {
         val options = listOf(
             Option.DarkTheme,
             Option.StatusColor,
+            Option.FontChange,
             Option.ClearCache,
             Option.SignOut,
             Option.FAQ,

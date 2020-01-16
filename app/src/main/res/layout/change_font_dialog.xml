@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?backgroundColor"
+    android:orientation="vertical">
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/dialogTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:gravity="center_horizontal"
+        android:text="@string/fontChange"
+        android:textColor="?textColor"
+        android:textSize="26sp"
+        android:textStyle="bold" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/fontMada"
+        style="@style/dialog_font_textView"
+        android:fontFamily="@font/mada"
+        android:text="@string/app_name" />
+
+    <View style="@style/view_divider_style" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/fontCairo"
+        style="@style/dialog_font_textView"
+        android:fontFamily="@font/cairo_regular"
+        android:text="@string/app_name" />
+
+    <View style="@style/view_divider_style" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/fontTajawal"
+        style="@style/dialog_font_textView"
+        android:fontFamily="@font/tajawal_regular"
+        android:text="@string/app_name" />
+
+    <View style="@style/view_divider_style" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/fontAlMarai"
+        style="@style/dialog_font_textView"
+        android:fontFamily="@font/almarai"
+        android:text="@string/app_name" />
+
+    <View style="@style/view_divider_style" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/fontChangeCancelButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="?buttonColor"
+        android:padding="8dp"
+        android:text="@string/cancel"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -3,7 +3,6 @@ package com.lemonlab.all_in_one.items
 import android.app.Application
 import android.content.Context
 import android.graphics.PorterDuff
-import android.util.Log
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -73,6 +72,7 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
         repository.getUsersRef().document(userID).addSnapshotListener { snapshot, e ->
             if (e != null) return@addSnapshotListener
             if (snapshot == null) return@addSnapshotListener
+            if (snapshot.data == null) return@addSnapshotListener
 
             isOnline.value = snapshot["online"].toString().toBoolean()
 
@@ -92,8 +92,11 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
             if (snapshot == null) return@addSnapshotListener
             val list = mutableListOf<Message>()
             val messages = snapshot.documents
-            for (message in messages)
+            for (message in messages) {
+                if (message.data == null) continue
                 list.add(message.toObject(Message::class.java)!!)
+
+            }
 
             allMessages.value = list.asReversed()
         }
@@ -118,7 +121,6 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
         ref.add(message).addOnCompleteListener {
             ref.orderBy("timestamp", Query.Direction.ASCENDING).get().addOnSuccessListener {
                 val count = it.documents.size
-                Log.i("Messages", count.toString())
                 if (count < 50) return@addOnSuccessListener
                 val documents = it.documents
                 for (i in documents.size - 50 downTo 0)

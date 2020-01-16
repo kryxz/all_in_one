@@ -73,7 +73,7 @@
 
 
     <string name="saved_posts">المنشورات المحفوظة</string>
-    <string name="select_fonts">اختر احد الخطوط التالية</string>
+    <string name="select_fonts">اختر أحد الخطوط التالية</string>
     <string name="select_emoji">اختر احد هذه الايموجي</string>
     <string name="text_sample">عندما انطفأت شعلة النار، بدأ يحدِّق في النجوم عبر النافذة. كانت رحلة العودة ستتم من غير رفاق طريق.</string>
     <string name="couldnt_save_image">تعذر حفظ الصورة</string>
@@ -110,6 +110,7 @@
     <string name="search">ابحث</string>
     <string name="no_result">تعذّر العثور على أي نتيجة</string>
     <string name="status_color">خلفية نص الحالة</string>
+    <string name="fontChange">تغيير الخط</string>
     <string name="user_not_found">مستخدم محذوف</string>
     <string name="delete_comment_confirm">سيتم حذف تعليقك فورًا، هل أنت متأكد؟</string>
     <string name="delete_comment">حذف التعليق</string>

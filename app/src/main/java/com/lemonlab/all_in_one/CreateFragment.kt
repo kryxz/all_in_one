@@ -21,7 +21,6 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -551,7 +550,6 @@ class CreateFragment : Fragment() {
 
         // get the rv
         val fontsRv = fontsDialogView.fonts_rv
-        fontsRv.layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
 
         // set the adapter
         val adapter = GroupAdapter<ViewHolder>()

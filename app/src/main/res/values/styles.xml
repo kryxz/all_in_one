@@ -73,6 +73,21 @@
         <item name="colorAccent">#2f3542</item>
     </style>
 
+    <style name="cairoFont" parent="@style/Widget.AppCompat.ActionBar">
+        <item name="android:fontFamily">@font/cairo_regular</item>
+    </style>
+
+    <style name="tajFont" parent="@style/Widget.AppCompat.ActionBar">
+        <item name="android:fontFamily">@font/tajawal_regular</item>
+    </style>
+
+    <style name="alMarFont" parent="@style/Widget.AppCompat.ActionBar">
+        <item name="android:fontFamily">@font/almarai</item>
+    </style>
+
+    <style name="madaFont" parent="@style/Widget.AppCompat.ActionBar">
+        <item name="android:fontFamily">@font/mada</item>
+    </style>
 
     <style name="textAboveImageButtonStyle">
         <item name="android:layout_width">wrap_content</item>
@@ -97,6 +112,16 @@
         <item name="android:layout_margin">4dp</item>
         <item name="android:background">?colorPrimaryDark</item>
         <item name="android:padding">4dp</item>
+    </style>
+
+    <style name="dialog_font_textView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">4dp</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textColor">?textColor</item>
+        <item name="android:textSize">22sp</item>
     </style>
 
 </resources>

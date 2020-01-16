@@ -11,6 +11,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.lemonlab.all_in_one.extensions.makeTheUserOnline
+import com.lemonlab.all_in_one.items.Font
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -18,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setDarkOrLight()
+        setThemeAndFont()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         navController = Navigation.findNavController(this, R.id.navHost)
@@ -28,13 +29,23 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun setDarkOrLight() {
+    private fun setThemeAndFont() {
         val sharedPrefs = getSharedPreferences("UserPrefs", 0)
         val isDarkTheme = sharedPrefs.getBoolean("isDarkTheme", false)
+        val font = Font.valueOf(sharedPrefs.getString("fontPref", Font.Cairo.toString())!!)
+
         if (isDarkTheme)
             setTheme(R.style.DarkAppTheme)
         else
             setTheme(R.style.LightAppTheme)
+        when (font) {
+            Font.Cairo -> theme.applyStyle(R.style.cairoFont, false)
+            Font.Mada -> theme.applyStyle(R.style.madaFont, false)
+            Font.Taj -> theme.applyStyle(R.style.tajFont, false)
+            Font.AlMar -> theme.applyStyle(R.style.alMarFont, false)
+        }
+
+
     }
 
     override fun onPause() {

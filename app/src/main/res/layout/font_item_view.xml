@@ -11,8 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:padding="8dp"
         android:gravity="center_horizontal"
-        android:textSize="30sp"
+        android:textSize="26sp"
         android:text="@string/app_name"
         android:textColor="?textColor" />
+
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -180,6 +180,10 @@ class ViewPostFragment : Fragment() {
             if (context == null || it == null || view == null) return@addOnSuccessListener
             viewPostFragmentView.visibility = View.VISIBLE
             postLoadingProgressBar.visibility = View.GONE
+            if (it.data == null) {
+                view_post_postedBy.text = getString(R.string.username)
+                return@addOnSuccessListener
+            }
             view_post_postedBy.text = it.data!!["name"].toString()
 
         }

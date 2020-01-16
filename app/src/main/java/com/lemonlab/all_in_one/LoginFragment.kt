@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.lemonlab.all_in_one.extensions.highlightText
 import com.lemonlab.all_in_one.extensions.navigateToAndClear
 import com.lemonlab.all_in_one.extensions.showMessage
+import com.lemonlab.all_in_one.items.Category
 import com.lemonlab.all_in_one.items.CategoryPics
 import com.lemonlab.all_in_one.items.categories
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -40,8 +41,9 @@ class LoginFragment : Fragment() {
     }
 
     private fun init() {
-        login_quote_text_tv.text = context!!.highlightText(getRandomQuote())
-        login_text_image.setImageResource(CategoryPics.getRandomPic())
+        val category = categories[Random.nextInt(categories.size)]
+        login_quote_text_tv.text = context!!.highlightText(getRandomQuote(category))
+        login_text_image.setImageResource(CategoryPics.getRandomPic(category))
 
         login_btn.setOnClickListener {
             val email = login_user_email_edit_text.text.toString()
@@ -57,9 +59,10 @@ class LoginFragment : Fragment() {
 
     }
 
-    private fun getRandomQuote(): String {
+    private fun getRandomQuote(category: Category): String {
         val list = LocalQuotesFragment().getStatuses(
-            categories[Random.nextInt(categories.size)],
+            category,
+
             resources
         )
         return list[Random.nextInt(list.size)]
@@ -86,11 +89,13 @@ class LoginFragment : Fragment() {
 
     private fun login(email: String, password: String) {
         context!!.showMessage(getString(R.string.signing_in))
+        loginProgressBar.visibility = View.VISIBLE
         login_btn.isEnabled = false
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
                 view!!.navigateToAndClear(R.id.loginFragment, R.id.mainFragment)
             }.addOnFailureListener {
+                loginProgressBar.visibility = View.GONE
                 if (it.localizedMessage!!.contains("no user"))
                     context!!.showMessage(getString(R.string.no_user))
                 else

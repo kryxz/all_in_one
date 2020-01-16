@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.app.TaskStackBuilder
 import android.content.Intent
 import android.graphics.PorterDuff
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Handler
 import android.view.LayoutInflater
@@ -15,8 +16,10 @@ import android.widget.CompoundButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.lemonlab.all_in_one.MainActivity
 import com.lemonlab.all_in_one.R
 import com.lemonlab.all_in_one.extensions.recreateFragment
@@ -25,6 +28,7 @@ import com.lemonlab.all_in_one.extensions.showYesNoDialog
 import com.lemonlab.all_in_one.model.StatusColor
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
+import kotlinx.android.synthetic.main.change_font_dialog.view.*
 import kotlinx.android.synthetic.main.main_color_pref_dialog.view.*
 import kotlinx.android.synthetic.main.settings_item_text.view.*
 
@@ -36,9 +40,13 @@ enum class Option(val textID: Int) {
     PrivacyPolicy(R.string.privacyPolicyTitleAr),
     FAQ(R.string.faq),
     StatusColor(R.string.status_color),
+    FontChange(R.string.fontChange),
 
 }
 
+enum class Font {
+    Cairo, Mada, Taj, AlMar
+}
 
 class SettingsItem(
     private val option: Option, private val activity: Activity
@@ -62,6 +70,10 @@ class SettingsItem(
         textView.text = context.getString(option.textID)
 
         when (option) {
+            Option.FontChange -> {
+                setIcon(R.drawable.ic_fonts)
+                textView.setOnClickListener { changeFontDialog(it) }
+            }
             Option.ClearCache -> {
                 setIcon(R.drawable.ic_clear_all)
                 textView.setOnClickListener { clearCache(it) }
@@ -72,8 +84,19 @@ class SettingsItem(
                 textView.setOnClickListener { colorDialog(it) }
             }
             Option.SignOut -> {
-                setIcon(R.drawable.ic_logout)
-                textView.setOnClickListener { signOut(it) }
+                val isSignedIn = FirebaseAuth.getInstance().currentUser != null
+                // show logout
+                if (isSignedIn) {
+                    setIcon(R.drawable.ic_logout)
+                    textView.setOnClickListener { signOut(it) }
+                }
+                // show register
+                else {
+                    setIcon(R.drawable.ic_expand_more)
+                    textView.text = context.getString(R.string.loginOrRegister)
+                    textView.setOnClickListener { registerNow(it) }
+                }
+
             }
             Option.DarkTheme -> {
                 val sharedPrefs = context.getSharedPreferences("UserPrefs", 0)
@@ -99,6 +122,97 @@ class SettingsItem(
         }
 
     }
+
+    private fun registerNow(it: View) {
+        val navOptions =
+            NavOptions.Builder().setPopUpTo(R.id.settingsFragment, false).build()
+        it.findNavController().navigate(
+            R.id.registerFragment,
+            null, navOptions
+        )
+    }
+
+    private fun changeFontDialog(textView: View) {
+        val context = textView.context
+        val sharedPrefs = context.getSharedPreferences("UserPrefs", 0)
+
+        val dialogBuilder = AlertDialog.Builder(context).create()
+        val dialogView = with(LayoutInflater.from(context)) {
+            inflate(
+                R.layout.change_font_dialog,
+                null
+            )
+        }
+        val fontCairo = dialogView.fontCairo
+        val fontMada = dialogView.fontMada
+        val fontTaj = dialogView.fontTajawal
+
+        val fontAlMar = dialogView.fontAlMarai
+
+        val fonts = listOf(fontCairo, fontMada, fontTaj, fontAlMar)
+        val currentFont = Font.valueOf(sharedPrefs.getString("fontPref", Font.Cairo.toString())!!)
+
+        fun changeFont(font: Font) {
+            sharedPrefs.edit().putString("fontPref", font.toString()).apply()
+            recreateActivity()
+        }
+
+        dialogView.fontChangeCancelButton.setOnClickListener {
+            dialogBuilder.dismiss()
+        }
+
+        for (fontButton in fonts)
+            fontButton.setOnClickListener {
+                when (it) {
+
+                    fontCairo ->
+                        changeFont(Font.Cairo)
+
+
+                    fontMada ->
+                        changeFont(Font.Mada)
+
+
+                    fontTaj ->
+                        changeFont(Font.Taj)
+
+                    fontAlMar ->
+                        changeFont(Font.AlMar)
+
+
+                }
+                dialogBuilder.dismiss()
+            }
+
+
+
+        fun tickThis(textView: AppCompatTextView) {
+            textView.setCompoundDrawablesWithIntrinsicBounds(
+                ContextCompat.getDrawable(
+                    context,
+                    R.drawable.ic_check_circle
+                ), null, null, null
+            )
+            textView.setTypeface(textView.typeface, Typeface.BOLD)
+            textView.textSize = 26f
+        }
+
+
+
+        when (currentFont) {
+            Font.Cairo -> tickThis(fontCairo)
+            Font.Mada -> tickThis(fontMada)
+            Font.Taj -> tickThis(fontTaj)
+            Font.AlMar -> tickThis(fontAlMar)
+        }
+
+        with(dialogBuilder) {
+            setView(dialogView)
+            show()
+        }
+
+    }
+
 
     private fun tintDrawable(textView: AppCompatTextView) {
         // sets circle color to match user current preference
@@ -206,7 +320,12 @@ class SettingsItem(
         // put new preference
         sharedPrefs.edit().putBoolean("isDarkTheme", isDark).apply()
 
-        // restart activity
+        // recreate activity after 100ms
+        recreateActivity()
+
+    }
+
+    private fun recreateActivity() {
         Handler().postDelayed({
             TaskStackBuilder.create(activity)
                 .addNextIntent(Intent(activity, MainActivity::class.java))
@@ -261,20 +380,27 @@ class SettingsItem(
         dialog.show()
     }
 
+    private fun signOut(view: View) {
+        val uid = FirebaseAuth.getInstance().uid!!
+        fun signOutNow() {
+            FirebaseFirestore.getInstance().collection("users").document(uid)
+                .update("online", false)
+            FirebaseAuth.getInstance().signOut()
+            view.recreateFragment(R.id.settingsFragment)
+        }
+
+        val context = view.context
+        context.showYesNoDialog(
+            { signOutNow() },
+            {},
+            context.getString(R.string.logout),
+            context.getString(R.string.logout_confirm)
+        )
+
+    }
+
 
 }
 
-
-private fun signOut(view: View) {
-    fun signOutNow() = FirebaseAuth.getInstance().signOut()
-    val context = view.context
-    context.showYesNoDialog(
-        { signOutNow() },
-        {},
-        context.getString(R.string.logout),
-        context.getString(R.string.logout_confirm)
-    )
-
-}
 
 
