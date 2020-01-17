@@ -556,14 +556,14 @@ class CreateFragment : Fragment() {
 
         // get the fonts from assets
         val fontsTypeFaces = listOf(
-            ResourcesCompat.getFont(context!!, R.font.amiri_regular),
-            ResourcesCompat.getFont(context!!, R.font.aram),
-            ResourcesCompat.getFont(context!!, R.font.baloobhaijaan_regular),
-            ResourcesCompat.getFont(context!!, R.font.cairo_regular),
-            ResourcesCompat.getFont(context!!, R.font.lalezar_regular),
-            ResourcesCompat.getFont(context!!, R.font.rakkas_regular),
-            ResourcesCompat.getFont(context!!, R.font.tajawal_regular),
-            ResourcesCompat.getFont(context!!, R.font.vibes_regular)
+            getFont(R.font.amiri_regular),
+            getFont(R.font.aram),
+            getFont(R.font.baloobhaijaan_regular),
+            getFont(R.font.cairo_regular),
+            getFont(R.font.lalezar_regular),
+            getFont(R.font.rakkas_regular),
+            getFont(R.font.tajawal_regular),
+            getFont(R.font.vibes_regular)
         )
 
         // create the view and show it
@@ -591,6 +591,9 @@ class CreateFragment : Fragment() {
         // set the adapter
         fontsRv.adapter = adapter
     }
+
+    private fun getFont(id: Int) = ResourcesCompat.getFont(context!!, id)
+
 
     // function to get data from Font Item when user click on it
     private fun getDataFromFontsDialog(typeface: Typeface) {

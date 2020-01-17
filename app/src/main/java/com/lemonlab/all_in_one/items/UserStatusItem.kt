@@ -8,9 +8,11 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.lemonlab.all_in_one.R
 import com.lemonlab.all_in_one.UsersTextsFragment
+import com.lemonlab.all_in_one.UsersTextsFragmentDirections
 import com.lemonlab.all_in_one.extensions.getBitmapFromView
 import com.lemonlab.all_in_one.extensions.getDateAsString
 import com.lemonlab.all_in_one.extensions.highlightTextWithColor
@@ -97,7 +99,8 @@ class UserStatusItem(private val userStatus: UserStatus) :
             view.user_status_share_btn,
             view.user_status_content_btn,
             view.user_status_favorite_btn,
-            view.user_status_report_btn
+            view.user_status_report_btn,
+            view.user_status_decorate_btn
         )
 
         if (userStatus.userID == thisUserId)
@@ -154,11 +157,20 @@ class UserStatusItem(private val userStatus: UserStatus) :
                     R.id.user_status_report_btn ->
                         report(context)
 
+
+                    R.id.user_status_decorate_btn ->
+                        decorateText(it)
                 }
             }
         }
 
 
+    }
+
+    private fun decorateText(it: View) {
+        val direction =
+            UsersTextsFragmentDirections.decorateTextNow(text, userStatus.category.toString())
+        it.findNavController().navigate(direction)
     }
 
     private fun report(context: Context) {

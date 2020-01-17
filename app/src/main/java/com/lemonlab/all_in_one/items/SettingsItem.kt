@@ -39,7 +39,7 @@ enum class Option(val textID: Int) {
     MoreApps(R.string.moreApps),
     PrivacyPolicy(R.string.privacyPolicyTitleAr),
     FAQ(R.string.faq),
-    StatusColor(R.string.status_color),
+    MainColor(R.string.mainColor),
     FontChange(R.string.fontChange),
 
 }
@@ -78,7 +78,7 @@ class SettingsItem(
                 setIcon(R.drawable.ic_clear_all)
                 textView.setOnClickListener { clearCache(it) }
             }
-            Option.StatusColor -> {
+            Option.MainColor -> {
                 setIcon(R.drawable.ic_check_circle)
                 tintDrawable(textView)
                 textView.setOnClickListener { colorDialog(it) }

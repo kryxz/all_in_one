@@ -117,12 +117,20 @@
         android:id="@+id/favoritesFragment"
         android:name="com.lemonlab.all_in_one.FavoritesFragment"
         android:label="@string/favorites"
-        tools:layout="@layout/fragment_favorites" />
+        tools:layout="@layout/fragment_favorites">
+        <action
+            android:id="@+id/decorateTextNow"
+            app:destination="@id/decorateFragment" />
+    </fragment>
     <fragment
         android:id="@+id/usersTextsFragment"
         android:name="com.lemonlab.all_in_one.UsersTextsFragment"
         android:label="@string/usersTexts"
-        tools:layout="@layout/fragment_users_texts" />
+        tools:layout="@layout/fragment_users_texts">
+        <action
+            android:id="@+id/decorateTextNow"
+            app:destination="@id/decorateFragment" />
+    </fragment>
     <fragment
         android:id="@+id/sendImageFragment"
         android:name="com.lemonlab.all_in_one.SendImageFragment"

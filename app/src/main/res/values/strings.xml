@@ -118,6 +118,8 @@
     <string name="search">ابحث</string>
     <string name="no_result">تعذّر العثور على أي نتيجة</string>
     <string name="status_color">خلفية نص الحالة</string>
+    <string name="mainColor">اللون الرئيسي</string>
+    <string name="text_color">لون النّص</string>
     <string name="fontChange">تغيير الخط</string>
     <string name="changeImage">تغيير الصّورة</string>
     <string name="user_not_found">مستخدم محذوف</string>
@@ -228,6 +230,19 @@
         <item>أحمر</item>
         <item>أخضر</item>
         <item>رمادي</item>
+    </string-array>
+
+    <string-array name="MoreStatusColors">
+        <item>أزرق</item>
+        <item>أحمر</item>
+        <item>أخضر</item>
+        <item>رمادي</item>
+        <item>زهري</item>
+        <item>ذهبي</item>
+        <item>زمردي</item>
+        <item>عسلي</item>
+        <item>فحمي</item>
+        <item>فضي</item>
     </string-array>
 
     <string name="logout">تسجيل الخروج</string>

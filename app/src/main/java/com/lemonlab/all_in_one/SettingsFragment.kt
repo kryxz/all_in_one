@@ -37,7 +37,7 @@ class SettingsFragment : Fragment() {
         settings_rv.adapter = adapter
         val options = listOf(
             Option.DarkTheme,
-            Option.StatusColor,
+            Option.MainColor,
             Option.FontChange,
             Option.ClearCache,
             Option.SignOut,

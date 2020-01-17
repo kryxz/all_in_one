@@ -14,11 +14,20 @@
     <color name="transparentGrey">#80E2E2E2</color>
     <color name="lightColorAccent">#654834D4</color>
     <color name="red">#F00</color>
+    <color name="superBlack">#4b4b4b</color>
+    <color name="darkBackgroundColor">#2f3542</color>
+
     <color name="darkBlue">#1B1464</color>
     <color name="magentaPurple">#b33939</color>
     <color name="darkRed">#880E4F</color>
     <color name="darkGreen">#009432</color>
-    <color name="superBlack">#4b4b4b</color>
-    <color name="darkBackgroundColor">#2f3542</color>
+
+    <color name="rose">#FF0088</color>
+    <color name="gold">#DDAA22</color>
+    <color name="emerald">#50C878</color>
+    <color name="semiBrown">#8F281F</color>
+    <color name="charcoal">#36454f</color>
+    <color name="silver">#C0C0C0</color>
+
 
 </resources>

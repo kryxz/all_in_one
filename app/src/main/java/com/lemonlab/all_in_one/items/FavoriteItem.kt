@@ -1,7 +1,10 @@
 package com.lemonlab.all_in_one.items
 
+import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.navigation.findNavController
 import com.lemonlab.all_in_one.FavoritesFragment
+import com.lemonlab.all_in_one.FavoritesFragmentDirections
 import com.lemonlab.all_in_one.R
 import com.lemonlab.all_in_one.extensions.getBitmapFromView
 import com.lemonlab.all_in_one.extensions.highlightText
@@ -34,7 +37,7 @@ class FavoriteItem(
             val allButtons = listOf(
                 fav_download_btn, fav_content_btn,
                 fav_delete_btn, fav_whats_share_btn,
-                fav_share_btn
+                fav_share_btn, fav_decorate_btn
             )
 
             for (button in allButtons) {
@@ -58,12 +61,20 @@ class FavoriteItem(
                         fav_share_btn -> QuoteItem.shareText(text, context)
 
 
+                        fav_decorate_btn -> decorateText(it)
                     }
                 }
             }
         }
 
     }
+
+    private fun decorateText(it: View) {
+        val direction =
+            FavoritesFragmentDirections.decorateTextNow(text, favorite.category.toString())
+        it.findNavController().navigate(direction)
+    }
+
 
     private fun deleteFav() =
         FavoritesFragment.favoritesViewModel.remove(favorite)

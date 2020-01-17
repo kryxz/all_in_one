@@ -11,9 +11,10 @@ class FontItem(
     private var fontFace: Typeface, private var action: (Typeface) -> Unit,
     private var dialog: AlertDialog
 ) : Item<ViewHolder>() {
-    override fun getLayout(): Int {
-        return R.layout.font_item_view
-    }
+
+    override fun getLayout() =
+        R.layout.font_item_view
+
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
         val view = viewHolder.itemView
@@ -28,5 +29,6 @@ class FontItem(
             action.invoke(fontFace)
             dialog.dismiss()
         }
+
     }
 }

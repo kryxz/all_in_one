@@ -3,6 +3,7 @@ package com.lemonlab.all_in_one
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,13 +17,13 @@ import com.lemonlab.all_in_one.extensions.highlightText
 import com.lemonlab.all_in_one.extensions.highlightTextWithColor
 import com.lemonlab.all_in_one.items.Category
 import com.lemonlab.all_in_one.items.CategoryPics
+import com.lemonlab.all_in_one.items.FontItem
 import com.lemonlab.all_in_one.items.QuoteItem
-import com.lemonlab.all_in_one.model.StatusColor
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
-import kotlinx.android.synthetic.main.change_font_dialog.view.*
 import kotlinx.android.synthetic.main.change_image_dialog.view.*
+import kotlinx.android.synthetic.main.fonts_selector_view.view.*
 import kotlinx.android.synthetic.main.fragment_decorate.*
 import kotlinx.android.synthetic.main.image_item_view_dialog.view.*
 
@@ -68,89 +69,94 @@ class DecorateFragment : Fragment() {
         }
 
         // color spinner
-        val colorsTexts = resources.getStringArray(R.array.statusColors)
+        val colorsTexts = resources.getStringArray(R.array.MoreStatusColors)
 
-        text_color_spinner.adapter = ArrayAdapter(
+        val adapter = ArrayAdapter(
             context!!,
             R.layout.app_spinner, colorsTexts
         )
+        background_color_spinner.adapter = adapter
+
 
         val colors = listOf(
-            StatusColor.Blue,
-            StatusColor.Red,
-            StatusColor.Green,
-            StatusColor.Black
+            R.color.darkBlue,
+            R.color.magentaPurple,
+            R.color.darkGreen,
+            R.color.superBlack,
+            R.color.rose,
+            R.color.gold,
+            R.color.emerald,
+            R.color.semiBrown,
+            R.color.charcoal,
+            R.color.silver
         )
 
+        background_color_spinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
 
-        text_color_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val theText = decorate_text_edit_text.text.toString()
+                    val highlightedText = context!!.highlightTextWithColor(
+                        colors[position], theText
+                    )
+                    decorate_text_edit_text.setText(highlightedText)
+                }
 
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                val theText = decorate_text_edit_text.text.toString()
-                val highlightedText = context!!.highlightTextWithColor(
-                    colors[position]
-                        .value, theText
-                )
-                decorate_text_edit_text.setText(highlightedText)
             }
-
-        }
 
     }
 
 
     private fun changeFontDialog() {
 
+        fun changeFont(typeface: Typeface) {
+            decorate_text_edit_text.typeface = typeface
+        }
+
+
         val dialogBuilder = AlertDialog.Builder(context).create()
-        val dialogView = with(LayoutInflater.from(context)) {
-            inflate(
-                R.layout.change_font_dialog, null
-            )
 
-        }
-        val fontCairo = dialogView.fontCairo
-        val fontMada = dialogView.fontMada
-        val fontTaj = dialogView.fontTajawal
+        val dialogView =
+            with(LayoutInflater.from(context)) {
+                inflate(R.layout.fonts_selector_view, null)
+            }
 
-        val fontAlMar = dialogView.fontAlMarai
+        val fonts = listOf(
+            getFont(R.font.amiri_regular),
+            getFont(R.font.aram),
+            getFont(R.font.mada),
+            getFont(R.font.almarai),
+            getFont(R.font.baloobhaijaan_regular),
+            getFont(R.font.cairo_regular),
+            getFont(R.font.lalezar_regular),
+            getFont(R.font.rakkas_regular),
+            getFont(R.font.tajawal_regular),
+            getFont(R.font.vibes_regular)
+        )
 
-
-        val fonts = listOf(fontCairo, fontMada, fontTaj, fontAlMar)
-
-        fun changeFont(font: Int) {
-            val type = ResourcesCompat.getFont(context!!, font)!!
-            decorate_text_edit_text.typeface = type
-        }
-
-        dialogView.fontChangeCancelButton.setOnClickListener {
+        dialogView.fonts_selector_view_btn.setOnClickListener {
             dialogBuilder.dismiss()
         }
 
-        for (fontButton in fonts)
-            fontButton.setOnClickListener {
-                when (it) {
 
-                    fontCairo ->
-                        changeFont(R.font.cairo_regular)
+        val adapter = GroupAdapter<ViewHolder>()
+        // add all fonts to the adapter
+        for (font in fonts) {
+            adapter.add(
+                FontItem(
+                    fontFace = font, action = ::changeFont, dialog = dialogBuilder
+                )
+            )
+        }
 
-                    fontMada ->
-                        changeFont(R.font.mada)
-
-                    fontTaj ->
-                        changeFont(R.font.tajawal_regular)
-
-                    fontAlMar ->
-                        changeFont(R.font.almarai)
-
-                }
-                dialogBuilder.dismiss()
-            }
+        // set the adapter
+        dialogView.fonts_rv.adapter = adapter
 
 
         with(dialogBuilder) {
@@ -158,7 +164,11 @@ class DecorateFragment : Fragment() {
             show()
         }
 
+
     }
+
+    private fun getFont(id: Int) = ResourcesCompat.getFont(context!!, id)!!
+
 
     private fun pickImageFromGallery() {
         val intent = Intent(Intent.ACTION_PICK)
