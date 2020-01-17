@@ -91,6 +91,13 @@
             android:name="category"
             android:defaultValue="Wisdom"
             app:argType="com.lemonlab.all_in_one.items.Category" />
+        <action
+            android:id="@+id/decorateTextNow"
+            app:destination="@id/decorateFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/postFragment"
@@ -153,4 +160,16 @@
         android:name="com.lemonlab.all_in_one.FaqFragment"
         android:label="@string/faq"
         tools:layout="@layout/fragment_faq" />
+    <fragment
+        android:id="@+id/decorateFragment"
+        android:name="com.lemonlab.all_in_one.DecorateFragment"
+        android:label="@string/decorate"
+        tools:layout="@layout/fragment_decorate">
+        <argument
+            android:name="textDecorate"
+            app:argType="string" />
+        <argument
+            android:name="category"
+            app:argType="string" />
+    </fragment>
 </navigation>

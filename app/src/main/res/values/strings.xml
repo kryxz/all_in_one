@@ -29,6 +29,8 @@
     <string name="statusSent">تم ارسال الحالة بنجاح</string>
     <string name="warningSentStatus">حدث خطأ اثناء ارسال الحالة</string>
     <string name="showStatus">معاينة الحالة</string>
+    <string name="decorate">تزيين الحالة</string>
+    <string name="restoreText">استعادة النّص</string>
     <string name="statusCategory">تصنيف الحالة</string>
     <string name="emptyPosts">المنتدى فارغ حاليًا. كن أول من ينشر!</string>
     <string name="statusImageUploaded">تم نشر صورتك بناجح</string>
@@ -47,7 +49,7 @@
     <string name="appNotFound">تعذّر العثور على التطبيق</string>
     <string name="textDeleted">تم حذف المحتوى</string>
     <string name="undo">تراجع</string>
-    <string name="saveImage">حفظ الصورة</string>
+    <string name="saveImage">حفظ الصّورة</string>
     <string name="okay">حسنًا</string>
     <string name="comments">التعليقات</string>
     <string name="view_post">عرض المنشور</string>
@@ -55,6 +57,8 @@
     <string name="changeBackground">تغير الخلفية</string>
     <string name="selectImage">اختيار صورة</string>
     <string name="sendImage">إرسال صورة</string>
+    <string name="chooseImage">اختر صورة</string>
+    <string name="viewAllImages">عرض كل الصّور</string>
 
 
     <string name="confirm">تأكيد</string>
@@ -104,6 +108,10 @@
     <string name="register_tip_1"> تعرّف على المنتديات المليئة بالمنشورات النقاشيّة، علّق وتفاعل مع الجميع.</string>
     <string name="register_tip_2">قم بالدخول إلى الدردشة العالميّة، ملتقى مستخدمي التطبيق الأكبر. إرسال الرسائل لم يعد صعبًا!</string>
 
+
+    <string name="decorate_tip_1">يمكنك تعديل نص الحالة، وتعديل الصورة أو اختيار أي صورة، ويمكنك تغيير الخط ولون خلفية النص</string>
+
+
     <string name="signing_in">يجري تسجيل الدّخول</string>
     <string name="no_user">تعذّر العثور على المستخدم</string>
     <string name="problem_occurred">تعذّر الإتصال. يرجى المحاولة مرّة أخرى</string>
@@ -111,6 +119,7 @@
     <string name="no_result">تعذّر العثور على أي نتيجة</string>
     <string name="status_color">خلفية نص الحالة</string>
     <string name="fontChange">تغيير الخط</string>
+    <string name="changeImage">تغيير الصّورة</string>
     <string name="user_not_found">مستخدم محذوف</string>
     <string name="delete_comment_confirm">سيتم حذف تعليقك فورًا، هل أنت متأكد؟</string>
     <string name="delete_comment">حذف التعليق</string>

@@ -6,7 +6,9 @@ import android.os.Handler
 import android.provider.MediaStore
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.navigation.findNavController
 import com.lemonlab.all_in_one.LocalQuotesFragment
+import com.lemonlab.all_in_one.LocalQuotesFragmentDirections
 import com.lemonlab.all_in_one.R
 import com.lemonlab.all_in_one.extensions.getBitmapFromView
 import com.lemonlab.all_in_one.extensions.highlightText
@@ -210,6 +212,7 @@ class CategoryPics {
         fun getIndexPic(categoryIndex: Int, picIndex: Int) =
             allPics[categoryIndex][picIndex]
 
+        fun getAllPics() = allPics
     }
 
 }
@@ -248,6 +251,12 @@ class QuoteItem(
             val bitmap = view.quote_item_layout.getBitmapFromView()
             saveImage(bitmap, context)
         }
+
+        view.quote_decorate_btn.setOnClickListener {
+            it.findNavController()
+                .navigate(LocalQuotesFragmentDirections.decorateTextNow(text, category.toString()))
+        }
+
         // listens to button clicks and calls a specific function!
         listenButtons(
             context, listOf<View>(
