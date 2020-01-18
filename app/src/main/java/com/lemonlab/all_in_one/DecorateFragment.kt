@@ -5,6 +5,8 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +17,7 @@ import androidx.fragment.app.Fragment
 import com.lemonlab.all_in_one.extensions.getBitmapFromView
 import com.lemonlab.all_in_one.extensions.highlightText
 import com.lemonlab.all_in_one.extensions.highlightTextWithColor
+import com.lemonlab.all_in_one.extensions.showKeypad
 import com.lemonlab.all_in_one.items.Category
 import com.lemonlab.all_in_one.items.CategoryPics
 import com.lemonlab.all_in_one.items.FontItem
@@ -49,9 +52,13 @@ class DecorateFragment : Fragment() {
 
         val category = Category.valueOf(args.category)
         val text = args.textDecorate
+        decorate_text.text = context!!.highlightText(text)
 
         decorate_status_image.setImageResource(CategoryPics.getRandomPic(category))
-        decorate_text_edit_text.setText(context!!.highlightText(text))
+
+        decorate_text_edit_text.setText(text)
+
+
         // font
         changeFontText.setOnClickListener {
             changeFontDialog()
@@ -66,6 +73,13 @@ class DecorateFragment : Fragment() {
         text_withImage_save.setOnClickListener {
             val bitmap = textLayoutView.getBitmapFromView()
             QuoteItem.saveImage(bitmap, context!!)
+
+        }
+
+        // direct user to edit text if textView is clicked
+        decorate_text.setOnClickListener {
+            decorate_text_edit_text.requestFocus()
+            activity!!.showKeypad()
         }
 
         // color spinner
@@ -77,7 +91,7 @@ class DecorateFragment : Fragment() {
         )
         background_color_spinner.adapter = adapter
 
-
+        var currentColor = R.color.darkBlue
         val colors = listOf(
             R.color.darkBlue,
             R.color.magentaPurple,
@@ -102,13 +116,27 @@ class DecorateFragment : Fragment() {
                     id: Long
                 ) {
                     val theText = decorate_text_edit_text.text.toString()
+                    currentColor = colors[position]
                     val highlightedText = context!!.highlightTextWithColor(
-                        colors[position], theText
+                        currentColor, theText
                     )
-                    decorate_text_edit_text.setText(highlightedText)
+                    decorate_text.text = highlightedText
                 }
 
             }
+
+        // text change listen and update
+        decorate_text_edit_text.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                decorate_text.text = context!!.highlightTextWithColor(currentColor, s.toString())
+            }
+        })
 
     }
 
@@ -117,6 +145,7 @@ class DecorateFragment : Fragment() {
 
         fun changeFont(typeface: Typeface) {
             decorate_text_edit_text.typeface = typeface
+            decorate_text.typeface = typeface
         }
 
 

@@ -20,34 +20,23 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
 import com.lemonlab.all_in_one.extensions.createImageFile
 import com.lemonlab.all_in_one.extensions.removeWhitespace
 import com.lemonlab.all_in_one.items.FilterItem
 import com.lemonlab.all_in_one.items.FontItem
 import com.lemonlab.all_in_one.items.StickerItem
-import com.lemonlab.all_in_one.model.UserStatusImage
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import dev.sasikanth.colorsheet.ColorSheet
-import ja.burhanrashid52.photoeditor.OnPhotoEditorListener
-import ja.burhanrashid52.photoeditor.PhotoEditor
-import ja.burhanrashid52.photoeditor.PhotoFilter
-import ja.burhanrashid52.photoeditor.ViewType
+import ja.burhanrashid52.photoeditor.*
 import kotlinx.android.synthetic.main.fillters_selector_view.view.*
 import kotlinx.android.synthetic.main.fonts_selector_view.view.*
 import kotlinx.android.synthetic.main.fragment_create.*
-import kotlinx.android.synthetic.main.fragment_send_image.*
 import kotlinx.android.synthetic.main.input_text.view.*
 import kotlinx.android.synthetic.main.stickers_view.view.*
-import java.io.ByteArrayOutputStream
-import java.sql.Timestamp
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 /**
@@ -79,41 +68,53 @@ class CreateFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_create, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        editor()
+        super.onViewCreated(view, savedInstanceState)
+    }
+
     // options menu in app bar
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.photo_editor_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.createCamera)
             selectCameraImage()
 
-        if (item.itemId == R.id.createLibrary) {
+        if (item.itemId == R.id.createLibrary)
             selectImage()
-        }
 
-        if (item.itemId == R.id.createChangeBackground) {
+
+        if (item.itemId == R.id.createChangeBackground)
             changeEditorImage()
-        }
 
-        if (item.itemId == R.id.createSave) {
-            // save image in the gallery
+
+        if (item.itemId == R.id.createSave)
+        // save image in the gallery
             saveEditorImage()
-        }
 
-        if (item.itemId == R.id.createSend) {
-            // save then send the image to firestore
-            sendImageStatus()
-        }
+
+        if (item.itemId == R.id.createSend)
+            sendImageAsBitmap()
 
         return super.onOptionsItemSelected(item)
     }
 
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        editor()
-        super.onViewCreated(view, savedInstanceState)
+    private fun sendImageAsBitmap() {
+        photoEditor.saveAsBitmap(object : OnSaveBitmap {
+            override fun onFailure(e: java.lang.Exception?) {}
+            override fun onBitmapReady(saveBitmap: Bitmap?) {
+                if (saveBitmap == null) return
+                val direction = CreateFragmentDirections.SendThisImage()
+                    .setImage(saveBitmap)
+                view!!.findNavController().navigate(direction)
+            }
+        })
+
     }
 
     private fun saveEditorImage() {
@@ -648,61 +649,6 @@ class CreateFragment : Fragment() {
     // function to get data from filter Item when user click on it
     private fun getDataFromFilterDialog(filter: PhotoFilter) {
         photoEditor.setFilterEffect(filter)
-    }
-
-    // send image to firestore
-    private fun sendImageStatus() {
-
-        saveEditorImage() // generate image uri
-
-        if (imageUri != null) { // upload the image
-            uploadImage(imageUri!!)
-        } else {
-            Toast.makeText(
-                context!!, resources.getString(R.string.statusImageUploadedFailed),
-                Toast.LENGTH_LONG
-            ).show()
-        }
-    }
-
-    private fun uploadImage(imageUri: Uri) {
-
-        // convert the uri to image path
-
-        val bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, imageUri)
-        val bAOS = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bAOS)
-        val data = bAOS.toByteArray()
-        val uuid = UUID.randomUUID().toString().substring(0, 16)
-        val ref = FirebaseStorage.getInstance().reference.child("$uuid.png")
-
-        ref.putBytes(data).addOnSuccessListener {
-            ref.downloadUrl.addOnSuccessListener {
-                saveImageUrl(it.toString(), uuid)
-            }
-        }
-    }
-
-    private fun saveImageUrl(url: String, imageID: String) {
-        val ref = FirebaseFirestore.getInstance()
-        val id = FirebaseAuth.getInstance().uid!!
-        val image = UserStatusImage(
-            url,
-            imageID,
-            Timestamp(System.currentTimeMillis()),
-            id, ArrayList()
-        )
-
-        ref.collection("users_images").document(image.imageID).set(image).addOnSuccessListener {
-            if (context == null || view == null) return@addOnSuccessListener
-            Toast.makeText(
-                context!!, getString(R.string.statusImageUploaded),
-                Toast.LENGTH_LONG
-            ).show()
-            send_image_text_hint.visibility = View.VISIBLE
-            send_image_image_view.setImageDrawable(context!!.getDrawable(R.drawable.rounded_send_image))
-        }
-
     }
 
 }

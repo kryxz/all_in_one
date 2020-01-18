@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
+import com.lemonlab.all_in_one.extensions.hideKeypad
 import com.lemonlab.all_in_one.extensions.navigateToAndClear
 import com.lemonlab.all_in_one.extensions.removeWhitespace
 import com.lemonlab.all_in_one.extensions.showMessage
@@ -83,6 +84,7 @@ class RegisterFragment : Fragment() {
         val auth = FirebaseAuth.getInstance()
         registerProgressBar.visibility = View.VISIBLE
         context!!.showMessage(getString(R.string.signing_in))
+        activity!!.hideKeypad()
         auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener {
                 auth.currentUser!!.updateProfile(

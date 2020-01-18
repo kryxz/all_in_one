@@ -239,9 +239,8 @@ class UsersTextsViewModel(application: Application) : AndroidViewModel(applicati
 
 
         repository.getUsersRef().document(userID).get().addOnSuccessListener {
-            if (it == null || it.data == null) return@addOnSuccessListener
+            if (it == null || it.data == null || it.data!!["name"] == null) return@addOnSuccessListener
             name.value = it.data!!["name"].toString()
-
         }
 
         return name

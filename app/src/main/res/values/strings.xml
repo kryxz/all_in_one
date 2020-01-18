@@ -25,16 +25,17 @@
     <string name="selectStatusType">اختر نوع الحالة</string>
     <string name="statusValue">نص الحالة</string>
     <string name="sendStatus">ارسال الحالة</string>
-    <string name="warningTextEmpty">الرجاء كتابة حالة لتتمكن من الارسال</string>
-    <string name="statusSent">تم ارسال الحالة بنجاح</string>
+    <string name="warningTextEmpty">اكتب حالة أولًا!</string>
+    <string name="statusSent">تم الإرسال</string>
     <string name="warningSentStatus">حدث خطأ اثناء ارسال الحالة</string>
     <string name="showStatus">معاينة الحالة</string>
     <string name="decorate">تزيين الحالة</string>
     <string name="restoreText">استعادة النّص</string>
     <string name="statusCategory">تصنيف الحالة</string>
     <string name="emptyPosts">المنتدى فارغ حاليًا. كن أول من ينشر!</string>
-    <string name="statusImageUploaded">تم نشر صورتك بناجح</string>
-    <string name="statusImageUploadedFailed">حدث خطأ اثناء محاولة نشر الصورة</string>
+    <string name="no_images">كصحراء واسعة، هذا المكان فارغ!</string>
+    <string name="statusImageUploaded">تم النشر بناجح</string>
+    <string name="statusImageUploadedFailed">حدث خطأ أثناء نشر الصورة</string>
 
 
     <string name="send">إرسال</string>
@@ -110,6 +111,11 @@
 
 
     <string name="decorate_tip_1">يمكنك تعديل نص الحالة، وتعديل الصورة أو اختيار أي صورة، ويمكنك تغيير الخط ولون خلفية النص</string>
+
+
+    <string name="send_image_tip_1">لا ترفع صورة شخصيّة، ولا ترفع صورة ليس فيها تعبيرًا بمعنى</string>
+    <string name="send_image_tip_2">لا تكرر رفع الصّورة نفسها أكثر من مرّة، واحرص أن تكون الصورة فريدة</string>
+    <string name="send_image_tip_3">قم بالإبلاغ عن أي صورة غير لائقة، وسيتم حذفها إذا كانت حقًا غير لائقة</string>
 
 
     <string name="signing_in">يجري تسجيل الدّخول</string>

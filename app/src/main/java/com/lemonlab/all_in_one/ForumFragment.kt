@@ -9,7 +9,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
-import com.lemonlab.all_in_one.extensions.*
+import com.lemonlab.all_in_one.extensions.checkUser
+import com.lemonlab.all_in_one.extensions.recreateFragment
+import com.lemonlab.all_in_one.extensions.setFragmentTitle
+import com.lemonlab.all_in_one.extensions.showMessage
 import com.lemonlab.all_in_one.items.ForumPostItem
 import com.lemonlab.all_in_one.items.SavedPostItem
 import com.lemonlab.all_in_one.model.ForumPost
@@ -45,7 +48,6 @@ class ForumFragment : Fragment() {
 
         view.checkUser()
         init()
-        activity!!.hideKeypad(view)
 
         super.onViewCreated(view, savedInstanceState)
     }

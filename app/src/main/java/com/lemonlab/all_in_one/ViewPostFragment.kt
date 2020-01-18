@@ -267,7 +267,7 @@ class ViewPostFragment : Fragment() {
         )
         view_post_comment_text.text!!.clear()
         post.sendComment(comment)
-        activity!!.hideKeypad(view!!)
+        activity!!.hideKeypad()
 
     }
 

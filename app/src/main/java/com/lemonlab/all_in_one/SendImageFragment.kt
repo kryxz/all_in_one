@@ -18,6 +18,8 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.lemonlab.all_in_one.extensions.checkUser
+import com.lemonlab.all_in_one.extensions.getImageUriFromBitmap
 import com.lemonlab.all_in_one.model.UserStatusImage
 import kotlinx.android.synthetic.main.fragment_send_image.*
 import java.io.ByteArrayOutputStream
@@ -45,12 +47,25 @@ class SendImageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        view.checkUser()
+        init()
+    }
+
+    private fun init() {
+        val bitmap = SendImageFragmentArgs.fromBundle(arguments!!).image
+        if (bitmap != null) {
+            imageUri = context!!.getImageUriFromBitmap(bitmap)
+            send_image_image_view.setImageURI(imageUri)
+            send_image_text_hint.visibility = View.INVISIBLE
+            send_image_image_view.alpha = 1f
+        }
+
         // select image from gallery
         send_image_image_view.setOnClickListener {
             selectImage()
         }
 
-        // upload the image to firebase storage
+        // upload the image to fireBase storage
         send_image_send_btn.setOnClickListener {
             if (imageUri == null) {
                 selectImage()
@@ -89,7 +104,7 @@ class SendImageFragment : Fragment() {
                 pickImageFromGallery()
             }
         } else {
-            //system OS is < Marshmallow
+            // system OS is < Marshmallow
             pickImageFromGallery()
         }
     }
@@ -103,8 +118,9 @@ class SendImageFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK && requestCode == 1) {
-            send_image_image_view.setImageURI(data?.data)
-            imageUri = data?.data
+            send_image_image_view.setImageURI(data!!.data)
+            send_image_image_view.alpha = 1.0f
+            imageUri = data.data
             send_image_text_hint.visibility = View.INVISIBLE
         }
     }
@@ -113,6 +129,7 @@ class SendImageFragment : Fragment() {
 
         // convert the uri to image path
 
+        sendImageProgressBar.visibility = View.VISIBLE
         val bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, imageUri)
         val bAOS = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, bAOS)
@@ -139,10 +156,13 @@ class SendImageFragment : Fragment() {
 
         ref.collection("users_images").document(image.imageID).set(image).addOnSuccessListener {
             if (context == null || view == null) return@addOnSuccessListener
+            sendImageProgressBar.visibility = View.GONE
             Toast.makeText(
                 context!!, getString(R.string.statusImageUploaded),
                 Toast.LENGTH_LONG
             ).show()
+            imageUri = null
+            send_image_image_view.alpha = 0.5f
             send_image_text_hint.visibility = View.VISIBLE
             send_image_image_view.setImageDrawable(context!!.getDrawable(R.drawable.rounded_send_image))
         }

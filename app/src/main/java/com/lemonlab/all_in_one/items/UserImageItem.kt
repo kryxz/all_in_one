@@ -52,21 +52,24 @@ class UserImageItem(
         view.user_image_save.setOnClickListener {
             PicturesFragment.picturesViewModel.saveImage(image.url, activity = activity)
         }
-        if (image.userId == thisUserID) {
-            view.user_image_delete.visibility = View.VISIBLE
-            view.user_image_delete.setOnClickListener {
-                context.showYesNoDialog(
-                    functionToPerform = {
-                        adapter.remove(this)
-                        image.deleteImage()
-                    },
-                    functionIfCancel = {},
-                    dialogTitle = context.getString(R.string.delete_image),
-                    dialogMessage = context.getString(R.string.confirm_delete_image)
-                )
+        if (image.userId == thisUserID)
+            with(view.user_image_delete) {
+                visibility = View.VISIBLE
+                setOnClickListener {
+                    context.showYesNoDialog(
+                        functionToPerform = {
+                            adapter.remove(this@UserImageItem)
+                            image.deleteImage()
+                        },
+                        functionIfCancel = {},
+                        dialogTitle = context.getString(R.string.delete_image),
+                        dialogMessage = context.getString(R.string.confirm_delete_image)
+                    )
+                }
             }
+        else
+            view.user_image_delete.visibility = View.GONE
 
-        }
         CircularProgressDrawable(context).apply {
             strokeWidth = 12f
             centerRadius = 120f

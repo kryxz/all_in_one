@@ -5,12 +5,11 @@ import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import com.lemonlab.all_in_one.extensions.showMessage
 import com.lemonlab.all_in_one.items.UserImageItem
 import com.lemonlab.all_in_one.model.UserStatusImage
@@ -37,6 +36,7 @@ class PicturesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_pictures, container, false)
     }
@@ -47,11 +47,27 @@ class PicturesFragment : Fragment() {
         initAdapter()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.pictures_fragment_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.goToSendImage)
+            view!!.findNavController().navigate(R.id.sendImageFragment)
+        return super.onOptionsItemSelected(item)
+    }
+
+
     private fun initAdapter() {
         val adapter = GroupAdapter<ViewHolder>()
         pictures_rv.adapter = adapter
         var oldSize = 0
         picturesViewModel.getImages().observe(this, Observer {
+            if (it.isEmpty())
+                no_images_text_view.visibility = View.VISIBLE
+            else
+                no_images_text_view.visibility = View.GONE
             if (it.size == oldSize) return@Observer
             oldSize = it.size
             adapter.clear()
@@ -79,6 +95,10 @@ class PicturesViewModel(application: Application) : AndroidViewModel(application
             for (item in documents) {
                 if (item == null) continue
                 imagesList.add(item.toObject(UserStatusImage::class.java)!!)
+            }
+
+            imagesList.sortByDescending {
+                it.timestamp.time
             }
             allImages.value = imagesList
         }

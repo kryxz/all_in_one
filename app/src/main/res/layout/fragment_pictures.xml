@@ -7,6 +7,16 @@
     android:background="?backgroundColor"
     tools:context=".PicturesFragment">
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/no_images_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/no_images"
+        android:textAlignment="center"
+        android:textColor="?textColor"
+        android:textSize="24sp"
+        android:visibility="gone" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pictures_rv"
         android:layout_width="match_parent"

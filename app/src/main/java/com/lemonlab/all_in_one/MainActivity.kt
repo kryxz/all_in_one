@@ -10,6 +10,7 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.lemonlab.all_in_one.extensions.hideKeypad
 import com.lemonlab.all_in_one.extensions.makeTheUserOnline
 import com.lemonlab.all_in_one.items.Font
 import kotlinx.android.synthetic.main.activity_main.*
@@ -88,7 +89,8 @@ class MainActivity : AppCompatActivity() {
         )
 
         // hide bottom nav if user is in register or login fragments.
-        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            hideKeypad()
             if (fragmentsWithoutAppBar.contains(destination.id))
                 bottom_nav.visibility = View.INVISIBLE
             else

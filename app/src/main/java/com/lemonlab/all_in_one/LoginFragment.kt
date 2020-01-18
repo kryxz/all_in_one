@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.lemonlab.all_in_one.extensions.hideKeypad
 import com.lemonlab.all_in_one.extensions.highlightText
 import com.lemonlab.all_in_one.extensions.navigateToAndClear
 import com.lemonlab.all_in_one.extensions.showMessage
@@ -88,6 +89,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun login(email: String, password: String) {
+        activity!!.hideKeypad()
         context!!.showMessage(getString(R.string.signing_in))
         loginProgressBar.visibility = View.VISIBLE
         login_btn.isEnabled = false

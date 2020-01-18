@@ -6,7 +6,9 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.net.Uri
 import android.os.Environment
+import android.provider.MediaStore
 import android.text.SpannableString
 import android.text.format.DateFormat
 import android.text.style.BackgroundColorSpan
@@ -25,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.lemonlab.all_in_one.R
 import com.lemonlab.all_in_one.model.StatusColor
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -37,10 +40,10 @@ fun View.checkUser() {
         this.findNavController().navigate(R.id.mustLoginFragment)
 }
 
-fun View.navigateToAndClear(destinationId: Int, newdes: Int) {
+fun View.navigateToAndClear(destinationId: Int, newDes: Int) {
     val navOptions = NavOptions.Builder().setPopUpTo(destinationId, true).build()
     this.findNavController().navigate(
-        newdes,
+        newDes,
         null, navOptions
     )
 }
@@ -196,11 +199,28 @@ fun String.removeWhitespace(): String {
     return result
 }
 
-fun Activity.hideKeypad(view: View) {
+fun Activity.hideKeypad() {
     val inputMethod =
         this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    inputMethod.hideSoftInputFromWindow(view.windowToken, 0)
+    inputMethod.hideSoftInputFromWindow(window.decorView.rootView.windowToken, 0)
+}
+
+fun Activity.showKeypad() {
+    val inputMethod =
+        this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethod.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
 }
 
 fun getDateAsString(date: Date) =
     DateFormat.format("yyyy-MM-dd hh:mm", date)!!
+
+
+fun Context.getImageUriFromBitmap(bitmap: Bitmap): Uri {
+    val bytes = ByteArrayOutputStream()
+    bitmap.compress(Bitmap.CompressFormat.PNG, 100, bytes)
+    val path = MediaStore.Images.Media.insertImage(
+        contentResolver,
+        bitmap, getString(R.string.app_name), null
+    )
+    return Uri.parse(path.toString())
+}

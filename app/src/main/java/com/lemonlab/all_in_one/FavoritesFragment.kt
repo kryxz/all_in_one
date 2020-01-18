@@ -98,7 +98,7 @@ class FavoritesFragment : Fragment() {
         (menu.findItem(R.id.search).actionView as SearchView).setOnQueryTextListener(object :
             SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                activity!!.hideKeypad(view!!)
+                activity!!.hideKeypad()
                 if (adapter.itemCount == 0)
                     context!!.showMessage(getString(R.string.no_result))
                 return false
