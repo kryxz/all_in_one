@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="?backgroundColor"
+    android:orientation="vertical"
     android:padding="8dp">
 
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/forum_post_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:padding="8dp"
-        android:id="@+id/forum_post_card"
         app:cardCornerRadius="16dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -29,16 +29,16 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/forum_post_item_user_image_title"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_width="match_parent"
+                    android:layout_margin="4dp"
                     android:layout_weight="1"
                     android:padding="8dp"
-                    android:layout_margin="4dp"
-                    android:textSize="18sp"
                     android:text="@string/username"
                     android:textColor="?textColor"
                     android:textDirection="rtl"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -79,8 +79,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:tint="?iconColor"
             android:src="@drawable/ic_delete_x"
+            android:tint="?iconColor"
             android:visibility="gone" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -89,8 +89,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:tint="?iconColor"
-            android:src="@drawable/ic_report" />
+            android:src="@drawable/ic_report"
+            android:tint="?iconColor" />
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/forum_post_item_dislike"
@@ -98,13 +98,13 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:textColor="?textColor"
             android:background="@null"
             android:cursorVisible="false"
             android:drawableStart="@drawable/ic_arrow_downward"
             android:drawablePadding="8dp"
             android:focusable="false"
-            android:inputType="none" />
+            android:inputType="none"
+            android:textColor="?textColor" />
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/forum_post_item_like"
@@ -112,22 +112,22 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:textColor="?textColor"
             android:background="@null"
             android:cursorVisible="false"
             android:drawableStart="@drawable/ic_arrow_upward"
             android:drawablePadding="8dp"
             android:focusable="false"
-            android:inputType="none" />
+            android:inputType="none"
+            android:textColor="?textColor" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/forum_post_item_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:tint="?iconColor"
             android:layout_weight="1"
-            android:src="@drawable/ic_bookmark_border" />
+            android:src="@drawable/ic_bookmark_border"
+            android:tint="?iconColor" />
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>

@@ -18,7 +18,6 @@ class FavoritesRepository(private val favoriteDao: FavoriteDao) {
     var favoritesCodes: LiveData<List<Int>> = favoriteDao.getFavoritesCodes()
 
 
-
     suspend fun insert(favorite: Favorite) {
         favoriteDao.insertFavorite(favorite)
     }

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="?backgroundColor"
+    android:orientation="vertical"
     tools:context=".RegisterFragment">
 
     <androidx.core.widget.ContentLoadingProgressBar
@@ -35,8 +35,8 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_check_circle"
                     android:drawablePadding="8dp"
-                    android:text="@string/register_tip_1"
                     android:padding="8dp"
+                    android:text="@string/register_tip_1"
                     android:textColor="?textColor"
                     android:textIsSelectable="false"
                     android:textSize="18sp" />
@@ -46,8 +46,8 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_check_circle"
                     android:drawablePadding="8dp"
-                    android:text="@string/register_tip_2"
                     android:padding="8dp"
+                    android:text="@string/register_tip_2"
                     android:textColor="?textColor"
                     android:textIsSelectable="false"
                     android:textSize="18sp" />

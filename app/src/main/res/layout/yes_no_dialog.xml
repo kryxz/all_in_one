@@ -39,11 +39,11 @@
             android:layout_marginEnd="4dp"
             android:layout_weight="1"
             android:background="?buttonColor"
-            android:text="@string/confirm"
             android:padding="8dp"
+            android:text="@string/confirm"
             android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/dialogCancelButton"
@@ -56,8 +56,8 @@
             android:padding="8dp"
             android:text="@string/cancel"
             android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.appcompat.widget.LinearLayoutCompat>

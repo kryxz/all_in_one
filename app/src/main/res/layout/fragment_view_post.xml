@@ -136,13 +136,13 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:layout_weight="1"
-                    android:textColor="?textColor"
                     android:background="@null"
                     android:cursorVisible="false"
                     android:drawableStart="@drawable/ic_arrow_downward"
                     android:drawablePadding="8dp"
                     android:focusable="false"
-                    android:inputType="none" />
+                    android:inputType="none"
+                    android:textColor="?textColor" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/view_post_like"
@@ -151,12 +151,12 @@
                     android:layout_margin="8dp"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:textColor="?textColor"
                     android:cursorVisible="false"
                     android:drawableStart="@drawable/ic_arrow_upward"
                     android:drawablePadding="8dp"
                     android:focusable="false"
-                    android:inputType="none" />
+                    android:inputType="none"
+                    android:textColor="?textColor" />
 
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -234,8 +234,8 @@
                 android:padding="8dp"
                 android:text="@string/no_comments"
                 android:textColor="?textColor"
-                android:textSize="20sp"
                 android:textDirection="rtl"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 android:visibility="gone" />
 

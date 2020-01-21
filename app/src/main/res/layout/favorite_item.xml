@@ -4,8 +4,8 @@
     xmlns:card_view="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="?backgroundColor"
+    android:orientation="vertical"
     android:padding="8dp">
 
 
@@ -64,8 +64,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:tint="?iconColor"
-            android:src="@drawable/ic_arrow_downward" />
+            android:src="@drawable/ic_arrow_downward"
+            android:tint="?iconColor" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/fav_decorate_btn"
@@ -90,8 +90,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:tint="?iconColor"
-            android:src="@drawable/ic_copy" />
+            android:src="@drawable/ic_copy"
+            android:tint="?iconColor" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/fav_share_btn"
@@ -99,8 +99,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:tint="?iconColor"
-            android:src="@drawable/ic_share" />
+            android:src="@drawable/ic_share"
+            android:tint="?iconColor" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/fav_delete_btn"
@@ -108,8 +108,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:tint="?iconColor"
-            android:src="@drawable/ic_delete_x" />
+            android:src="@drawable/ic_delete_x"
+            android:tint="?iconColor" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

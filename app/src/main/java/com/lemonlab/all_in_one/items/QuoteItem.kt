@@ -2,10 +2,12 @@ package com.lemonlab.all_in_one.items
 
 import android.content.*
 import android.graphics.Bitmap
+import android.graphics.PorterDuff
 import android.os.Handler
 import android.provider.MediaStore
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import com.lemonlab.all_in_one.LocalQuotesFragment
 import com.lemonlab.all_in_one.LocalQuotesFragmentDirections
@@ -15,6 +17,7 @@ import com.lemonlab.all_in_one.extensions.highlightText
 import com.lemonlab.all_in_one.extensions.showMessage
 import com.lemonlab.all_in_one.items.CategoryPics.Companion.getPics
 import com.lemonlab.all_in_one.model.Favorite
+import com.lemonlab.all_in_one.model.StatusColor
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.quote_item.view.*
@@ -247,6 +250,7 @@ class QuoteItem(
         else
             view.quote_favorite_btn.setImageResource(R.drawable.ic_favorite_empty)
 
+        tintFavIcon(view.quote_favorite_btn)
         view.quote_download_btn.setOnClickListener {
             val bitmap = view.quote_item_layout.getBitmapFromView()
             saveImage(bitmap, context)
@@ -343,6 +347,17 @@ class QuoteItem(
             context.showMessage(context.getString(R.string.image_saved))
         }
 
+        fun tintFavIcon(imageView: AppCompatImageView) {
+            imageView.context.apply {
+                getSharedPreferences("UserPrefs", 0).also {
+                    val color = ContextCompat.getColor(
+                        this@apply,
+                        it.getInt("mainColor", StatusColor.Blue.value)
+                    )
+                    imageView.setColorFilter(color, PorterDuff.Mode.SRC_IN)
+                }
+            }
+        }
 
     }
 

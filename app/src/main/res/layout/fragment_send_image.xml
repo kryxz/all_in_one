@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|center_horizontal"
                     android:text="@string/tap_to_choose_image"
-                    android:textColor="?textColor"
+                    android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 

@@ -11,7 +11,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.lemonlab.all_in_one.extensions.hideKeypad
-import com.lemonlab.all_in_one.extensions.makeTheUserOnline
 import com.lemonlab.all_in_one.items.Font
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -51,18 +50,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause() {
         val uid = FirebaseAuth.getInstance().uid
-
         // check if there user logged in
         if (!uid.isNullOrEmpty())
             FirebaseFirestore.getInstance().collection("users").document("$uid")
-                .update("online", true)
+                .update("online", false)
         super.onPause()
     }
 
-    override fun onResume() {
-        makeTheUserOnline()
-        super.onResume()
-    }
 
     override fun onNavigateUp(): Boolean =
         navController.navigateUp()

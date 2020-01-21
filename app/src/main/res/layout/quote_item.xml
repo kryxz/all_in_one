@@ -4,9 +4,9 @@
     xmlns:card_view="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp"
     android:background="?backgroundColor"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="8dp">
 
 
     <com.google.android.material.card.MaterialCardView
@@ -18,8 +18,8 @@
         card_view:cardBackgroundColor="@android:color/transparent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
             android:id="@+id/quote_item_layout"
+            android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -64,8 +64,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:tint="?colorAccent"
-            android:src="@drawable/ic_arrow_downward" />
+            android:src="@drawable/ic_arrow_downward"
+            android:tint="?colorAccent" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/quote_decorate_btn"
@@ -90,8 +90,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:tint="?iconColor"
-            android:src="@drawable/ic_copy" />
+            android:src="@drawable/ic_copy"
+            android:tint="?iconColor" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/quote_share_btn"
@@ -99,8 +99,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:tint="?iconColor"
-            android:src="@drawable/ic_share" />
+            android:src="@drawable/ic_share"
+            android:tint="?iconColor" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/quote_favorite_btn"
@@ -108,8 +108,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:tint="?iconColor"
-            android:src="@drawable/ic_favorite_empty" />
+            android:src="@drawable/ic_favorite_empty"
+            android:tint="?iconColor" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

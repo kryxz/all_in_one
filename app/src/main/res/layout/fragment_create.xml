@@ -35,8 +35,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?backgroundColor"
-        android:weightSum="6"
         android:paddingTop="4dp"
+        android:weightSum="6"
         app:layout_constraintBottom_toTopOf="@+id/photoEditorBottomBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -46,24 +46,24 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:tint="@color/black"
-            android:src="@drawable/ic_undo" />
+            android:src="@drawable/ic_undo"
+            android:tint="@color/black" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/redo_btn"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:tint="@color/black"
-            android:src="@drawable/ic_redo" />
+            android:src="@drawable/ic_redo"
+            android:tint="@color/black" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/increment_brush_size_btn"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:tint="@color/black"
             android:src="@drawable/ic_plus_2"
+            android:tint="@color/black"
             android:visibility="visible" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -71,8 +71,8 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:tint="@color/black"
             android:src="@drawable/ic_mins_2"
+            android:tint="@color/black"
             android:visibility="visible" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -89,8 +89,8 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:tint="@color/black"
             android:src="@drawable/ic_photo_library"
+            android:tint="@color/black"
             android:visibility="visible" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

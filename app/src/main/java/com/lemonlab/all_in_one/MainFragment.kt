@@ -10,7 +10,7 @@ import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
-import com.lemonlab.all_in_one.extensions.makeTheUserOnline
+import com.lemonlab.all_in_one.extensions.userOnline
 import com.lemonlab.all_in_one.items.MainFragmentItem
 import com.lemonlab.all_in_one.items.MainItem
 import com.lemonlab.all_in_one.model.Favorite
@@ -33,7 +33,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // View created successfully. Call any methods here.
         init()
-        makeTheUserOnline()
+        userOnline()
 
 
         checkName()
