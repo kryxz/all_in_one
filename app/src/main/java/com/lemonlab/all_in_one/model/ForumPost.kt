@@ -20,7 +20,11 @@ data class ForumPost(
 
 
     private fun updatePost() {
-        FirebaseFirestore.getInstance().collection("posts").document(postID).set(this)
+        val ref = FirebaseFirestore.getInstance().collection("posts").document(postID)
+        ref.get().addOnSuccessListener {
+            if (it.data != null)
+                ref.set(this)
+        }
     }
 
 

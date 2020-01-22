@@ -25,6 +25,8 @@ import com.lemonlab.all_in_one.model.StatusColor
 import com.lemonlab.all_in_one.model.UserStatus
 import kotlinx.android.synthetic.main.fragment_send.*
 import java.sql.Timestamp
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.random.Random
 
 /*
@@ -214,23 +216,23 @@ class SendFragment : Fragment() {
         sendFragmentView.visibility = View.GONE
         textSendingProgressBar.visibility = View.VISIBLE
 
+        val statusID = UUID.randomUUID().toString().substring(0, 16)
         val userStatus = UserStatus(
             text = text,
             category = statusCategory,
             statusColor = statusColor,
             timestamp = Timestamp(System.currentTimeMillis()),
             userID = id.toString(),
+            statusID = statusID,
             reportsIDs = ArrayList(),
             likesIDs = ArrayList()
         )
-
+        activity!!.hideKeypad()
         val db = FirebaseFirestore.getInstance()
-        db.collection("statuses").add(userStatus).addOnSuccessListener {
+        db.collection("statuses").document(statusID).set(userStatus).addOnSuccessListener {
             sendFragmentView.visibility = View.VISIBLE
             textSendingProgressBar.visibility = View.GONE
             context!!.showMessage(getString(R.string.statusSent))
-            userStatus.statusID = it.id
-            it.set(userStatus)
             send_status_edit_text.text!!.clear()
 
         }.addOnFailureListener {

@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import com.lemonlab.all_in_one.extensions.hideKeypad
 import com.lemonlab.all_in_one.extensions.navigateToAndClear
 import com.lemonlab.all_in_one.extensions.removeWhitespace
@@ -104,6 +105,7 @@ class RegisterFragment : Fragment() {
         val db = FirebaseFirestore.getInstance()
         val uid = FirebaseAuth.getInstance().uid!!
         db.collection("users").document(uid).set(user).addOnSuccessListener {
+            FirebaseMessaging.getInstance().subscribeToTopic(uid)
             view!!.navigateToAndClear(R.id.registerFragment, R.id.mainFragment)
         }.addOnFailureListener {
             registerProgressBar.visibility = View.GONE

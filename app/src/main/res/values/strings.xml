@@ -143,6 +143,15 @@
     <string name="post_forum_tip2">قم بالإبلاغ عن أي إساءة تراها سواء لشخص أو لفئة ما، وسيتم التعامل معها بأسرع وقت</string>
 
 
+    <!-- Notifications -->
+    <string name="channelDescription">الإشعارات المتعلّقة بالإعجابات والتعليقات على المنشورات</string>
+
+    <string name="newLikesTitle">إعجابات جديدة!</string>
+    <string name="newLikesMessage">حصل منشورك على %1$d إعجابات.</string>
+
+    <string name="newCommentTitle">تعليق جديد!</string>
+    <string name="newCommentMessage">أرسل %1$s تعليقًا جديدًا لمنشورك.</string>
+
     <!-- FAQ -->
 
     <string-array name="faq">

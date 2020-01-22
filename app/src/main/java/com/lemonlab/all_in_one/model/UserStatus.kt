@@ -15,22 +15,29 @@ enum class StatusColor(val value: Int) {
 }
 
 data class UserStatus(
-    val userID: String, val text: String, val category: Category,
-    val statusColor: StatusColor, var statusID: String = "",
-    var likesIDs: ArrayList<String>? = null, var reportsIDs: ArrayList<String>? = null,
+    val userID: String,
+    val text: String,
+    val category: Category,
+    val statusColor: StatusColor,
+    var statusID: String = "",
+    var likesIDs: ArrayList<String>? = ArrayList(),
+    var reportsIDs: ArrayList<String>? = ArrayList(),
     val timestamp: Date
 ) {
 
 
     constructor() : this(
         "", "", Category.Other, StatusColor.Blue,
-        "", ArrayList<String>(), ArrayList<String>(), Timestamp(System.currentTimeMillis())
+        "", ArrayList(), ArrayList(), Timestamp(System.currentTimeMillis())
     )
 
     private fun update() {
         val ref = FirebaseFirestore.getInstance()
             .collection("statuses").document(this.statusID)
-        ref.set(this)
+        ref.get().addOnSuccessListener {
+            if (it.data != null)
+                ref.set(this)
+        }
     }
 
 
@@ -43,7 +50,7 @@ data class UserStatus(
 
         ref.get().addOnSuccessListener {
             if (it == null) return@addOnSuccessListener
-            this.likesIDs = it.toObject(UserStatus::class.java)!!.likesIDs
+            likesIDs = it.toObject(UserStatus::class.java)!!.likesIDs
 
             if (likesIDs!!.contains(likeID)) return@addOnSuccessListener
 
@@ -63,7 +70,7 @@ data class UserStatus(
 
         ref.get().addOnSuccessListener {
             if (it == null) return@addOnSuccessListener
-            this.likesIDs = it.toObject(UserStatus::class.java)!!.likesIDs
+            likesIDs = it.toObject(UserStatus::class.java)!!.likesIDs
 
             if (!likesIDs!!.contains(likeID)) return@addOnSuccessListener
 
@@ -83,7 +90,7 @@ data class UserStatus(
 
         ref.get().addOnSuccessListener {
             if (it == null) return@addOnSuccessListener
-            this.reportsIDs = it.toObject(UserStatus::class.java)!!.reportsIDs
+            reportsIDs = it.toObject(UserStatus::class.java)!!.reportsIDs
             if (reportsIDs!!.contains(reportID)) return@addOnSuccessListener
             reportsIDs!!.add(reportID)
             update()

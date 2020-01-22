@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.messaging.FirebaseMessaging
 import com.lemonlab.all_in_one.extensions.hideKeypad
 import com.lemonlab.all_in_one.extensions.highlightText
 import com.lemonlab.all_in_one.extensions.navigateToAndClear
@@ -95,6 +96,9 @@ class LoginFragment : Fragment() {
         login_btn.isEnabled = false
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
+                val uid = it.user!!.uid
+                if (uid.isNotEmpty())
+                    FirebaseMessaging.getInstance().subscribeToTopic(uid)
                 view!!.navigateToAndClear(R.id.loginFragment, R.id.mainFragment)
             }.addOnFailureListener {
                 loginProgressBar.visibility = View.GONE

@@ -2,6 +2,7 @@ package com.lemonlab.all_in_one.items
 
 import android.content.Context
 import android.graphics.PorterDuff
+import android.os.Handler
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
@@ -10,6 +11,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.lemonlab.all_in_one.NotificationSender
 import com.lemonlab.all_in_one.R
 import com.lemonlab.all_in_one.UsersTextsFragment
 import com.lemonlab.all_in_one.UsersTextsFragmentDirections
@@ -152,7 +154,7 @@ class UserStatusItem(private val userStatus: UserStatus) :
 
                     // add to favorites. send like to remote database.
                     R.id.user_status_favorite_btn ->
-                        favorite()
+                        favorite(context)
 
                     R.id.user_status_report_btn ->
                         report(context)
@@ -199,7 +201,7 @@ class UserStatusItem(private val userStatus: UserStatus) :
 
     }
 
-    private fun favorite() {
+    private fun favorite(context: Context) {
         val auth = FirebaseAuth.getInstance()
 
         val thisFavorite = Favorite(
@@ -214,9 +216,21 @@ class UserStatusItem(private val userStatus: UserStatus) :
                 userStatus.cancelLike(auth.uid!!)
 
         } else {
+            favoritesViewModel.insert(thisFavorite)
+
             if (auth.currentUser != null)
                 userStatus.like(auth.uid!!)
-            favoritesViewModel.insert(thisFavorite)
+
+            if (thisUserId != userStatus.userID)
+                Handler().postDelayed({
+                    if (userStatus.likesCount() > 3)
+                        NotificationSender().notifyUserLikes(
+                            context,
+                            userStatus.userID,
+                            userStatus.likesCount()
+                        )
+                }, 2000)
+
         }
 
 
