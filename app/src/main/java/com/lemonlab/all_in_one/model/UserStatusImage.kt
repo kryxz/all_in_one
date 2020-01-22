@@ -37,7 +37,11 @@ data class UserStatusImage(
     }
 
     private fun updatePost() {
-        FirebaseFirestore.getInstance().collection("posts").document(imageID).set(this)
+        val ref = FirebaseFirestore.getInstance().collection("posts").document(imageID)
+        ref.get().addOnSuccessListener {
+            if (it.data != null)
+                ref.set(this)
+        }
     }
 
 

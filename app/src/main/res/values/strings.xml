@@ -19,7 +19,7 @@
     <string name="invalidEmailPassword">يجب ملء جميع الحقول</string>
     <string name="invalidEmail">بريد إلكتروني غير صالح</string>
     <string name="invalidPassword">كلمة السر قصيرة جدًا</string>
-    <string name="invalidUsername">اسم المستخدم غير صالح</string>
+    <string name="invalidUsername">اسم المستخدم قصير جدًا</string>
     <string name="statusMessage">حالة نصية</string>
     <string name="statusImage">حالة صورية</string>
     <string name="selectStatusType">اختر نوع الحالة</string>
@@ -127,7 +127,9 @@
     <string name="mainColor">اللون الرئيسي</string>
     <string name="text_color">لون النّص</string>
     <string name="fontChange">تغيير الخط</string>
+    <string name="changeName">تغيير الاسم</string>
     <string name="changeImage">تغيير الصّورة</string>
+    <string name="newName">الاسم الجديد</string>
     <string name="user_not_found">مستخدم محذوف</string>
     <string name="delete_comment_confirm">سيتم حذف تعليقك فورًا، هل أنت متأكد؟</string>
     <string name="delete_comment">حذف التعليق</string>

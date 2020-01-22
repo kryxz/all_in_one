@@ -267,7 +267,9 @@ class ViewPostFragment : Fragment() {
         )
         view_post_comment_text.text!!.clear()
         post.sendComment(comment)
-        NotificationSender().notifyUserComment(context!!, post.userID)
+        if (postsViewModel.getUserID() != post.userID)
+            NotificationSender().notifyUserComment(context!!, post.userID)
+
         activity!!.hideKeypad()
 
     }

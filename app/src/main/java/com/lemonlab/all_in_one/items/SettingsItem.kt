@@ -19,6 +19,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 import com.lemonlab.all_in_one.MainActivity
 import com.lemonlab.all_in_one.R
@@ -29,6 +30,7 @@ import com.lemonlab.all_in_one.model.StatusColor
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.change_font_dialog.view.*
+import kotlinx.android.synthetic.main.change_name_dialog.view.*
 import kotlinx.android.synthetic.main.main_color_pref_dialog.view.*
 import kotlinx.android.synthetic.main.settings_item_text.view.*
 
@@ -41,6 +43,7 @@ enum class Option(val textID: Int) {
     FAQ(R.string.faq),
     MainColor(R.string.mainColor),
     FontChange(R.string.fontChange),
+    ChangeName(R.string.changeName),
 
 }
 
@@ -73,6 +76,10 @@ class SettingsItem(
             Option.FontChange -> {
                 setIcon(R.drawable.ic_fonts)
                 textView.setOnClickListener { changeFontDialog(it) }
+            }
+            Option.ChangeName -> {
+                setIcon(R.drawable.ic_account_circle)
+                textView.setOnClickListener { changeNameDialog(it) }
             }
             Option.ClearCache -> {
                 setIcon(R.drawable.ic_clear_all)
@@ -120,6 +127,54 @@ class SettingsItem(
                 textView.setOnClickListener { faq(it) }
             }
         }
+
+    }
+
+    private fun changeNameDialog(textView: View) {
+        val context = textView.context
+
+        val dialogBuilder = AlertDialog.Builder(context).create()
+        val dialogView = with(LayoutInflater.from(context)) {
+            inflate(
+                R.layout.change_name_dialog,
+                null
+            )
+        }
+        val newName = dialogView.new_name_editText
+        val confirmButton = dialogView.dialogConfirmButton
+        val cancelButton = dialogView.dialogCancelButton
+
+        confirmButton.setOnClickListener {
+            val username = newName.text.toString()
+            val usernameOK = username.length > 5
+            if (!usernameOK) {
+                newName.error = context.getString(R.string.invalidUsername)
+                return@setOnClickListener
+            }
+            updateUserName(username)
+            dialogBuilder.dismiss()
+
+        }
+        cancelButton.setOnClickListener {
+            dialogBuilder.dismiss()
+        }
+
+        with(dialogBuilder) {
+            setView(dialogView)
+            show()
+        }
+    }
+
+    private fun updateUserName(username: String) {
+        val auth = FirebaseAuth.getInstance()
+        val uid = auth.uid
+        auth.currentUser!!.updateProfile(
+            UserProfileChangeRequest.Builder().setDisplayName(username).build()
+        )
+
+        FirebaseFirestore.getInstance().collection(
+            "users"
+        ).document(uid!!).update("name", username)
 
     }
 

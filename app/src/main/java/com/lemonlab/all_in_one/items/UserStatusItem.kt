@@ -223,7 +223,7 @@ class UserStatusItem(private val userStatus: UserStatus) :
 
             if (thisUserId != userStatus.userID)
                 Handler().postDelayed({
-                    if (userStatus.likesCount() > 3)
+                    if (userStatus.likesCount() % 4 == 0)
                         NotificationSender().notifyUserLikes(
                             context,
                             userStatus.userID,

@@ -237,9 +237,8 @@ class UsersTextsViewModel(application: Application) : AndroidViewModel(applicati
     fun getSenderName(userID: String): MutableLiveData<String> {
         val name: MutableLiveData<String> = MutableLiveData()
 
-
-        repository.getUsersRef().document(userID).get().addOnSuccessListener {
-            if (it == null || it.data == null || it.data!!["name"] == null) return@addOnSuccessListener
+        repository.getUsersRef().document(userID).addSnapshotListener { it, e ->
+            if (it == null || it.data == null || it.data!!["name"] == null || e != null) return@addSnapshotListener
             name.value = it.data!!["name"].toString()
         }
 

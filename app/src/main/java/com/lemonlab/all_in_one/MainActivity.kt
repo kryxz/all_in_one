@@ -16,6 +16,7 @@ import com.lemonlab.all_in_one.extensions.hideKeypad
 import com.lemonlab.all_in_one.items.Font
 import kotlinx.android.synthetic.main.activity_main.*
 
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController

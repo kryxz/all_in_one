@@ -14,10 +14,13 @@ import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.lemonlab.all_in_one.extensions.removeWhitespace
 import com.lemonlab.all_in_one.extensions.showMessage
 import com.lemonlab.all_in_one.model.ForumPost
 import kotlinx.android.synthetic.main.fragment_post.*
 import java.sql.Timestamp
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**
@@ -50,8 +53,8 @@ class PostFragment : Fragment() {
             if (forum_post_text.text.isNullOrBlank() && forum_post_title.text.isNullOrBlank()) return@setOnClickListener
 
             // save text for un delete
-            val postText = forum_post_text.text.toString()
-            val titleText = forum_post_title.text.toString()
+            val postText = forum_post_text.text.toString().removeWhitespace()
+            val titleText = forum_post_title.text.toString().removeWhitespace()
 
             // clear text fields
             forum_post_text.text!!.clear()
@@ -73,7 +76,7 @@ class PostFragment : Fragment() {
         }
         preview_forum_post_btn.setOnClickListener {
             // do nothing if fields are empty
-            if (forum_post_text.text.isNullOrBlank() && forum_post_title.text.isNullOrBlank()) return@setOnClickListener
+            if (forum_post_text.text.isNullOrBlank() || forum_post_title.text.isNullOrBlank()) return@setOnClickListener
 
 
             // declare builder and view
@@ -95,8 +98,8 @@ class PostFragment : Fragment() {
             dialogBuilder.show()
 
             // get and set text
-            val postText = forum_post_text.text.toString()
-            val titleText = forum_post_title.text.toString()
+            val postText = forum_post_text.text.toString().removeWhitespace()
+            val titleText = forum_post_title.text.toString().removeWhitespace()
 
             val previewText = if (postText.length > 64)
                 StringBuilder().append(postText.substring(0, 63)).append("…").toString()
@@ -113,17 +116,23 @@ class PostFragment : Fragment() {
         }
 
         post_to_forum_btn.setOnClickListener {
+
             if (forum_post_text.text.isNullOrBlank() || forum_post_title.text.isNullOrBlank()) {
                 context!!.showMessage(getString(R.string.fillFields))
                 return@setOnClickListener
             }
 
             // create a Forum Post object
-            val postText = forum_post_text.text.toString()
-            val titleText = forum_post_title.text.toString()
+            val postText = forum_post_text.text.toString().removeWhitespace()
+            val titleText = forum_post_title.text.toString().removeWhitespace()
 
-            val uid = FirebaseAuth.getInstance().uid.toString()
+            val auth = FirebaseAuth.getInstance()
+            val uid = auth.uid.toString()
             val timestamp = Timestamp(System.currentTimeMillis())
+            val userName = auth.currentUser!!.displayName
+            val postID =
+                "$userName-" + UUID.randomUUID().toString().substring(0, 16).replace("-", "")
+
             val forumPost = ForumPost(
                 title = titleText,
                 text = postText,
@@ -133,20 +142,18 @@ class PostFragment : Fragment() {
                 likesIDs = ArrayList(),
                 dislikesIDs = ArrayList(),
                 reportIDs = ArrayList(),
-                postID = ""
+                postID = postID
             )
             val db = FirebaseFirestore.getInstance()
             forumPostingProgressBar.visibility = View.VISIBLE
             postFragmentView.visibility = View.GONE
-            db.collection("posts").add(forumPost).addOnSuccessListener {
+            db.collection("posts").document(postID).set(forumPost).addOnSuccessListener {
                 forumPostingProgressBar.visibility = View.GONE
                 postFragmentView.visibility = View.VISIBLE
                 // clear text fields
                 forum_post_text.text!!.clear()
                 forum_post_title.text!!.clear()
                 context!!.showMessage(getString(R.string.postSent))
-                forumPost.postID = it.id
-                db.collection("posts").document(it.id).set(forumPost)
                 // go back
                 view!!.findNavController().navigateUp()
             }

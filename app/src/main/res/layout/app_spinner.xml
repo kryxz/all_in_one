@@ -3,7 +3,6 @@
     android:id="@+id/statusColorSpinnerText"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/backgroundColor"
     android:drawablePadding="8dp"
     android:orientation="horizontal"
     android:padding="8dp"

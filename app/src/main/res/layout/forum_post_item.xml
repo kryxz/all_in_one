@@ -14,6 +14,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:padding="8dp"
+        style="@style/Widget.MaterialComponents.CardView"
+        app:cardBackgroundColor="?editTextBackgroundColor"
+        app:strokeColor="?textHintColor"
+        app:strokeWidth="1dp"
         app:cardCornerRadius="16dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat

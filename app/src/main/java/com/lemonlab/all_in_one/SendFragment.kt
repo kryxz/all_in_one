@@ -202,7 +202,6 @@ class SendFragment : Fragment() {
 
     private fun sendTextUserStatus() {
         val text = send_status_edit_text.text.toString().removeWhitespace()
-        val id = FirebaseAuth.getInstance().uid
 
         if (text.isEmpty()) {
             Toast.makeText(
@@ -212,11 +211,14 @@ class SendFragment : Fragment() {
             ).show()
             return
         }
+        val id = FirebaseAuth.getInstance().uid
 
         sendFragmentView.visibility = View.GONE
         textSendingProgressBar.visibility = View.VISIBLE
+        val userName = FirebaseAuth.getInstance().currentUser!!.displayName
+        val statusID =
+            "$userName-" + UUID.randomUUID().toString().substring(0, 16).replace("-", "")
 
-        val statusID = UUID.randomUUID().toString().substring(0, 16)
         val userStatus = UserStatus(
             text = text,
             category = statusCategory,
@@ -234,6 +236,7 @@ class SendFragment : Fragment() {
             textSendingProgressBar.visibility = View.GONE
             context!!.showMessage(getString(R.string.statusSent))
             send_status_edit_text.text!!.clear()
+            view!!.findNavController().navigate(R.id.usersTextsFragment)
 
         }.addOnFailureListener {
             context!!.showMessage(getString(R.string.warningSentStatus))

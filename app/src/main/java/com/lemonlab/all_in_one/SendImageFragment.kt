@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -134,7 +135,8 @@ class SendImageFragment : Fragment() {
         val bAOS = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, bAOS)
         val data = bAOS.toByteArray()
-        val uuid = UUID.randomUUID().toString().substring(0, 16)
+        val username = FirebaseAuth.getInstance().currentUser!!.displayName
+        val uuid = "$username-" + UUID.randomUUID().toString().substring(0, 16)
         val ref = FirebaseStorage.getInstance().reference.child("$uuid.png")
 
         ref.putBytes(data).addOnSuccessListener {
@@ -162,6 +164,7 @@ class SendImageFragment : Fragment() {
                 Toast.LENGTH_LONG
             ).show()
             imageUri = null
+            view!!.findNavController().navigate(R.id.picturesFragment)
             send_image_image_view.alpha = 0.5f
             send_image_text_hint.visibility = View.VISIBLE
             send_image_image_view.setImageDrawable(context!!.getDrawable(R.drawable.rounded_send_image))

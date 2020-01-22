@@ -5,7 +5,6 @@
     <item
         android:id="@+id/createSend"
         android:icon="@drawable/ic_send"
-        android:iconTint="@color/grey"
         android:title="@string/sendImage"
         app:showAsAction="ifRoom" />
 
@@ -18,19 +17,19 @@
     <item
         android:id="@+id/createChangeBackground"
         android:icon="@drawable/ic_sticker"
-        app:showAsAction="ifRoom"
+        app:showAsAction="never"
         android:title="@string/changeBackground" />
 
     <item
         android:id="@+id/createSave"
         android:icon="@drawable/ic_down_arrow"
         android:title="@string/saveImage"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/createLibrary"
         android:icon="@drawable/ic_photo_library"
         android:title="@string/selectImage"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 
 </menu>

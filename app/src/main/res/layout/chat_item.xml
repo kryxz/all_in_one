@@ -7,12 +7,15 @@
     android:layoutDirection="ltr"
     android:orientation="vertical">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
+        style="@style/Widget.MaterialComponents.CardView"
         android:padding="8dp"
         app:cardBackgroundColor="?editTextBackgroundColor"
+        app:strokeColor="?textHintColor"
+        app:strokeWidth="0.5dp"
         app:cardCornerRadius="16dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -55,6 +58,6 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

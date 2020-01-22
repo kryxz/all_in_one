@@ -86,9 +86,9 @@ class ChatFragment : Fragment() {
 
     private fun sendMessage() {
 
-        send_message_btn.setBackgroundColor(ContextCompat.getColor(context!!, R.color.greyDark))
         val messageText = chat_edit_text.text.toString()
         if (messageText.isEmpty()) return
+        send_message_btn.setBackgroundColor(ContextCompat.getColor(context!!, R.color.greyDark))
         // clear the edit text
         chat_edit_text.text!!.clear()
 

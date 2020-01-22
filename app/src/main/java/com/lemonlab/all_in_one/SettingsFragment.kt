@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.firebase.auth.FirebaseAuth
 import com.lemonlab.all_in_one.items.Option
 import com.lemonlab.all_in_one.items.SettingsItem
 import com.xwray.groupie.GroupAdapter
@@ -35,7 +36,7 @@ class SettingsFragment : Fragment() {
     private fun init() {
         val adapter = GroupAdapter<ViewHolder>()
         settings_rv.adapter = adapter
-        val options = listOf(
+        val options = mutableListOf(
             Option.DarkTheme,
             Option.MainColor,
             Option.FontChange,
@@ -46,6 +47,9 @@ class SettingsFragment : Fragment() {
             Option.MoreApps
         )
 
+        val isSignedIn = FirebaseAuth.getInstance().currentUser != null
+        if (isSignedIn)
+            options.add(3, Option.ChangeName)
 
         for (item in options)
             adapter.add(SettingsItem(item, activity!!))
