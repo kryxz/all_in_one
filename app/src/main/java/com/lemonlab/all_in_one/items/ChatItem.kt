@@ -31,13 +31,16 @@ class ChatItem(private val message: Message) : Item<ViewHolder>() {
         // set the message text and the username
         val context = view.context
         view.chat_tv.text = context.highlightText(message.text)
-        view.chat_item_username_tv.text = message.username
+        val textView = viewHolder.itemView.chat_item_username_tv
+
+        textView.text = message.username
+
 
         // mark this message with new color
         if (message.userUid == model.getUserID())
-            view.chat_item_username_tv.setTextColor(ContextCompat.getColor(context, R.color.green))
-
-        val textView = viewHolder.itemView.chat_item_username_tv
+            textView.setTextColor(ContextCompat.getColor(context, R.color.green))
+        else
+            textView.setTextColor(ContextCompat.getColor(context, R.color.red))
 
         model.getUserStatus(message.userUid).observe(ChatFragment.lifecycleOwner, Observer {
             if (it)

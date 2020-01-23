@@ -32,13 +32,11 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
+// asks user to login to continue.
+fun View.checkUser() =
+    FirebaseAuth.getInstance().currentUser
+        ?: findNavController().navigate(R.id.mustLoginFragment)
 
-fun View.checkUser() {
-    // tells user to login to continue.
-    val currentUser = FirebaseAuth.getInstance().currentUser
-    if (currentUser == null)
-        this.findNavController().navigate(R.id.mustLoginFragment)
-}
 
 fun View.navigateToAndClear(destinationId: Int, newDes: Int) {
     val navOptions = NavOptions.Builder().setPopUpTo(destinationId, true).build()
@@ -48,9 +46,9 @@ fun View.navigateToAndClear(destinationId: Int, newDes: Int) {
     )
 }
 
-fun Context.showMessage(m: String) {
+fun Context.showMessage(m: String) =
     Toast.makeText(this, m, Toast.LENGTH_LONG).show()
-}
+
 
 fun userOnline() {
     val uid = FirebaseAuth.getInstance().uid
@@ -138,7 +136,7 @@ fun View.getBitmapFromView(): Bitmap {
 }
 
 
-fun View.recreateFragment(fragmentID: Int) {
+fun View.recreateFragment(fragmentID: Int) =
     findNavController().navigate(
         fragmentID,
         null,
@@ -146,7 +144,7 @@ fun View.recreateFragment(fragmentID: Int) {
             .setPopUpTo(fragmentID, true)
             .build()
     )
-}
+
 
 fun Context.showYesNoDialog(
     functionToPerform: () -> Unit,
@@ -199,17 +197,17 @@ fun String.removeWhitespace(): String {
     return result
 }
 
-fun Activity.hideKeypad() {
-    val inputMethod =
-        this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    inputMethod.hideSoftInputFromWindow(window.decorView.rootView.windowToken, 0)
-}
+fun Activity.hideKeypad() =
+    with(getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager) {
+        hideSoftInputFromWindow(window.decorView.rootView.windowToken, 0)
+    }
 
-fun Activity.showKeypad() {
-    val inputMethod =
-        this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    inputMethod.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
-}
+
+fun Activity.showKeypad() =
+    with(getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager) {
+        toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+    }
+
 
 fun getDateAsString(date: Date) =
     DateFormat.format("yyyy-MM-dd hh:mm", date)!!

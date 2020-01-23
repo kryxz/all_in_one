@@ -18,7 +18,6 @@ import com.lemonlab.all_in_one.extensions.getBitmapFromView
 import com.lemonlab.all_in_one.extensions.highlightText
 import com.lemonlab.all_in_one.extensions.highlightTextWithColor
 import com.lemonlab.all_in_one.extensions.showKeypad
-import com.lemonlab.all_in_one.items.Category
 import com.lemonlab.all_in_one.items.CategoryPics
 import com.lemonlab.all_in_one.items.FontItem
 import com.lemonlab.all_in_one.items.QuoteItem
@@ -50,7 +49,7 @@ class DecorateFragment : Fragment() {
     private fun init() {
         val args = DecorateFragmentArgs.fromBundle(arguments!!)
 
-        val category = Category.valueOf(args.category)
+        val category = args.category
         val text = args.textDecorate
         decorate_text.text = context!!.highlightText(text)
 
@@ -213,7 +212,8 @@ class DecorateFragment : Fragment() {
     }
 
     private fun changeImageDialog() {
-        val category = Category.valueOf(DecorateFragmentArgs.fromBundle(arguments!!).category)
+        val category =
+            DecorateFragmentArgs.fromBundle(arguments!!).category
         val dialogBuilder = AlertDialog.Builder(context).create()
         val dialogView = with(LayoutInflater.from(context)) {
             inflate(R.layout.change_image_dialog, null)

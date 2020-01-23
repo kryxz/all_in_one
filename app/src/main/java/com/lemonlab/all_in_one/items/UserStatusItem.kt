@@ -171,7 +171,7 @@ class UserStatusItem(private val userStatus: UserStatus) :
 
     private fun decorateText(it: View) {
         val direction =
-            UsersTextsFragmentDirections.decorateTextNow(text, userStatus.category.toString())
+            UsersTextsFragmentDirections.decorateTextNow(text, userStatus.category)
         it.findNavController().navigate(direction)
     }
 

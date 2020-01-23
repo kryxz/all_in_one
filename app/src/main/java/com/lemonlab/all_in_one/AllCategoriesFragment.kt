@@ -35,9 +35,13 @@ class AllCategoriesFragment : Fragment() {
     private fun init() {
         val adapter = GroupAdapter<ViewHolder>()
         category_rv.adapter = adapter
+        val sharedPrefs = context!!.getSharedPreferences("UserPrefs", 0)
+
+        val showImage =
+            sharedPrefs.getBoolean("showImages", true)
 
         for (item in categories)
-            adapter.add(CategoryItem(item))
+            adapter.add(CategoryItem(item, showImage))
 
     }
 

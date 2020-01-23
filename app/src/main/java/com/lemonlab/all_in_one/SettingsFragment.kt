@@ -40,6 +40,7 @@ class SettingsFragment : Fragment() {
             Option.DarkTheme,
             Option.MainColor,
             Option.FontChange,
+            Option.ShowImages,
             Option.ClearCache,
             Option.SignOut,
             Option.FAQ,
@@ -48,8 +49,10 @@ class SettingsFragment : Fragment() {
         )
 
         val isSignedIn = FirebaseAuth.getInstance().currentUser != null
-        if (isSignedIn)
+        if (isSignedIn) {
             options.add(3, Option.ChangeName)
+            options.add(4, Option.Notifications)
+        }
 
         for (item in options)
             adapter.add(SettingsItem(item, activity!!))

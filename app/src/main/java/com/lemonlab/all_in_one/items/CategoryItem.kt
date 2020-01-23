@@ -11,11 +11,12 @@ import kotlinx.android.synthetic.main.category_view.view.*
 import kotlin.random.Random
 
 
-class CategoryItem(private val category: Category) :
+class CategoryItem(private val category: Category, private val showImage: Boolean) :
 
     Item<ViewHolder>() {
     override fun getLayout() =
-        R.layout.category_view
+        if (showImage) R.layout.category_view else
+            R.layout.category_text_item
 
 
     private val pic = CategoryPics.getPics(category)[Random.nextInt(CategoryPics.size)]
@@ -23,9 +24,15 @@ class CategoryItem(private val category: Category) :
     override fun bind(viewHolder: ViewHolder, position: Int) {
         val view = viewHolder.itemView
         val context = view.context
+
+
         val categoryText = context.getString(category.textID)
-        view.category_tv.text = context.highlightText(categoryText)
-        view.category_image.setImageResource(pic)
+
+        if (showImage) {
+            view.category_tv.text = context.highlightText(categoryText)
+            view.category_image.setImageResource(pic)
+        } else
+            view.category_tv.text = categoryText
 
         view.setOnClickListener {
             it.findNavController()
@@ -41,7 +48,8 @@ enum class MainItem(val textID: Int) {
     Favorites(R.string.favorites),
     UsersTexts(R.string.usersTexts),
     Pictures(R.string.pictures),
-    Quotes(R.string.all_categories)
+    Quotes(R.string.all_categories),
+    StatusCreate(R.string.statusCreate)
 }
 
 
@@ -51,36 +59,44 @@ class MainFragmentItem(private val mainItem: MainItem) :
     override fun getLayout() =
         R.layout.category_view
 
-
     private val pic = CategoryPics.getRandomPic()
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
         val view = viewHolder.itemView
 
-        view.category_image.setImageResource(pic)
         val context = view.context
+        val text = context.getString(mainItem.textID)
+        view.category_image.setImageResource(pic)
+        view.category_tv.text = context.highlightText(text)
 
-        view.category_tv.text =
-            context.highlightText(context.getString(mainItem.textID))
 
         view.setOnClickListener {
+            val navController = it.findNavController()
             when (mainItem) {
                 MainItem.Favorites -> {
-                    it.findNavController()
+                    navController
                         .navigate(MainFragmentDirections.mainToFavorites())
 
                 }
                 MainItem.UsersTexts -> {
-                    it.findNavController()
+                    navController
                         .navigate(MainFragmentDirections.mainToUsersTexts())
                 }
                 MainItem.Pictures -> {
-                    it.findNavController().navigate(R.id.picturesFragment)
+                    navController.navigate(R.id.picturesFragment)
                 }
                 MainItem.Quotes -> {
-                    it.findNavController()
+                    navController
                         .navigate(MainFragmentDirections.mainToCategories())
                 }
+                MainItem.StatusCreate -> {
+                    navController
+                        .navigate(
+                            MainFragmentDirections
+                                .mainToDecorate("", Category.Other)
+                        )
+                }
+
             }
 
         }

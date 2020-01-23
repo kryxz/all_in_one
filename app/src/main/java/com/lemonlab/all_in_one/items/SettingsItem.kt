@@ -3,7 +3,9 @@ package com.lemonlab.all_in_one.items
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.TaskStackBuilder
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.net.Uri
@@ -12,7 +14,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.CompoundButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -21,6 +22,7 @@ import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import com.lemonlab.all_in_one.MainActivity
 import com.lemonlab.all_in_one.R
 import com.lemonlab.all_in_one.extensions.recreateFragment
@@ -44,6 +46,8 @@ enum class Option(val textID: Int) {
     MainColor(R.string.mainColor),
     FontChange(R.string.fontChange),
     ChangeName(R.string.changeName),
+    ShowImages(R.string.showImages),
+    Notifications(R.string.notifications),
 
 }
 
@@ -73,23 +77,34 @@ class SettingsItem(
         textView.text = context.getString(option.textID)
 
         when (option) {
+            // Font change
+
             Option.FontChange -> {
                 setIcon(R.drawable.ic_fonts)
                 textView.setOnClickListener { changeFontDialog(it) }
             }
+
+
+            // change name
             Option.ChangeName -> {
                 setIcon(R.drawable.ic_account_circle)
                 textView.setOnClickListener { changeNameDialog(it) }
             }
+
+            // clear cache
             Option.ClearCache -> {
                 setIcon(R.drawable.ic_clear_all)
                 textView.setOnClickListener { clearCache(it) }
             }
+
+            // app main color
             Option.MainColor -> {
                 setIcon(R.drawable.ic_check_circle)
                 tintDrawable(textView)
                 textView.setOnClickListener { colorDialog(it) }
             }
+
+            // sign out if signed in. else register
             Option.SignOut -> {
                 val isSignedIn = FirebaseAuth.getInstance().currentUser != null
                 // show logout
@@ -105,23 +120,50 @@ class SettingsItem(
                 }
 
             }
+
+            // dark theme switch
             Option.DarkTheme -> {
                 val sharedPrefs = context.getSharedPreferences("UserPrefs", 0)
                 switch.isChecked = sharedPrefs.getBoolean("isDarkTheme", false)
                 switch.visibility = View.VISIBLE
-                switch.setOnCheckedChangeListener { button, isChecked ->
-                    changeTheme(button, isChecked)
+                switch.setOnCheckedChangeListener { _, isChecked ->
+                    changeTheme(sharedPrefs, isChecked)
                 }
 
             }
+            // notifications switch
+            Option.Notifications -> {
+                val sharedPrefs = context.getSharedPreferences("UserPrefs", 0)
+                switch.isChecked = sharedPrefs.getBoolean("notifications", true)
+                switch.visibility = View.VISIBLE
+                switch.setOnCheckedChangeListener { _, isChecked ->
+                    changeNotifyPref(sharedPrefs, isChecked)
+                }
+
+            }
+            // show Images in categories switch
+            Option.ShowImages -> {
+                val sharedPrefs = context.getSharedPreferences("UserPrefs", 0)
+                switch.isChecked = sharedPrefs.getBoolean("showImages", true)
+                switch.visibility = View.VISIBLE
+                switch.setOnCheckedChangeListener { _, isChecked ->
+                    showImages(sharedPrefs, isChecked)
+                }
+
+            }
+            // more apps
             Option.MoreApps -> {
                 setIcon(R.drawable.ic_apps)
                 textView.setOnClickListener { moreApps(it) }
             }
+
+            // privacy policy dialog
             Option.PrivacyPolicy -> {
                 setIcon(R.drawable.ic_info)
                 textView.setOnClickListener { showPrivacyPolicy(it) }
             }
+
+            // FAQ fragment
             Option.FAQ -> {
                 setIcon(R.drawable.ic_question_answer)
                 textView.setOnClickListener { faq(it) }
@@ -129,6 +171,24 @@ class SettingsItem(
         }
 
     }
+
+    private fun showImages(sharedPrefs: SharedPreferences, checked: Boolean) =
+        sharedPrefs.edit().putBoolean("showImages", checked).apply()
+
+
+    private fun changeNotifyPref(sharedPrefs: SharedPreferences, checked: Boolean) {
+        val uid = FirebaseAuth.getInstance().uid!!
+        with(FirebaseMessaging.getInstance()) {
+            if (checked)
+                subscribeToTopic(uid)
+            else
+                unsubscribeFromTopic(uid)
+        }
+
+        sharedPrefs.edit().putBoolean("notifications", checked).apply()
+
+    }
+
 
     private fun changeNameDialog(textView: View) {
         val context = textView.context
@@ -143,6 +203,12 @@ class SettingsItem(
         val newName = dialogView.new_name_editText
         val confirmButton = dialogView.dialogConfirmButton
         val cancelButton = dialogView.dialogCancelButton
+        val currentUsername = dialogView.currentUsername
+
+        currentUsername.text = context.getString(
+            R.string.currentName,
+            FirebaseAuth.getInstance().currentUser?.displayName
+        )
 
         confirmButton.setOnClickListener {
             val username = newName.text.toString()
@@ -151,7 +217,7 @@ class SettingsItem(
                 newName.error = context.getString(R.string.invalidUsername)
                 return@setOnClickListener
             }
-            updateUserName(username)
+            updateUserName(username, context)
             dialogBuilder.dismiss()
 
         }
@@ -165,12 +231,14 @@ class SettingsItem(
         }
     }
 
-    private fun updateUserName(username: String) {
+    private fun updateUserName(username: String, context: Context) {
         val auth = FirebaseAuth.getInstance()
         val uid = auth.uid
         auth.currentUser!!.updateProfile(
             UserProfileChangeRequest.Builder().setDisplayName(username).build()
-        )
+        ).addOnSuccessListener {
+            context.showMessage(context.getString(R.string.nameChanged, username))
+        }
 
         FirebaseFirestore.getInstance().collection(
             "users"
@@ -366,11 +434,7 @@ class SettingsItem(
 
     }
 
-    private fun changeTheme(view: CompoundButton, isDark: Boolean) {
-
-        val context = view.context
-
-        val sharedPrefs = context.getSharedPreferences("UserPrefs", 0)
+    private fun changeTheme(sharedPrefs: SharedPreferences, isDark: Boolean) {
 
         // put new preference
         sharedPrefs.edit().putBoolean("isDarkTheme", isDark).apply()
@@ -389,25 +453,23 @@ class SettingsItem(
         }, 100)
     }
 
-    private fun faq(view: View) {
+    private fun faq(view: View) =
         view.findNavController().navigate(R.id.faqFragment)
-    }
 
-    private fun clearCache(view: View) {
 
+    private fun clearCache(view: View) =
         with(view.context) {
             cacheDir.deleteRecursively()
             showMessage(getString(R.string.cache_deleted))
         }
 
-    }
 
-    private fun moreApps(view: View) {
+    private fun moreApps(view: View) =
         with(view.context) {
             val url = getString(R.string.storeURL)
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
         }
-    }
+
 
     private fun showPrivacyPolicy(view: View) {
         val context = view.context
@@ -440,6 +502,7 @@ class SettingsItem(
         fun signOutNow() {
             FirebaseFirestore.getInstance().collection("users").document(uid)
                 .update("online", false)
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(uid)
             FirebaseAuth.getInstance().signOut()
             view.recreateFragment(R.id.settingsFragment)
         }

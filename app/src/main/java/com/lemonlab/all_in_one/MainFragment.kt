@@ -78,6 +78,7 @@ class MainFragment : Fragment() {
         adapter.add(MainFragmentItem(MainItem.Quotes))
         adapter.add(MainFragmentItem(MainItem.UsersTexts))
         adapter.add(MainFragmentItem(MainItem.Pictures))
+        adapter.add(MainFragmentItem(MainItem.StatusCreate))
 
     }
 

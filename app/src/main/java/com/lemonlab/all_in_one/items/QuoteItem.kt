@@ -258,7 +258,7 @@ class QuoteItem(
 
         view.quote_decorate_btn.setOnClickListener {
             it.findNavController()
-                .navigate(LocalQuotesFragmentDirections.decorateTextNow(text, category.toString()))
+                .navigate(LocalQuotesFragmentDirections.decorateTextNow(text, category))
         }
 
         // listens to button clicks and calls a specific function!

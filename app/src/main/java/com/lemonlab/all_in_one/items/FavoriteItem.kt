@@ -71,7 +71,7 @@ class FavoriteItem(
 
     private fun decorateText(it: View) {
         val direction =
-            FavoritesFragmentDirections.decorateTextNow(text, favorite.category.toString())
+            FavoritesFragmentDirections.decorateTextNow(text, favorite.category)
         it.findNavController().navigate(direction)
     }
 
