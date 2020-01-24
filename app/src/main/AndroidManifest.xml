@@ -33,6 +33,10 @@
             </intent-filter>
         </service>
 
+        <meta-data
+            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+            android:value="label" />
+
     </application>
 
 </manifest>

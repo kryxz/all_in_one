@@ -25,21 +25,21 @@ import java.util.*
 import kotlin.random.Random
 
 
-enum class Category(val textID: Int) {
-    Wisdom(R.string.wisdom),
-    Friendship(R.string.friendship),
-    Sadness(R.string.sadness),
-    Islam(R.string.islam),
-    Other(R.string.other),
-    Morning(R.string.morning),
-    Afternoon(R.string.afternoon),
-    Love(R.string.love),
-    Winter(R.string.winter),
-    Proverbs(R.string.proverbs),
-    Funny(R.string.funny),
-    Eid(R.string.eid),
-    Ramadan(R.string.ramadan),
-    Prayer(R.string.prayer),
+enum class Category(val textID: Int, val arrayID: Int) {
+    Wisdom(R.string.wisdom, R.array.wisdom),
+    Friendship(R.string.friendship, R.array.friendship),
+    Sadness(R.string.sadness, R.array.sadness),
+    Islam(R.string.islam, R.array.islam),
+    Other(R.string.other, R.array.other),
+    Morning(R.string.morning, R.array.morning),
+    Afternoon(R.string.afternoon, R.array.afternoon),
+    Love(R.string.love, R.array.love),
+    Winter(R.string.winter, R.array.winter),
+    Proverbs(R.string.proverbs, R.array.proverbs),
+    Funny(R.string.funny, R.array.funny),
+    Eid(R.string.eid, R.array.eid),
+    Ramadan(R.string.ramadan, R.array.ramadan),
+    Prayer(R.string.prayer, R.array.prayer),
 }
 
 // used to get the category of the quote using categories.indexOf(category)

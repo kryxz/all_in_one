@@ -20,6 +20,7 @@
     <string name="invalidEmail">بريد إلكتروني غير صالح</string>
     <string name="invalidPassword">كلمة السر قصيرة جدًا</string>
     <string name="invalidUsername">اسم المستخدم قصير جدًا</string>
+    <string name="invalidUsernameLong">اسم المستخدم طويل جدًا</string>
     <string name="statusMessage">حالة نصية</string>
     <string name="statusImage">حالة صورية</string>
     <string name="selectStatusType">اختر نوع الحالة</string>
@@ -293,6 +294,10 @@
     <string name="delete_image">حذف الصورة</string>
 
 
+    <string name="notAllowed">Hand Flesh Crowd Selfie Smile People Mouth Jeans
+        Children Person Skin Eyelash Lipstick Nail Fun Shoe Jacket Sitting</string>
+
+
     <string name="privacyPolicyTextAr">سياسة الخصوصية لدى مختبر الليمون\n
         \n
         يوفر مختبر الليمون عدة خدمات، منها هذا التطبيق.\n
@@ -453,6 +458,8 @@
     <string name="text_will_be_deleted">تم جدولة حذف الحالة</string>
     <string name="report_status">الإبلاغ عن الحالة</string>
     <string name="report_status_confirm">هل أنت متأكد أن المكتوب غير لائق؟</string>
+    <string name="image_not_allowed">لا يمكنك نشر هذه الصّورة!</string>
+    <string name="cannot_process_image">تعذّر نشر الصّورة، حاول مجددًا</string>
 
 
 </resources>

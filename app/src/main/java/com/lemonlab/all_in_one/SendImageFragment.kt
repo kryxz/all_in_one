@@ -9,18 +9,19 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ml.vision.FirebaseVision
+import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.storage.FirebaseStorage
 import com.lemonlab.all_in_one.extensions.checkUser
 import com.lemonlab.all_in_one.extensions.getImageUriFromBitmap
+import com.lemonlab.all_in_one.extensions.showMessage
 import com.lemonlab.all_in_one.model.UserStatusImage
 import kotlinx.android.synthetic.main.fragment_send_image.*
 import java.io.ByteArrayOutputStream
@@ -72,7 +73,7 @@ class SendImageFragment : Fragment() {
                 selectImage()
                 return@setOnClickListener
             }
-            uploadImage()
+            processImage()
         }
     }
 
@@ -126,12 +127,10 @@ class SendImageFragment : Fragment() {
         }
     }
 
-    private fun uploadImage() {
+    private fun uploadImage(bitmap: Bitmap) {
 
         // convert the uri to image path
 
-        sendImageProgressBar.visibility = View.VISIBLE
-        val bitmap = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, imageUri)
         val bAOS = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, bAOS)
         val data = bAOS.toByteArray()
@@ -144,6 +143,40 @@ class SendImageFragment : Fragment() {
                 saveImageUrl(it.toString(), uuid)
             }
         }
+    }
+
+    private fun processImage() {
+        sendImageProgressBar.visibility = View.VISIBLE
+        val notAllowed = getString(R.string.notAllowed)
+        val vision = FirebaseVision.getInstance()
+        val labeler = vision.onDeviceImageLabeler
+
+        val image = FirebaseVisionImage.fromFilePath(context!!, imageUri!!)
+        val bitmap = image.bitmap
+        labeler.processImage(image)
+            .addOnSuccessListener {
+                for (label in it)
+                    if (label.text in notAllowed)
+                        imageUri = null
+
+                if (imageUri != null) uploadImage(bitmap)
+                else cannotUpload()
+            }.addOnFailureListener {
+                context!!.showMessage(getString(R.string.cannot_process_image))
+            }
+
+    }
+
+    private fun cannotUpload() {
+        val context = context!!
+        sendImageProgressBar.visibility = View.GONE
+        send_image_text_hint.visibility = View.VISIBLE
+        with(send_image_image_view) {
+            alpha = 0.5f
+            setImageDrawable(context.getDrawable(R.drawable.rounded_send_image))
+        }
+        context.showMessage(getString(R.string.image_not_allowed))
+
     }
 
     private fun saveImageUrl(url: String, imageID: String) {
@@ -159,15 +192,14 @@ class SendImageFragment : Fragment() {
         ref.collection("users_images").document(image.imageID).set(image).addOnSuccessListener {
             if (context == null || view == null) return@addOnSuccessListener
             sendImageProgressBar.visibility = View.GONE
-            Toast.makeText(
-                context!!, getString(R.string.statusImageUploaded),
-                Toast.LENGTH_LONG
-            ).show()
+            context!!.showMessage(getString(R.string.statusImageUploaded))
             imageUri = null
             view!!.findNavController().navigate(R.id.picturesFragment)
-            send_image_image_view.alpha = 0.5f
             send_image_text_hint.visibility = View.VISIBLE
-            send_image_image_view.setImageDrawable(context!!.getDrawable(R.drawable.rounded_send_image))
+            with(send_image_image_view) {
+                alpha = 0.5f
+                setImageDrawable(context!!.getDrawable(R.drawable.rounded_send_image))
+            }
         }
 
     }

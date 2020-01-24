@@ -64,7 +64,7 @@ class RegisterFragment : Fragment() {
 
         val passwordOK = userPassword.length >= 6
 
-        val usernameOK = username.length > 5
+        val usernameOK = username.length in 6..31
 
         if (!emailOK)
             user_email_edit_text.error = getString(R.string.invalidEmail)
@@ -73,7 +73,11 @@ class RegisterFragment : Fragment() {
             user_password_edit_text.error = getString(R.string.invalidPassword)
 
         if (!usernameOK)
-            username_edit_text.error = getString(R.string.invalidUsername)
+            username_edit_text.error = if (username.length > 5)
+                getString(R.string.invalidUsernameLong)
+            else
+                getString(R.string.invalidUsername)
+
 
         if (emailOK && passwordOK && usernameOK)
             registerNewUser(email = userEmail, password = userPassword, name = username)

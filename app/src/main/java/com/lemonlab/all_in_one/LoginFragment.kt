@@ -64,7 +64,6 @@ class LoginFragment : Fragment() {
     private fun getRandomQuote(category: Category): String {
         val list = LocalQuotesFragment().getStatuses(
             category,
-
             resources
         )
         return list[Random.nextInt(list.size)]
