@@ -3,17 +3,22 @@ package com.lemonlab.all_in_one
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.gms.ads.MobileAds
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.firebase.messaging.FirebaseMessaging
+import com.lemonlab.all_in_one.extensions.Ads
 import com.lemonlab.all_in_one.extensions.hideKeypad
+import com.lemonlab.all_in_one.extensions.userOnline
 import com.lemonlab.all_in_one.items.Font
+import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -28,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         setThemeAndFont()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        window.decorView.layoutDirection = View.LAYOUT_DIRECTION_RTL
         navController = Navigation.findNavController(this, R.id.navHost)
         auth = FirebaseAuth.getInstance()
         fireStore = FirebaseFirestore.getInstance()
@@ -36,28 +41,30 @@ class MainActivity : AppCompatActivity() {
         setUpNavigation()
 
         checkIfFirstUse()
-        window.decorView.layoutDirection = View.LAYOUT_DIRECTION_RTL
+        MobileAds.initialize(this)
+        Ads.loadAd(context = this)
     }
 
 
     private fun setThemeAndFont() {
+        val sharedPrefs = getSharedPreferences("UserPrefs", 0)
+        val isDarkTheme = sharedPrefs.getBoolean("isDarkTheme", false)
+        val font =
+            Font.valueOf(sharedPrefs.getString("fontPref", Font.Cairo.toString())!!)
 
-        with(getSharedPreferences("UserPrefs", 0)) {
-            val isDarkTheme = getBoolean("isDarkTheme", false)
-            val font = Font.valueOf(getString("fontPref", Font.Cairo.toString())!!)
-            if (isDarkTheme)
-                setTheme(R.style.DarkAppTheme)
-            else
-                setTheme(R.style.LightAppTheme)
+        if (isDarkTheme)
+            setTheme(R.style.DarkAppTheme)
+        else
+            setTheme(R.style.LightAppTheme)
 
-            val style = when (font) {
-                Font.Cairo -> R.style.cairoFont
-                Font.Mada -> R.style.madaFont
-                Font.Taj -> R.style.tajFont
-                Font.AlMar -> R.style.alMarFont
-            }
+        theme.applyStyle(font.styleID, false)
 
-            theme.applyStyle(style, false)
+        val typeface = ResourcesCompat.getFont(this@MainActivity, font.fontID)!!
+        with(Toasty.Config.getInstance()) {
+            setToastTypeface(typeface)
+            setTextSize(19)
+            allowQueue(false)
+            apply()
         }
 
     }
@@ -99,6 +106,11 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         setOffline()
         super.onPause()
+    }
+
+    override fun onResume() {
+        userOnline()
+        super.onResume()
     }
 
 

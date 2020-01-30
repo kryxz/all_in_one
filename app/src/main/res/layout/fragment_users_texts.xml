@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".UsersTextsFragment">
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/no_statuses_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/no_images"
+        android:textAlignment="center"
+        android:textColor="?textColor"
+        android:textSize="24sp"
+        android:visibility="gone" />
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/users_texts_rv"
         android:layout_width="match_parent"

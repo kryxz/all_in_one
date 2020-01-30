@@ -7,9 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserProfileChangeRequest
-import com.google.firebase.firestore.FirebaseFirestore
+import com.lemonlab.all_in_one.extensions.addAd
 import com.lemonlab.all_in_one.extensions.userOnline
 import com.lemonlab.all_in_one.items.MainFragmentItem
 import com.lemonlab.all_in_one.items.MainItem
@@ -20,6 +18,10 @@ import kotlinx.android.synthetic.main.fragment_main.*
 
 
 class MainFragment : Fragment() {
+
+    companion object {
+        var showImage = true
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,8 +37,6 @@ class MainFragment : Fragment() {
         init()
         userOnline()
 
-
-        checkName()
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -61,6 +61,9 @@ class MainFragment : Fragment() {
         val favoritesViewModel =
             ViewModelProviders.of(this)[FavoritesViewModel::class.java]
 
+        showImage =
+            context!!.getSharedPreferences("UserPrefs", 0)
+                .getBoolean("showImages", true)
 
         addItems(adapter)
         main_rv.adapter = adapter
@@ -75,29 +78,18 @@ class MainFragment : Fragment() {
     }
 
     private fun addItems(adapter: GroupAdapter<ViewHolder>) {
-        adapter.add(MainFragmentItem(MainItem.Quotes))
-        adapter.add(MainFragmentItem(MainItem.UsersTexts))
-        adapter.add(MainFragmentItem(MainItem.Pictures))
-        adapter.add(MainFragmentItem(MainItem.StatusCreate))
 
-    }
+        val items = listOf(
+            MainItem.Quotes,
+            MainItem.UsersTexts,
+            MainItem.Pictures,
+            MainItem.StatusCreate
+        )
+        for (item in items)
+            adapter.add(MainFragmentItem(item))
 
-
-    // will remove later...
-    private fun checkName() {
-
-        val auth = FirebaseAuth.getInstance()
-        if (auth.currentUser == null) return
-        val userID = auth.uid!!
-        FirebaseFirestore.getInstance().collection("users").document(userID).get()
-            .addOnSuccessListener {
-                if (it == null) return@addOnSuccessListener
-                auth.currentUser!!.updateProfile(
-                    UserProfileChangeRequest.Builder().setDisplayName(
-                        it.data!!["name"].toString()
-                    ).build()
-                )
-            }
+        if (!showImage)
+            addAd(0, adapter)
     }
 
 

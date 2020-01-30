@@ -110,29 +110,15 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/changeFontText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
                     android:layout_weight="1"
-                    android:background="?buttonColor"
-                    android:padding="8dp"
                     android:text="@string/fontChange"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    style="@style/default_button_style" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/changeBackgroundImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
                     android:layout_weight="1"
-                    android:background="?buttonColor"
-                    android:padding="8dp"
                     android:text="@string/changeImage"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    style="@style/default_button_style" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

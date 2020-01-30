@@ -22,7 +22,7 @@
     <string name="invalidUsername">اسم المستخدم قصير جدًا</string>
     <string name="invalidUsernameLong">اسم المستخدم طويل جدًا</string>
     <string name="statusMessage">حالة نصية</string>
-    <string name="statusImage">حالة صورية</string>
+    <string name="statusImage">إرسال صورة</string>
     <string name="selectStatusType">اختر نوع الحالة</string>
     <string name="statusValue">نص الحالة</string>
     <string name="sendStatus">ارسال الحالة</string>
@@ -33,10 +33,11 @@
     <string name="decorate">تزيين الحالة</string>
     <string name="restoreText">استعادة النّص</string>
     <string name="statusCategory">تصنيف الحالة</string>
-    <string name="emptyPosts">المنتدى فارغ حاليًا. كن أول من ينشر!</string>
+    <string name="emptyPosts">المنتدى فارغ حاليًا.\n كن أول من ينشر!</string>
     <string name="no_images">كصحراء واسعة، هذا المكان فارغ!</string>
     <string name="statusImageUploaded">تم النشر بناجح</string>
     <string name="statusImageUploadedFailed">حدث خطأ أثناء نشر الصورة</string>
+    <string name="pick_a_color">اختر لونًا</string>
 
 
     <string name="send">إرسال</string>
@@ -80,7 +81,7 @@
 
     <string name="saved_posts">المنشورات المحفوظة</string>
     <string name="select_fonts">اختر أحد الخطوط التالية</string>
-    <string name="select_emoji">اختر احد هذه الايموجي</string>
+    <string name="select_emoji">اختصر ملصقًا لإضافته إلى الصورة</string>
     <string name="text_sample">عندما انطفأت شعلة النار، بدأ يحدِّق في النجوم عبر النافذة. كانت رحلة العودة ستتم من غير رفاق طريق.</string>
     <string name="couldnt_save_image">تعذر حفظ الصورة</string>
     <string name="image_saved">تم حفظ الصورة بنجاح</string>
@@ -129,7 +130,7 @@
     <string name="text_color">لون النّص</string>
     <string name="fontChange">تغيير الخط</string>
     <string name="changeName">تغيير الاسم</string>
-    <string name="showImages">إظهار صور التصنيفات</string>
+    <string name="showImages">استخدام الصّور كخلفيّة</string>
     <string name="notifications">الإشعارات</string>
     <string name="changeImage">تغيير الصّورة</string>
     <string name="newName">الاسم الجديد</string>

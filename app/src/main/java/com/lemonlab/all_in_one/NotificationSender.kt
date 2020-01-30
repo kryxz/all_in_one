@@ -12,6 +12,7 @@ import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.google.firebase.auth.FirebaseAuth
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -84,7 +85,10 @@ class NotificationSender {
     fun notifyUserComment(context: Context, userID: String) {
 
         val title = context.getString(R.string.newCommentTitle)
-        val messageBody = context.getString(R.string.newCommentMessage)
+        val sender = FirebaseAuth.getInstance().currentUser?.displayName
+            ?: context.getString(R.string.username)
+
+        val messageBody = context.getString(R.string.newCommentMessage, sender)
 
         sendNotification(context, title, messageBody, userID)
 

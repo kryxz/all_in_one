@@ -54,19 +54,14 @@
             <View style="@style/view_divider_style" />
 
             <androidx.appcompat.widget.AppCompatButton
+                style="@style/default_button_style"
                 android:id="@+id/send_image_send_btn"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_margin="8dp"
-                android:background="?colorPrimary"
                 android:drawableStart="@drawable/ic_send"
                 android:drawablePadding="8dp"
-                android:padding="8dp"
                 android:text="@string/post"
-                android:textColor="@color/white"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                android:textSize="24sp" />
 
             <View style="@style/view_divider_style" />
 

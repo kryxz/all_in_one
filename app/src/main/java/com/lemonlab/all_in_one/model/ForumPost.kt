@@ -122,7 +122,7 @@ data class Comment(
 
     private fun checkReports() {
         if (reportIDs!!.size >= 5)
-            deleteComment()
+            deleteComment(timestamp.time)
     }
 
     private fun updatePost() {
@@ -138,7 +138,7 @@ data class Comment(
         }
     }
 
-    fun deleteComment() {
+    fun deleteComment(time: Long) {
         val postRef = FirebaseFirestore.getInstance().collection("posts").document(postID)
         postRef.get().addOnSuccessListener {
             if (it == null) return@addOnSuccessListener
@@ -146,7 +146,7 @@ data class Comment(
             val iterator = theComments!!.iterator()
             while (iterator.hasNext()) {
                 val comment = iterator.next()
-                if (comment.text == this.text)
+                if (time == comment.timestamp.time && comment.text == this.text)
                     iterator.remove()
             }
             postRef.update("comments", theComments)

@@ -56,13 +56,14 @@ class CommentItem(private val comment: Comment) :
         view.comment_postedWhen.text = getDateAsString(comment.timestamp)
 
 
-        // show delete button if user is comment sender!
-        if (thisUserID == comment.userID)
+        if (thisUserID != comment.userID)
+            view.comment_delete_button.visibility = View.GONE
+        else // show delete button if user is comment sender!
             with(view.comment_delete_button) {
                 visibility = View.VISIBLE
                 setOnClickListener {
                     it.context.showYesNoDialog(
-                        { comment.deleteComment() },
+                        { comment.deleteComment(comment.timestamp.time) },
                         {},
                         context.getString(R.string.delete_comment),
                         context.getString(R.string.delete_comment_confirm)

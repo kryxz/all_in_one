@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
+import com.lemonlab.all_in_one.extensions.addAd
 import com.lemonlab.all_in_one.items.Option
 import com.lemonlab.all_in_one.items.SettingsItem
 import com.xwray.groupie.GroupAdapter
@@ -54,9 +55,11 @@ class SettingsFragment : Fragment() {
             options.add(4, Option.Notifications)
         }
 
-        for (item in options)
+        options.forEach { item ->
             adapter.add(SettingsItem(item, activity!!))
+        }
 
+        addAd(0, adapter)
 
     }
 

@@ -90,12 +90,10 @@ class LoginFragment : Fragment() {
 
     private fun login(email: String, password: String) {
         activity!!.hideKeypad()
-        context!!.showMessage(getString(R.string.signing_in))
         loginProgressBar.visibility = View.VISIBLE
-        login_btn.isEnabled = false
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
-            .addOnSuccessListener {
-                val uid = it.user!!.uid
+            .addOnSuccessListener { auth ->
+                val uid = auth.user!!.uid
                 if (uid.isNotEmpty())
                     FirebaseMessaging.getInstance().subscribeToTopic(uid)
                 view!!.navigateToAndClear(R.id.loginFragment, R.id.mainFragment)
@@ -105,7 +103,6 @@ class LoginFragment : Fragment() {
                     context!!.showMessage(getString(R.string.no_user))
                 else
                     context!!.showMessage(getString(R.string.problem_occurred))
-                login_btn.isEnabled = true
             }
     }
 }

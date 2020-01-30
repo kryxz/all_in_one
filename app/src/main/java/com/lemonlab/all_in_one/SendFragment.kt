@@ -9,13 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.google.android.gms.ads.InterstitialAd
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.lemonlab.all_in_one.extensions.*
@@ -35,8 +35,13 @@ import kotlin.random.Random
 
 class SendFragment : Fragment() {
 
+    private val fullScreenAd: InterstitialAd by lazy {
+        InterstitialAd(context!!)
+    }
+
     private var statusColor = StatusColor.Blue
     private var statusCategory = Category.Other
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,9 +51,10 @@ class SendFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         view.checkUser()
         init()
-        super.onViewCreated(view, savedInstanceState)
+        Ads.loadFullScreenAd(fullScreenAd)
 
     }
 
@@ -97,7 +103,9 @@ class SendFragment : Fragment() {
         // navigate user to send image fragment
 
         send_status_image_btn.setOnClickListener {
-            view!!.findNavController().navigate(R.id.sendImageFragment)
+            val direction =
+                SendFragmentDirections.sendImage(null)
+            view!!.findNavController().navigate(direction)
         }
     }
 
@@ -180,7 +188,7 @@ class SendFragment : Fragment() {
                 getDateAsString(Timestamp(System.currentTimeMillis()))
 
             statusTextView.text = context!!.highlightTextWithColor(statusColor.value, text)
-            usernameTextView.text = "اسم المستخدم" // TODO get Username
+            usernameTextView.text = FirebaseAuth.getInstance().currentUser?.displayName
             likesTextView.text = Random.nextInt(100).toString()
 
         }
@@ -204,13 +212,10 @@ class SendFragment : Fragment() {
         val text = send_status_edit_text.text.toString().removeWhitespace()
 
         if (text.isEmpty()) {
-            Toast.makeText(
-                context!!,
-                resources.getString(R.string.warningTextEmpty),
-                Toast.LENGTH_LONG
-            ).show()
+            context!!.showMessage(getString(R.string.warningTextEmpty))
             return
         }
+        fullScreenAd.show()
         val id = FirebaseAuth.getInstance().uid
 
         sendFragmentView.visibility = View.GONE

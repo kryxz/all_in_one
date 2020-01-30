@@ -43,7 +43,7 @@ class SavedPostsRepo(private val savedPostsDao: SavedPostsDao) {
 }
 
 class FireStoreRepository {
-    val db = FirebaseFirestore.getInstance()
+    private val db = FirebaseFirestore.getInstance()
     val auth = FirebaseAuth.getInstance()
 
 
@@ -130,9 +130,9 @@ class UsersTextsViewModel(application: Application) : AndroidViewModel(applicati
     fun getPost(id: String): MutableLiveData<ForumPost> {
         repository.getPostRef(id).addSnapshotListener { snapshot, e ->
             if (e != null) return@addSnapshotListener
-            if (snapshot == null) return@addSnapshotListener
-            if (snapshot.data == null) return@addSnapshotListener
-            viewPost.value = snapshot.toObject(ForumPost::class.java)
+            if (snapshot == null) viewPost.value = null
+            if (snapshot?.data == null) viewPost.value = null
+            viewPost.value = snapshot?.toObject(ForumPost::class.java)
 
         }
         return viewPost

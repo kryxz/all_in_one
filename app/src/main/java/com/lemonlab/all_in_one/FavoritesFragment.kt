@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
+import com.lemonlab.all_in_one.extensions.addAd
 import com.lemonlab.all_in_one.extensions.hideKeypad
 import com.lemonlab.all_in_one.extensions.showMessage
 import com.lemonlab.all_in_one.items.CategoryPics
@@ -28,6 +29,7 @@ class FavoritesFragment : Fragment() {
 
     companion object {
         lateinit var favoritesViewModel: FavoritesViewModel
+        var showImage = true
     }
 
     private val adapter = GroupAdapter<ViewHolder>()
@@ -53,6 +55,9 @@ class FavoritesFragment : Fragment() {
 
         favorites_rv.adapter = adapter
         favoritesViewModel = ViewModelProviders.of(this)[FavoritesViewModel::class.java]
+        showImage =
+            context!!.getSharedPreferences("UserPrefs", 0)
+                .getBoolean("showImages", true)
 
         favoritesViewModel.allFavorites.observe(this, Observer<List<Favorite>> { fav ->
             // update UI
@@ -60,12 +65,15 @@ class FavoritesFragment : Fragment() {
                 quitFragment()
             else {
                 adapter.clear()
-                for (item in fav) {
+                for ((index, item) in fav.withIndex()) {
                     val categoryIndex = Random.nextInt(CategoryPics.categoryLimit())
                     val picIndex = Random.nextInt(CategoryPics.picsLimit())
                     val indexPair = Pair(categoryIndex, picIndex)
                     adapter.add(FavoriteItem(item, indexPair))
                     listOfIndicesPairs.add(indexPair)
+
+                    // adds an ad every n items
+                    addAd(index, adapter)
                 }
             }
 

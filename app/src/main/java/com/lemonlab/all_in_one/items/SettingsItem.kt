@@ -51,8 +51,11 @@ enum class Option(val textID: Int) {
 
 }
 
-enum class Font {
-    Cairo, Mada, Taj, AlMar
+enum class Font(val styleID: Int, val fontID: Int) {
+    Cairo(R.style.cairoFont, R.font.cairo_regular),
+    Mada(R.style.madaFont, R.font.mada),
+    Taj(R.style.tajFont, R.font.tajawal_regular),
+    AlMar(R.style.alMarFont, R.font.almarai)
 }
 
 class SettingsItem(
@@ -68,6 +71,7 @@ class SettingsItem(
         val textView = view.settingsTextView
         val switch = view.settingsSwitch
         val context = view.context
+        switch.visibility = View.GONE
         fun setIcon(icon: Int) {
             val drawable = ContextCompat.getDrawable(context, icon)!!
             textView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)

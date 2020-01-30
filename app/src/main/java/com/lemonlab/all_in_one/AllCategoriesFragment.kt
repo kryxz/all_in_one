@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.lemonlab.all_in_one.extensions.addAd
 import com.lemonlab.all_in_one.items.CategoryItem
 import com.lemonlab.all_in_one.items.categories
 import com.xwray.groupie.GroupAdapter
@@ -16,6 +17,10 @@ import kotlinx.android.synthetic.main.fragment_all_categories.*
  * A fragment to view and browse categories
  */
 class AllCategoriesFragment : Fragment() {
+
+    companion object {
+        var showImage = true
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,15 +38,22 @@ class AllCategoriesFragment : Fragment() {
 
 
     private fun init() {
-        val adapter = GroupAdapter<ViewHolder>()
-        category_rv.adapter = adapter
-        val sharedPrefs = context!!.getSharedPreferences("UserPrefs", 0)
 
-        val showImage =
-            sharedPrefs.getBoolean("showImages", true)
+        // adds item to recyclerView adapter
+        with(GroupAdapter<ViewHolder>()) {
 
-        for (item in categories)
-            adapter.add(CategoryItem(item, showImage))
+            // checks if should show image or text only.
+            showImage =
+                context!!.getSharedPreferences("UserPrefs", 0)
+                    .getBoolean("showImages", true)
+
+            category_rv.adapter = this
+
+            for (item in categories)
+                add(CategoryItem(item))
+            addAd(0, adapter = this)
+
+        }
 
     }
 

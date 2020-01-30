@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.lemonlab.all_in_one.extensions.addAd
 import com.lemonlab.all_in_one.items.UserStatusItem
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
@@ -23,6 +24,7 @@ class UsersTextsFragment : Fragment() {
         lateinit var lifecycleOwner: LifecycleOwner
         lateinit var statusesViewModel: UsersTextsViewModel
         lateinit var favoritesViewModel: FavoritesViewModel
+        var showImage: Boolean = true
     }
 
     private val adapter = GroupAdapter<ViewHolder>()
@@ -48,6 +50,8 @@ class UsersTextsFragment : Fragment() {
     private fun init() {
         statusesViewModel = ViewModelProviders.of(this)[UsersTextsViewModel::class.java]
         favoritesViewModel = ViewModelProviders.of(this)[FavoritesViewModel::class.java]
+        showImage = context!!.getSharedPreferences("UserPrefs", 0)
+            .getBoolean("showImages", true)
 
         lifecycleOwner = viewLifecycleOwner
         getTextsBy(SortBy.Time)
@@ -57,11 +61,17 @@ class UsersTextsFragment : Fragment() {
         users_texts_rv.adapter = adapter
         var oldCount = 0
         statusesViewModel.getStatuses(sortBy).observe(this, Observer {
+            if (it.isEmpty())
+                no_statuses_text_view.visibility = View.VISIBLE
+            else
+                no_statuses_text_view.visibility = View.GONE
             if (it.size == oldCount) return@Observer
             oldCount = it.size
             adapter.clear()
-            for (item in it)
+            for ((index, item) in it.withIndex()) {
                 adapter.add(UserStatusItem(item))
+                addAd(index, adapter)
+            }
 
         })
         currentSort = sortBy
@@ -93,28 +103,24 @@ class UsersTextsFragment : Fragment() {
         with(dialogView) {
             for (button in listOf(sort_dialog_likes, sort_dialog_time))
                 button.setOnClickListener {
-
+                    dialogBuilder.dismiss()
                     when (button) {
 
                         sort_dialog_likes -> {
-                            if (currentSort == SortBy.Likes) {
-                                dialogBuilder.dismiss()
+                            if (currentSort == SortBy.Likes)
                                 return@setOnClickListener
-                            }
+
                             getTextsBy(SortBy.Likes)
                         }
 
                         sort_dialog_time -> {
-                            if (currentSort == SortBy.Time) {
-                                dialogBuilder.dismiss()
+                            if (currentSort == SortBy.Time)
                                 return@setOnClickListener
-                            }
+
                             getTextsBy(SortBy.Time)
                         }
 
-
                     }
-                    dialogBuilder.dismiss()
                     adapter.clear()
                 }
 

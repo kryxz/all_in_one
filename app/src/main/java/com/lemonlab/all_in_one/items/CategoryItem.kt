@@ -1,9 +1,7 @@
 package com.lemonlab.all_in_one.items
 
 import androidx.navigation.findNavController
-import com.lemonlab.all_in_one.AllCategoriesFragmentDirections
-import com.lemonlab.all_in_one.MainFragmentDirections
-import com.lemonlab.all_in_one.R
+import com.lemonlab.all_in_one.*
 import com.lemonlab.all_in_one.extensions.highlightText
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
@@ -11,9 +9,12 @@ import kotlinx.android.synthetic.main.category_view.view.*
 import kotlin.random.Random
 
 
-class CategoryItem(private val category: Category, private val showImage: Boolean) :
+class CategoryItem(private val category: Category) :
 
     Item<ViewHolder>() {
+
+    private val showImage = AllCategoriesFragment.showImage
+
     override fun getLayout() =
         if (showImage) R.layout.category_view else
             R.layout.category_text_item
@@ -56,8 +57,12 @@ enum class MainItem(val textID: Int) {
 class MainFragmentItem(private val mainItem: MainItem) :
 
     Item<ViewHolder>() {
+
+    private val showImage = MainFragment.showImage
+
     override fun getLayout() =
-        R.layout.category_view
+        if (showImage) R.layout.category_view else
+            R.layout.category_text_item
 
     private val pic = CategoryPics.getRandomPic()
 
@@ -66,8 +71,14 @@ class MainFragmentItem(private val mainItem: MainItem) :
 
         val context = view.context
         val text = context.getString(mainItem.textID)
-        view.category_image.setImageResource(pic)
-        view.category_tv.text = context.highlightText(text)
+        if (showImage) {
+            view.category_tv.text = context.highlightText(text)
+            view.category_image.setImageResource(pic)
+        } else {
+            view.category_tv.text = text
+        }
+
+
 
 
         view.setOnClickListener {

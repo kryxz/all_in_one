@@ -48,31 +48,17 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/dialogConfirmButton"
+            style="@style/default_button_style"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
             android:layout_weight="1"
-            android:background="?buttonColor"
-            android:padding="8dp"
-            android:text="@string/confirm"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:text="@string/confirm" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/dialogCancelButton"
+            style="@style/default_button_style"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
             android:layout_weight="1"
-            android:background="?buttonColor"
-            android:padding="8dp"
-            android:text="@string/cancel"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:text="@string/cancel" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

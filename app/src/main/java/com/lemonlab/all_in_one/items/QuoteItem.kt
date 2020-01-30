@@ -14,8 +14,10 @@ import com.lemonlab.all_in_one.LocalQuotesFragmentDirections
 import com.lemonlab.all_in_one.R
 import com.lemonlab.all_in_one.extensions.getBitmapFromView
 import com.lemonlab.all_in_one.extensions.highlightText
+import com.lemonlab.all_in_one.extensions.scanFile
 import com.lemonlab.all_in_one.extensions.showMessage
 import com.lemonlab.all_in_one.items.CategoryPics.Companion.getPics
+import com.lemonlab.all_in_one.items.CategoryPics.Companion.getRandomColor
 import com.lemonlab.all_in_one.model.Favorite
 import com.lemonlab.all_in_one.model.StatusColor
 import com.xwray.groupie.Item
@@ -216,6 +218,22 @@ class CategoryPics {
             allPics[categoryIndex][picIndex]
 
         fun getAllPics() = allPics
+
+        private val colors = listOf(
+            R.color.darkBlue,
+            R.color.magentaPurple,
+            R.color.darkGreen,
+            R.color.superBlack,
+            R.color.rose,
+            R.color.gold,
+            R.color.emerald,
+            R.color.semiBrown,
+            R.color.charcoal,
+            R.color.silver
+        )
+
+        fun getRandomColor() = colors[Random.nextInt(colors.size)]
+
     }
 
 }
@@ -234,14 +252,25 @@ class QuoteItem(
 
     private val model = LocalQuotesFragment.favoritesViewModel
 
+    private val color = getRandomColor()
+    private val showImage = LocalQuotesFragment.showImage
+
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
         // used instead of viewHolder.itemView.etc
         val view = viewHolder.itemView
         val context = view.context
+
+
         // set text and background picture.
-        view.quote_text_tv.text = context.highlightText(text)
-        view.text_image.setImageResource(pic)
+
+        if (showImage) {
+            view.quote_text_tv.text = context.highlightText(text)
+            view.text_image.setImageResource(pic)
+        } else {
+            view.text_image.setBackgroundColor(ContextCompat.getColor(context, color))
+            view.quote_text_tv.text = text
+        }
 
         // set full heart if item is already in favorites.
 
@@ -254,6 +283,7 @@ class QuoteItem(
         view.quote_download_btn.setOnClickListener {
             val bitmap = view.quote_item_layout.getBitmapFromView()
             saveImage(bitmap, context)
+            LocalQuotesFragment.showAd()
         }
 
         view.quote_decorate_btn.setOnClickListener {
@@ -338,12 +368,13 @@ class QuoteItem(
 
         fun saveImage(bitmap: Bitmap, context: Context) {
             val uuid = UUID.randomUUID().toString().subSequence(0, 10)
-            MediaStore.Images.Media.insertImage(
+            val path = MediaStore.Images.Media.insertImage(
                 context.contentResolver,
                 bitmap,
                 context.getString(R.string.app_name) + uuid,
                 context.getString(R.string.app_name)
             )
+            context.scanFile(path)
             context.showMessage(context.getString(R.string.image_saved))
         }
 

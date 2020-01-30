@@ -14,10 +14,8 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
-import com.lemonlab.all_in_one.extensions.getBitmapFromView
-import com.lemonlab.all_in_one.extensions.highlightText
-import com.lemonlab.all_in_one.extensions.highlightTextWithColor
-import com.lemonlab.all_in_one.extensions.showKeypad
+import com.google.android.gms.ads.InterstitialAd
+import com.lemonlab.all_in_one.extensions.*
 import com.lemonlab.all_in_one.items.CategoryPics
 import com.lemonlab.all_in_one.items.FontItem
 import com.lemonlab.all_in_one.items.QuoteItem
@@ -32,6 +30,11 @@ import kotlinx.android.synthetic.main.image_item_view_dialog.view.*
 
 class DecorateFragment : Fragment() {
 
+
+    private val fullScreenAd: InterstitialAd by lazy {
+        InterstitialAd(context!!)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,8 +46,8 @@ class DecorateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
+        Ads.loadFullScreenAd(fullScreenAd)
     }
-
 
     private fun init() {
         val args = DecorateFragmentArgs.fromBundle(arguments!!)
@@ -72,6 +75,7 @@ class DecorateFragment : Fragment() {
         text_withImage_save.setOnClickListener {
             val bitmap = textLayoutView.getBitmapFromView()
             QuoteItem.saveImage(bitmap, context!!)
+            fullScreenAd.show()
 
         }
 

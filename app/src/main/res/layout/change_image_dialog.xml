@@ -25,38 +25,17 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/gallery_choose"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:background="?buttonColor"
-        android:padding="8dp"
         android:text="@string/chooseImage"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        style="@style/default_button_style" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/show_AllImages"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:background="?buttonColor"
-        android:padding="8dp"
         android:text="@string/viewAllImages"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        style="@style/default_button_style" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/cancel_image_choose"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:background="?buttonColor"
-        android:padding="8dp"
         android:text="@string/cancel"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        style="@style/default_button_style" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

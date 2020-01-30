@@ -5,32 +5,18 @@
     android:background="?backgroundColor"
     android:orientation="vertical">
 
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/sort_dialog_likes"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/default_button_style"
         android:layout_margin="16dp"
-        android:layout_weight="1"
-        android:background="?buttonColor"
-        android:padding="8dp"
-        android:text="@string/sortByLikes"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:text="@string/sortByLikes" />
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/sort_dialog_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/default_button_style"
         android:layout_margin="16dp"
-        android:layout_weight="1"
-        android:background="?buttonColor"
-        android:padding="8dp"
-        android:text="@string/sortByTime"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:text="@string/sortByTime" />
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

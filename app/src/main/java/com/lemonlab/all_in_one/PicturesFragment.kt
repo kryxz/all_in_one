@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
+import com.lemonlab.all_in_one.extensions.addAd
 import com.lemonlab.all_in_one.extensions.showMessage
 import com.lemonlab.all_in_one.items.UserImageItem
 import com.lemonlab.all_in_one.model.UserStatusImage
@@ -71,8 +72,10 @@ class PicturesFragment : Fragment() {
             if (it.size == oldSize) return@Observer
             oldSize = it.size
             adapter.clear()
-            for (image in it)
+            for ((index, image) in it.withIndex()) {
                 adapter.add(UserImageItem(image, adapter, activity!!))
+                addAd(index, adapter)
+            }
         })
     }
 

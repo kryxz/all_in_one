@@ -11,9 +11,11 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.google.android.gms.ads.InterstitialAd
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.lemonlab.all_in_one.extensions.Ads
 import com.lemonlab.all_in_one.extensions.removeWhitespace
 import com.lemonlab.all_in_one.extensions.showMessage
 import com.lemonlab.all_in_one.model.ForumPost
@@ -30,6 +32,10 @@ import kotlin.collections.ArrayList
 
 class PostFragment : Fragment() {
 
+    private val fullScreenAd: InterstitialAd by lazy {
+        InterstitialAd(context!!)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,8 +46,10 @@ class PostFragment : Fragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initButtons()
         super.onViewCreated(view, savedInstanceState)
+
+        initButtons()
+        Ads.loadFullScreenAd(fullScreenAd)
     }
 
 
@@ -61,17 +69,13 @@ class PostFragment : Fragment() {
             forum_post_title.text!!.clear()
 
             // shows a snackBar with undo(restore deleted text) action.
+            val black = ContextCompat.getColor(context!!, R.color.black)
             Snackbar.make(view!!, getString(R.string.textDeleted), Snackbar.LENGTH_LONG)
                 .setAction(getString(R.string.undo)) {
                     forum_post_text.setText(postText)
                     forum_post_title.setText(titleText)
                 }
-                .setActionTextColor(
-                    ContextCompat.getColor(
-                        context!!,
-                        R.color.white
-                    )
-                )
+                .setActionTextColor(black).setTextColor(black)
                 .show()
         }
         preview_forum_post_btn.setOnClickListener {
@@ -147,6 +151,9 @@ class PostFragment : Fragment() {
             val db = FirebaseFirestore.getInstance()
             forumPostingProgressBar.visibility = View.VISIBLE
             postFragmentView.visibility = View.GONE
+
+            fullScreenAd.show()
+
             db.collection("posts").document(postID).set(forumPost).addOnSuccessListener {
                 forumPostingProgressBar.visibility = View.GONE
                 postFragmentView.visibility = View.VISIBLE

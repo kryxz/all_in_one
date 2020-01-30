@@ -2,6 +2,7 @@ package com.lemonlab.all_in_one.items
 
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import com.lemonlab.all_in_one.FavoritesFragment
 import com.lemonlab.all_in_one.FavoritesFragmentDirections
@@ -18,6 +19,7 @@ class FavoriteItem(
     private val favorite: Favorite,
     indices: Pair<Int, Int>
 ) :
+
     Item<ViewHolder>() {
     override fun getLayout() =
         R.layout.favorite_item
@@ -26,13 +28,23 @@ class FavoriteItem(
     private val pic = getIndexPic(indices.first, indices.second)
     private val text = favorite.text
 
+    private val color = CategoryPics.getRandomColor()
+    private val showImage = false
+
     override fun bind(viewHolder: ViewHolder, position: Int) {
         val view = viewHolder.itemView
         val context = view.context
 
         with(view) {
-            fav_text_tv.text = context.highlightText(text)
-            fav_text_image.setImageResource(pic)
+
+            if (showImage) {
+                fav_text_tv.text = context.highlightText(text)
+                fav_text_image.setImageResource(pic)
+            } else {
+                fav_text_tv.text = text
+                fav_text_image.setBackgroundColor(ContextCompat.getColor(context, color))
+            }
+
 
             val allButtons = listOf(
                 fav_download_btn, fav_content_btn,

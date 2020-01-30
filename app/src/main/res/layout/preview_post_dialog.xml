@@ -107,15 +107,8 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/preview_post_done_btn"
-            style="@style/Widget.AppCompat.ActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:layout_weight="1"
-            android:background="?buttonColor"
-            android:padding="8dp"
+            style="@style/default_button_style"
             android:text="@string/okay"
-            android:textColor="@color/white"
             android:textSize="24sp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_must_login.*
 
 
@@ -26,22 +25,19 @@ class MustLoginFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        checkUser()
+        register()
         super.onViewCreated(view, savedInstanceState)
     }
 
 
-    private fun checkUser() {
-        val currentUser = FirebaseAuth.getInstance().currentUser
-        if (currentUser == null)
-        // go to login fragment.
-            mustLoginBtn.setOnClickListener {
-                val navOptions = NavOptions.Builder().setPopUpTo(R.id.mainFragment, false).build()
-                view!!.findNavController().navigate(
-                    R.id.registerFragment,
-                    null, navOptions
-                )
-            }
+    private fun register() {
+        mustLoginBtn.setOnClickListener {
+            val navOptions = NavOptions.Builder().setPopUpTo(R.id.mainFragment, false).build()
+            view!!.findNavController().navigate(
+                R.id.registerFragment,
+                null, navOptions
+            )
+        }
 
     }
 }

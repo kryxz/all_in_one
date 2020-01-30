@@ -12,19 +12,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.google.android.gms.ads.InterstitialAd
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.storage.FirebaseStorage
+import com.lemonlab.all_in_one.extensions.Ads
 import com.lemonlab.all_in_one.extensions.checkUser
 import com.lemonlab.all_in_one.extensions.getImageUriFromBitmap
 import com.lemonlab.all_in_one.extensions.showMessage
 import com.lemonlab.all_in_one.model.UserStatusImage
 import kotlinx.android.synthetic.main.fragment_send_image.*
 import java.io.ByteArrayOutputStream
+import java.io.File
 import java.sql.Timestamp
 import java.util.*
 import kotlin.collections.ArrayList
@@ -37,6 +41,10 @@ import kotlin.collections.ArrayList
 class SendImageFragment : Fragment() {
 
     private var imageUri: Uri? = null
+
+    private val fullScreenAd: InterstitialAd by lazy {
+        InterstitialAd(context!!)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,11 +59,14 @@ class SendImageFragment : Fragment() {
 
         view.checkUser()
         init()
+        Ads.loadFullScreenAd(fullScreenAd)
     }
 
     private fun init() {
-        val bitmap = SendImageFragmentArgs.fromBundle(arguments!!).image
-        if (bitmap != null) {
+        val path = SendImageFragmentArgs.fromBundle(arguments!!).image
+
+        if (path != null) {
+            val bitmap = FirebaseVisionImage.fromFilePath(context!!, File(path).toUri()).bitmap
             imageUri = context!!.getImageUriFromBitmap(bitmap)
             send_image_image_view.setImageURI(imageUri)
             send_image_text_hint.visibility = View.INVISIBLE
@@ -138,6 +149,8 @@ class SendImageFragment : Fragment() {
         val uuid = "$username-" + UUID.randomUUID().toString().substring(0, 16)
         val ref = FirebaseStorage.getInstance().reference.child("$uuid.png")
 
+        fullScreenAd.show()
+
         ref.putBytes(data).addOnSuccessListener {
             ref.downloadUrl.addOnSuccessListener {
                 saveImageUrl(it.toString(), uuid)
@@ -153,6 +166,7 @@ class SendImageFragment : Fragment() {
 
         val image = FirebaseVisionImage.fromFilePath(context!!, imageUri!!)
         val bitmap = image.bitmap
+
         labeler.processImage(image)
             .addOnSuccessListener {
                 for (label in it)

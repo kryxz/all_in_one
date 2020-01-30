@@ -34,7 +34,11 @@
         android:id="@+id/sendFragment"
         android:name="com.lemonlab.all_in_one.SendFragment"
         android:label="@string/sendTitle"
-        tools:layout="@layout/fragment_send" />
+        tools:layout="@layout/fragment_send">
+        <action
+            android:id="@+id/sendImage"
+            app:destination="@id/sendImageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/forumFragment"
         android:name="com.lemonlab.all_in_one.ForumFragment"
@@ -88,11 +92,6 @@
         android:name="com.lemonlab.all_in_one.MustLoginFragment"
         android:label="@string/loginOrRegister"
         tools:layout="@layout/fragment_must_login" />
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.lemonlab.all_in_one.ProfileFragment"
-        android:label="@string/profile"
-        tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/localQuotesFragment"
         android:name="com.lemonlab.all_in_one.LocalQuotesFragment"
@@ -149,8 +148,7 @@
         tools:layout="@layout/fragment_send_image">
         <argument
             android:name="image"
-            android:defaultValue="@null"
-            app:argType="android.graphics.Bitmap"
+            app:argType="string"
             app:nullable="true" />
     </fragment>
     <fragment

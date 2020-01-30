@@ -35,9 +35,9 @@
                 android:gravity="start"
                 android:maxLength="64"
                 android:padding="8dp"
-
                 android:text="@string/app_name"
                 android:textColor="?textColor"
+                android:textDirection="rtl"
                 android:textSize="21sp"
                 android:textStyle="bold" />
 
@@ -54,6 +54,7 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </com.google.android.material.card.MaterialCardView>
+
 
     <View style="@style/view_divider_style" />
 

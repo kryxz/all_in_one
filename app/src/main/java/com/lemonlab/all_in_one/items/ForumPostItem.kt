@@ -106,6 +106,9 @@ class ForumPostItem(private val forumPost: ForumPost) :
                 )
             )
 
+            if (thisUserID != forumPost.userID)
+                forum_post_item_delete.visibility = View.GONE
+
             // delete function logic
             forum_post_item_delete.apply {
                 // return if user isn't the owner of post.

@@ -9,7 +9,7 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:layout_margin="8dp">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/emoji_selector_view_btn"
@@ -19,23 +19,23 @@
             app:srcCompat="@drawable/ic_cancel" />
 
         <TextView
-            android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/select_emoji"
             android:textAlignment="center"
             android:textColor="?textColor"
-            android:textSize="28sp" />
+            android:textSize="22sp" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <SeekBar
         android:id="@+id/seek_sticker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:max="10"
-        android:progress="3" />
+        android:layout_margin="2dp"
+        android:max="8"
+        android:padding="8dp"
+        android:progress="4" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/sticker_rv"

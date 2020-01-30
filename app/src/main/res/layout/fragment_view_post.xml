@@ -196,18 +196,12 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/view_post_send_comment_btn"
-                    style="@style/Widget.AppCompat.ActionButton"
+                    style="@style/default_button_style"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
                     android:background="?buttonColor"
                     android:drawableStart="@drawable/ic_textsms"
                     android:drawablePadding="8dp"
-                    android:padding="8dp"
-                    android:text="@string/post"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:text="@string/post" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/view_post_comment_text"

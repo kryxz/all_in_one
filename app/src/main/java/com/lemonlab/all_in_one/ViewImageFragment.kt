@@ -38,10 +38,11 @@ class ViewImageFragment : Fragment() {
     }
 
     private fun init() {
-        activity!!.window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-        activity!!.window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        val activity = activity!!
+        activity.window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        activity.window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
-        (activity!!.findViewById(R.id.mainActivity) as View)
+        (activity.findViewById(R.id.mainActivity) as View)
             .setBackgroundColor(getColor(R.color.black))
 
         val url = ViewImageFragmentArgs.fromBundle(arguments!!).url
@@ -83,12 +84,11 @@ class ViewImageFragment : Fragment() {
         val backgroundView = activity!!.findViewById(R.id.mainActivity) as View
         val sharedPrefs = context!!.getSharedPreferences("UserPrefs", 0)
         val isDarkTheme = sharedPrefs.getBoolean("isDarkTheme", false)
-        if (isDarkTheme)
-            backgroundView.setBackgroundColor(
-                getColor(R.color.darkBackgroundColor)
-            )
-        else
-            backgroundView.setBackgroundColor(getColor(R.color.white))
+        with(backgroundView) {
+            if (isDarkTheme) setBackgroundColor(getColor(R.color.darkBackgroundColor))
+            else setBackgroundColor(getColor(R.color.white))
+        }
+
     }
 
     private fun getColor(id: Int) = ContextCompat.getColor(context!!, id)

@@ -36,15 +36,29 @@ class UserStatusItem(private val userStatus: UserStatus) :
 
     private val text = userStatus.text
 
+    private val showImage = UsersTextsFragment.showImage
+
     private val model = UsersTextsFragment.statusesViewModel
     private val favoritesViewModel = UsersTextsFragment.favoritesViewModel
 
     private val randomPic = CategoryPics.getRandomPic(userStatus.category)
 
+    private val color = userStatus.statusColor.value
     private val thisUserId = model.getUserID()
     override fun bind(viewHolder: ViewHolder, position: Int) {
         val view = viewHolder.itemView
         val context = view.context
+
+
+        if (showImage) {
+            view.user_status_image.setImageResource(randomPic)
+            view.user_status_text.text =
+                context.highlightTextWithColor(userStatus.statusColor.value, text)
+        } else {
+            view.user_status_text.text = text
+            view.user_status_image.setBackgroundColor(ContextCompat.getColor(context, color))
+
+        }
 
 
         // set likes count
@@ -84,11 +98,6 @@ class UserStatusItem(private val userStatus: UserStatus) :
             view.user_status_username_text.text = it
         })
 
-        view.user_status_image.setImageResource(randomPic)
-
-        // set text color
-        view.user_status_text.text =
-            context.highlightTextWithColor(userStatus.statusColor.value, text)
 
         // set category text
         view.user_status_category_text.text = context.getString(userStatus.category.textID)

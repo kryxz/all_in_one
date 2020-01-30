@@ -16,7 +16,6 @@ import android.provider.MediaStore
 import android.view.*
 import android.widget.SeekBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
@@ -25,14 +24,19 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lemonlab.all_in_one.extensions.createImageFile
 import com.lemonlab.all_in_one.extensions.removeWhitespace
-import com.lemonlab.all_in_one.items.FilterItem
+import com.lemonlab.all_in_one.extensions.showMessage
 import com.lemonlab.all_in_one.items.FontItem
 import com.lemonlab.all_in_one.items.StickerItem
 import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import dev.sasikanth.colorsheet.ColorSheet
-import ja.burhanrashid52.photoeditor.*
-import kotlinx.android.synthetic.main.fillters_selector_view.view.*
+import ja.burhanrashid52.photoeditor.OnPhotoEditorListener
+import ja.burhanrashid52.photoeditor.PhotoEditor
+import ja.burhanrashid52.photoeditor.PhotoFilter
+import ja.burhanrashid52.photoeditor.ViewType
+import kotlinx.android.synthetic.main.filter_item.view.*
+import kotlinx.android.synthetic.main.filters_selector_view.view.*
 import kotlinx.android.synthetic.main.fonts_selector_view.view.*
 import kotlinx.android.synthetic.main.fragment_create.*
 import kotlinx.android.synthetic.main.input_text.view.*
@@ -105,12 +109,14 @@ class CreateFragment : Fragment() {
 
 
     private fun sendImageAsBitmap() {
-        photoEditor.saveAsBitmap(object : OnSaveBitmap {
-            override fun onFailure(e: java.lang.Exception?) {}
-            override fun onBitmapReady(saveBitmap: Bitmap?) {
-                if (saveBitmap == null) return
-                val direction = CreateFragmentDirections.SendThisImage()
-                    .setImage(saveBitmap)
+        val file = activity!!.createImageFile()
+        photoEditor.saveAsFile(file.absolutePath, object : PhotoEditor.OnSaveListener {
+            override fun onFailure(exception: java.lang.Exception) {
+            }
+
+            override fun onSuccess(imagePath: String) {
+                val direction =
+                    CreateFragmentDirections.SendThisImage(file.absolutePath)
                 view!!.findNavController().navigate(direction)
             }
         })
@@ -122,23 +128,14 @@ class CreateFragment : Fragment() {
             activity!!.createImageFile().path, // get image file path
             object : PhotoEditor.OnSaveListener {
                 override fun onSuccess(imagePath: String) {
-                    // show message to user
-                    Toast.makeText(
-                        context!!,
-                        getString(R.string.image_saved),
-                        Toast.LENGTH_LONG
-                    ).show()
+                    context!!.showMessage(getString(R.string.image_saved))
 
                     imageUri = Uri.parse(imagePath)
                 }
 
                 override fun onFailure(exception: Exception) {
-                    // show message to user
-                    Toast.makeText(
-                        context!!,
-                        getString(R.string.couldnt_save_image),
-                        Toast.LENGTH_LONG
-                    ).show()
+
+                    context!!.showMessage(getString(R.string.couldnt_save_image))
                 }
 
             })
@@ -165,20 +162,20 @@ class CreateFragment : Fragment() {
         )
 
         // the edit text
-        val inputText = dialogView.findViewById(R.id.inputTextField) as AppCompatEditText
+        val inputText = dialogView.findViewById(R.id.inputTextField)
+                as AppCompatEditText
 
-
-        dialogBuilder.setView(dialogView)
-
-
-        // makes dialog transparent
-        dialogBuilder.window!!.setBackgroundDrawable(ColorDrawable(0))
-
-        // cancels focus(clears view dim)
-        dialogBuilder.window!!.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
 
         // shows dialog at location specified by x, y
         with(dialogBuilder) {
+            setView(dialogView)
+
+            // makes dialog transparent
+            window!!.setBackgroundDrawable(ColorDrawable(0))
+
+            // cancels focus(clears view dim)
+            window!!.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+
             val attrs = window!!.attributes
             with(attrs) {
                 gravity = Gravity.CENTER or Gravity.START
@@ -225,27 +222,32 @@ class CreateFragment : Fragment() {
             view!!.findViewById(R.id.settingsFragment)
         )
 
-        // the edit text
-        val inputText = dialogView.findViewById(R.id.inputTextField) as AppCompatEditText
+        val inputText = dialogView.findViewById(R.id.inputTextField)
+                as AppCompatEditText
 
-        dialogBuilder.setView(dialogView)
-        // makes dialog transparent
-        dialogBuilder.window!!.setBackgroundDrawable(ColorDrawable(0))
-        // cancels focus(clears view dim)
-        dialogBuilder.window!!.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+        with(dialogBuilder) {
 
-        dialogBuilder.setOnDismissListener {
-            if (inputText.text.toString().removeWhitespace().isNotEmpty())
-                photoEditor.addText(inputText.text.toString(), ColorSheet.NO_COLOR)
+            setView(dialogView)
+
+            // makes dialog transparent
+            window!!.setBackgroundDrawable(ColorDrawable(0))
+            // cancels focus(clears view dim)
+            window!!.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+
+            setOnDismissListener {
+                if (inputText.text.toString().removeWhitespace().isNotEmpty())
+                    photoEditor.addText(inputText.text.toString(), ColorSheet.NO_COLOR)
+            }
+            show()
+
         }
 
-        dialogBuilder.show()
+
     }
 
     private fun editor() {
 
         var currentEditorColor = ColorSheet.NO_COLOR
-
         fun showColorPicker() {
             ColorSheet().colorPicker(
                 colors = resources.getIntArray(R.array.colors),
@@ -363,6 +365,7 @@ class CreateFragment : Fragment() {
         filter_btn.setOnClickListener {
             showPhotoFilterDialog()
         }
+        changeEditorImage()
     }
 
 
@@ -517,9 +520,9 @@ class CreateFragment : Fragment() {
         stickerDialogView.seek_sticker.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                if (progress >= 3) {
+                if (progress >= 3)
                     updateTheAdapter(progress)
-                }
+
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -533,7 +536,7 @@ class CreateFragment : Fragment() {
         })
 
         // get emoji and add it to the adapter then show the dialog
-        updateTheAdapter(3)
+        updateTheAdapter(stickerDialogView.seek_sticker.progress)
         dialogBuilder.show()
     }
 
@@ -603,11 +606,10 @@ class CreateFragment : Fragment() {
 
     private fun showPhotoFilterDialog() {
         // get the view
-        val filterDialogView = layoutInflater.inflate(
-            R.layout.fillters_selector_view,
-            view!!.findViewById(R.id.createFragment)
-        )
-
+        val filterDialogView =
+            with(LayoutInflater.from(context)) {
+                inflate(R.layout.filters_selector_view, null)
+            }
         // get the rv
         val fontsRv = filterDialogView.filters_selector_view_rv
         //fontsRv.layoutManager = LinearLayoutManager(context!!, LinearLayoutManager.HORIZONTAL, false)
@@ -626,13 +628,13 @@ class CreateFragment : Fragment() {
         pairs.add(Pair(PhotoFilter.NEGATIVE, R.drawable.negative))
         pairs.add(Pair(PhotoFilter.SATURATE, R.drawable.saturate))
         pairs.add(Pair(PhotoFilter.VIGNETTE, R.drawable.vignette))
+        val dialog = AlertDialog.Builder(context!!).create()
 
         val adapter = GroupAdapter<ViewHolder>()
         for (pair in pairs) {
             adapter.add(
                 FilterItem(
-                    image = pair.second, filterType = pair.first,
-                    action = ::getDataFromFilterDialog
+                    image = pair.second, filterType = pair.first, dialog = dialog
                 )
             )
         }
@@ -640,7 +642,6 @@ class CreateFragment : Fragment() {
         fontsRv.adapter = adapter
 
         // create the view and show it
-        val dialog = AlertDialog.Builder(context!!).create()
         dialog.setView(filterDialogView)
         dialog.show()
 
@@ -649,6 +650,32 @@ class CreateFragment : Fragment() {
     // function to get data from filter Item when user click on it
     private fun getDataFromFilterDialog(filter: PhotoFilter) {
         photoEditor.setFilterEffect(filter)
+
+    }
+
+    inner class FilterItem(
+        private val image: Int,
+        private val filterType: PhotoFilter,
+        private val dialog: AlertDialog
+    ) :
+
+        Item<ViewHolder>() {
+
+
+        override fun getLayout() =
+            R.layout.filter_item
+
+
+        override fun bind(viewHolder: ViewHolder, position: Int) {
+            val imageView = viewHolder.itemView.filter_item_image_view
+            imageView.setImageResource(image)
+
+            imageView.setOnClickListener {
+                getDataFromFilterDialog(filterType)
+                dialog.dismiss()
+            }
+        }
+
     }
 
 }

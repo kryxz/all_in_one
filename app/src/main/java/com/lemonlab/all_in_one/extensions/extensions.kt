@@ -6,6 +6,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
@@ -15,22 +16,29 @@ import android.text.style.BackgroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
+import com.google.android.gms.ads.*
+import com.google.android.gms.ads.doubleclick.PublisherAdRequest
+import com.google.android.gms.ads.formats.NativeAdOptions
+import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.lemonlab.all_in_one.R
+import com.lemonlab.all_in_one.items.UnifiedAd
 import com.lemonlab.all_in_one.model.StatusColor
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.ViewHolder
+import es.dmoral.toasty.Toasty
 import java.io.ByteArrayOutputStream
 import java.io.File
-import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.concurrent.timerTask
 
 // asks user to login to continue.
 fun View.checkUser() =
@@ -46,8 +54,18 @@ fun View.navigateToAndClear(destinationId: Int, newDes: Int) {
     )
 }
 
-fun Context.showMessage(m: String) =
-    Toast.makeText(this, m, Toast.LENGTH_LONG).show()
+fun Context.showMessage(m: String) {
+    val sharedPrefs = getSharedPreferences("UserPrefs", 0)
+    val mainColor = sharedPrefs
+        .getInt("mainColor", StatusColor.Blue.value)
+    val tintColor = ContextCompat.getColor(this, mainColor)
+    val textColor = ContextCompat.getColor(this, R.color.white)
+    Toasty.custom(
+        this, m, null, tintColor,
+        textColor, 100, false, true
+    ).show()
+
+}
 
 
 fun userOnline() {
@@ -102,11 +120,11 @@ fun Context.highlightTextWithColor(color: Int, text: String): SpannableString {
 
 fun Activity.createImageFile(): File {
     // Create an image file name
-    val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
-    val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+    val uuid: String =
+        getString(R.string.app_name) + UUID.randomUUID().toString().substring(0, 16)
+    val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
     return File.createTempFile(
-        "JPEG_${timeStamp}_",
-        ".jpg",
+        uuid, ".jpg",
         storageDir /* directory */
     )
 }
@@ -118,7 +136,7 @@ fun Activity.setFragmentTitle(text: String) {
 
 fun View.getBitmapFromView(): Bitmap {
     // Define a bitmap with the same size as the view
-    val returnedBitmap = Bitmap.createBitmap(this.width, this.height, Bitmap.Config.ARGB_8888)
+    val returnedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
     // Bind a canvas to it
     val canvas = Canvas(returnedBitmap)
     // Get the view's background
@@ -220,5 +238,66 @@ fun Context.getImageUriFromBitmap(bitmap: Bitmap): Uri {
         contentResolver,
         bitmap, getString(R.string.app_name), null
     )
+    scanFile(path)
     return Uri.parse(path.toString())
+}
+
+fun Context.scanFile(filePath: String) {
+    val path = arrayOf(filePath)
+    MediaScannerConnection.scanFile(this, path, null)
+    { _, _ -> }
+
+}
+
+fun addAd(index: Int, adapter: GroupAdapter<ViewHolder>) {
+    if (index % 5 == 0)
+        Ads.addAd(adapter)
+}
+
+// handles ads in app
+class Ads {
+
+    companion object {
+
+        fun loadFullScreenAd(ad: InterstitialAd) {
+            if (ad.adUnitId.isNullOrEmpty())
+                ad.adUnitId = "ca-app-pub-9769401692194876/7852805560"
+            ad.loadAd(AdRequest.Builder().build())
+        }
+
+        private var ad: UnifiedNativeAd? = null
+
+        fun addAd(adapter: GroupAdapter<ViewHolder>) {
+            if (ad != null)
+                adapter.add(UnifiedAd(ad!!))
+        }
+
+        fun loadAd(context: Context) {
+
+            // load new ad every 16 seconds.
+
+            Timer().schedule(timerTask { ad = null; loadAd(context) }, 16000)
+            if (ad != null) return
+
+            val videoOptions = VideoOptions.Builder()
+                .setStartMuted(true)
+                .build()
+
+            val adOptions = NativeAdOptions.Builder()
+                .setVideoOptions(videoOptions)
+                .build()
+            val adID = "ca-app-pub-9769401692194876/3354323205"
+            val adLoader = AdLoader.Builder(context, adID)
+                .forUnifiedNativeAd { ad -> this.ad = ad }
+
+                .withAdListener(object : AdListener() {
+                    override fun onAdFailedToLoad(errorCode: Int) {
+                        // Handle the failure by logging, altering the UI, and so on.
+                    }
+
+                }).withNativeAdOptions(adOptions).build()
+
+            adLoader.loadAd(PublisherAdRequest.Builder().build())
+        }
+    }
 }

@@ -9,6 +9,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.ads.InterstitialAd
+import com.lemonlab.all_in_one.extensions.Ads
+import com.lemonlab.all_in_one.extensions.addAd
 import com.lemonlab.all_in_one.extensions.setFragmentTitle
 import com.lemonlab.all_in_one.items.Category
 import com.lemonlab.all_in_one.items.QuoteItem
@@ -24,9 +28,17 @@ import kotlinx.android.synthetic.main.fragment_local_quotes.*
 
 class LocalQuotesFragment : Fragment() {
 
+
     companion object {
+        lateinit var fullScreenAd: InterstitialAd
+        fun showAd() {
+            fullScreenAd.show()
+            Ads.loadFullScreenAd(fullScreenAd)
+        }
+
         lateinit var favoritesViewModel: FavoritesViewModel
         lateinit var favoritesCodes: MutableList<Int>
+        var showImage = true
     }
 
 
@@ -40,12 +52,12 @@ class LocalQuotesFragment : Fragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val category = LocalQuotesFragmentArgs.fromBundle(arguments!!).category
-
         init(category)
         setTitle(category)
-
-        super.onViewCreated(view, savedInstanceState)
+        fullScreenAd = InterstitialAd(context!!)
+        Ads.loadFullScreenAd(fullScreenAd)
     }
 
 
@@ -54,7 +66,10 @@ class LocalQuotesFragment : Fragment() {
         val list = getStatuses(category, resources)
 
         favoritesViewModel = ViewModelProviders.of(this)[FavoritesViewModel::class.java]
+        val linearLayoutManager = LinearLayoutManager(context)
+
         quotes_rv.adapter = adapter
+        quotes_rv.layoutManager = linearLayoutManager
         favoritesViewModel.updateCodes()
 
         favoritesCodes = if (favoritesViewModel.favoritesCodes.value != null)
@@ -62,12 +77,19 @@ class LocalQuotesFragment : Fragment() {
         else
             mutableListOf()
 
+        showImage =
+            context!!.getSharedPreferences("UserPrefs", 0)
+                .getBoolean("showImages", true)
 
-        for (quote in list)
+        for ((index, quote) in list.withIndex()) {
             adapter.add(QuoteItem(quote, category))
+            // adds an ad every n items
+            addAd(index, adapter)
+        }
 
 
-        favoritesViewModel.allFavorites.observe(this, Observer<List<Favorite>> { fav ->
+
+        favoritesViewModel.allFavorites.observe(this, Observer<List<Favorite>> {
             adapter.notifyDataSetChanged()
         })
 

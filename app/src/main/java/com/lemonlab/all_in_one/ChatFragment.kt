@@ -27,7 +27,7 @@ Users can send and receive messages here.
 class ChatFragment : Fragment() {
 
 
-    private val adapter: GroupAdapter<ViewHolder> = GroupAdapter()
+    private val adapter = GroupAdapter<ViewHolder>()
     private var onlineUsersCount: Int = 0
 
     companion object {
@@ -118,20 +118,6 @@ class ChatFragment : Fragment() {
 
     }
 
-
-/*
-    private fun deleteOldMessages(documents: List<DocumentSnapshot>): List<DocumentSnapshot> {
-        val maxMessages = 51
-        if (documents.size > maxMessages) {
-            return documents.subList(documents.size - maxMessages, documents.size - 1)
-        }
-        for (i in documents.size - maxMessages downTo 0) {
-            val db = FirebaseFirestore.getInstance()
-            db.collection("chats").document(documents[i].id).delete()
-        }
-        return documents
-    }
- */
 
 
     private fun slideToLastMessage() {
