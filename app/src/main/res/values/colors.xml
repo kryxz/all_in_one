@@ -28,6 +28,30 @@
     <color name="semiBrown">#8F281F</color>
     <color name="charcoal">#36454f</color>
     <color name="silver">#C0C0C0</color>
+    <color name="greenSea">#16a085</color>
+    <color name="carrot">#e67e22</color>
+    <color name="midnightBlue">#2c3e50</color>
+    <color name="amethyst">#9b59b6</color>
+    <color name="pineGlad">#BDC581</color>
+    <color name="winterGreen">#32ff7e</color>
+    <color name="indigo">#7158e2</color>
+    <color name="balticSea">#3d3d3d</color>
+    <color name="liberty">#474787</color>
+    <color name="superGrey">#636e72</color>
+
+    <color name="redViolet">#963694</color>
+    <color name="jellyBlue">#2574a9</color>
+    <color name="ming">#336e7b</color>
+    <color name="fBlue">#5c97bf</color>
+    <color name="salem">#1e824c</color>
+    <color name="lemon">#f7ca18</color>
+    <color name="turbo">#f5e51b</color>
+
+    <color name="tahitiGold">#e87e04</color>
+    <color name="orange">#d35400</color>
+    <color name="vivid">#f15a22</color>
+    <color name="cascade">#95a5a6</color>
+    <color name="lynch">#6c7a89</color>
 
 
 </resources>

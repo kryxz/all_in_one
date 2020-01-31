@@ -220,16 +220,22 @@ class CategoryPics {
         fun getAllPics() = allPics
 
         private val colors = listOf(
-            R.color.darkBlue,
-            R.color.magentaPurple,
-            R.color.darkGreen,
-            R.color.superBlack,
-            R.color.rose,
-            R.color.gold,
-            R.color.emerald,
-            R.color.semiBrown,
-            R.color.charcoal,
-            R.color.silver
+            R.color.darkBlue, R.color.magentaPurple,
+            R.color.darkGreen, R.color.superBlack,
+            R.color.rose, R.color.gold,
+            R.color.emerald, R.color.semiBrown,
+            R.color.charcoal, R.color.silver,
+            R.color.greenSea, R.color.carrot,
+            R.color.midnightBlue, R.color.amethyst,
+            R.color.pineGlad, R.color.winterGreen,
+            R.color.indigo, R.color.balticSea,
+            R.color.liberty, R.color.lynch,
+            R.color.superGrey, R.color.redViolet,
+            R.color.jellyBlue, R.color.ming,
+            R.color.fBlue, R.color.salem,
+            R.color.turbo, R.color.tahitiGold,
+            R.color.orange, R.color.vivid,
+            R.color.cascade
         )
 
         fun getRandomColor() = colors[Random.nextInt(colors.size)]

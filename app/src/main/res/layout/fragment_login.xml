@@ -128,10 +128,15 @@
                 app:cardCornerRadius="32dp">
 
                 <androidx.appcompat.widget.AppCompatButton
-                    style="@style/default_button_style"
                     android:id="@+id/login_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?buttonColor"
+                    android:padding="16dp"
                     android:text="@string/loginTitle"
-                    android:textSize="28sp" />
+                    android:textColor="@color/white"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
 
             </com.google.android.material.card.MaterialCardView>
 
