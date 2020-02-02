@@ -265,7 +265,7 @@ class CreateFragment : Fragment() {
         currentFontTypeFace = ResourcesCompat.getFont(context!!, R.font.amiri_regular)
 
         // the used background when user open the editor
-        photoEditorView.source.setImageResource(R.drawable.test_image)
+        //photoEditorView.source.setImageResource(R.drawable.test_image)
 
         //Use custom font using latest support library
         val mTextRobotoTf = ResourcesCompat.getFont(context!!, R.font.aram)
@@ -453,7 +453,7 @@ class CreateFragment : Fragment() {
         currentEditorBackground = images[index]
 
         // change editor background
-        photoEditorView.source.setImageResource(images[index])
+        photoEditorView.source.setImageResource(images[3])
     }
 
     private fun incrementBrushSize() {
