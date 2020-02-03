@@ -29,7 +29,7 @@ class FavoriteItem(
     private val text = favorite.text
 
     private val color = CategoryPics.getRandomColor()
-    private val showImage = false
+    private val showImage = FavoritesFragment.showImage
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
         val view = viewHolder.itemView
