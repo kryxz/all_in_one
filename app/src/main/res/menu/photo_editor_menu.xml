@@ -14,11 +14,6 @@
         android:title="@string/camera"
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/createChangeBackground"
-        android:icon="@drawable/ic_sticker"
-        app:showAsAction="never"
-        android:title="@string/changeBackground" />
 
     <item
         android:id="@+id/createSave"

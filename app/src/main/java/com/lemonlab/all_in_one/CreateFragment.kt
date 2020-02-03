@@ -53,10 +53,10 @@ class CreateFragment : Fragment() {
     private val minBrushSize = 8f
 
     private lateinit var photoEditor: PhotoEditor
-    private var currentEditorBackground: Int = R.drawable.editor_image0
     private var currentFontTypeFace: Typeface? = null
     private var imageUri: Uri? = null
 
+    private var currentColor = ColorSheet.NO_COLOR
     enum class PhotoTool {
         Brush, Text, Eraser, EmojiPicker, ColorPicker
     }
@@ -91,9 +91,6 @@ class CreateFragment : Fragment() {
         if (item.itemId == R.id.createLibrary)
             selectImage()
 
-
-        if (item.itemId == R.id.createChangeBackground)
-            changeEditorImage()
 
 
         if (item.itemId == R.id.createSave)
@@ -195,7 +192,7 @@ class CreateFragment : Fragment() {
                 dialogBuilder.setOnDismissListener {
                     val newText = inputText.text.toString()
                     dialogView.inputTextField.text!!.clear()
-                    photoEditor.editText(rootView, newText, colorCode)
+                    photoEditor.editText(rootView, newText, currentColor)
                 }
 
             }
@@ -236,7 +233,7 @@ class CreateFragment : Fragment() {
 
             setOnDismissListener {
                 if (inputText.text.toString().removeWhitespace().isNotEmpty())
-                    photoEditor.addText(inputText.text.toString(), ColorSheet.NO_COLOR)
+                    photoEditor.addText(inputText.text.toString(), currentColor)
             }
             show()
 
@@ -255,6 +252,7 @@ class CreateFragment : Fragment() {
                     currentEditorColor = color
                     // change brush color
                     photoEditor.brushColor = currentEditorColor
+                    currentColor = color
                 })
                 .show(fragmentManager!!)
         }
@@ -365,7 +363,9 @@ class CreateFragment : Fragment() {
         filter_btn.setOnClickListener {
             showPhotoFilterDialog()
         }
-        changeEditorImage()
+
+        photoEditorView.source.setImageResource(R.drawable.editor_background)
+
     }
 
 
@@ -423,38 +423,6 @@ class CreateFragment : Fragment() {
         }
     }
 
-    private fun changeEditorImage() {
-
-        // get images from drawables
-        val images = listOf(
-            R.drawable.editor_image0,
-            R.drawable.editor_image1,
-            R.drawable.editor_image2,
-            R.drawable.editor_image3,
-            R.drawable.editor_image4,
-            R.drawable.editor_image5,
-            R.drawable.editor_image6,
-            R.drawable.editor_image7,
-            R.drawable.editor_image8,
-            R.drawable.editor_image9,
-            R.drawable.editor_image10,
-            R.drawable.editor_image11,
-            R.drawable.editor_image12,
-            R.drawable.editor_image13,
-            R.drawable.editor_image14,
-            R.drawable.editor_image15
-        )
-
-        // get the current index
-        var index = images.indexOf(currentEditorBackground)
-
-        // go to next image
-        index = (index + 1) % images.size
-        currentEditorBackground = images[index]
-
-        // change editor background
-        photoEditorView.source.setImageResource(images[3])
-    }
 
     private fun incrementBrushSize() {
         increment_brush_size_btn.setOnClickListener {
