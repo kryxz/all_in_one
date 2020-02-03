@@ -9,23 +9,23 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="@dimen/paddingMarginNormal"
         android:gravity="center_horizontal"
         android:text="@string/select_fonts"
         android:textColor="?textColor"
-        android:textSize="26sp"
+        android:textSize="@dimen/textSizeLarge"
         android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fonts_rv"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
-        android:layout_margin="8dp"
+        android:layout_height="@dimen/changeImageRVHeight"
+        android:layout_margin="@dimen/paddingMarginNormal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/fonts_selector_view_btn"
-        android:text="@string/cancel"
-        style="@style/default_button_style" />
+        style="@style/default_button_style"
+        android:text="@string/cancel" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

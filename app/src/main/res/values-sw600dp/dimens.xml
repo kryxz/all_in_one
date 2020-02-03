@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="buttonTextSize">21sp</dimen>
+
+    <dimen name="paddingMarginNormal">8dp</dimen>
+    <dimen name="paddingMarginSmall">5dp</dimen>
+    <dimen name="paddingMarginLarge">16dp</dimen>
+    <dimen name="adMinHeight">40dp</dimen>
+
+    <dimen name="textSizeSmall">16sp</dimen>
+    <dimen name="textSize">19sp</dimen>
+    <dimen name="textSizeNormal">22sp</dimen>
+    <dimen name="textSizeLarge">25sp</dimen>
+    <dimen name="textSizeTitle">28sp</dimen>
+
+    <dimen name="adMediaViewHeight">180dp</dimen>
+    <dimen name="categoryViewHeight">230dp</dimen>
+    <dimen name="changeImageRVHeight">320dp</dimen>
+    <dimen name="editTextMinHeight">65dp</dimen>
+    <dimen name="filterItemWidthHeight">110dp</dimen>
+    <dimen name="editorButtonWidthHeight">60dp</dimen>
+    <dimen name="sendStatusEditText">135dp</dimen>
+    <dimen name="sendImageMaxHeight">330dp</dimen>
+    <dimen name="sendImageMinHeight">190dp</dimen>
+
+</resources>

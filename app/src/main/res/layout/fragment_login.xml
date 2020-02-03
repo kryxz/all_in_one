@@ -27,8 +27,8 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:padding="8dp"
+                android:layout_margin="@dimen/paddingMarginNormal"
+                android:padding="@dimen/paddingMarginNormal"
                 app:cardBackgroundColor="@android:color/transparent"
                 app:cardCornerRadius="32dp">
 
@@ -39,9 +39,8 @@
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/login_text_image"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
+                        android:layout_height="@dimen/categoryViewHeight"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/hourglass"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -54,10 +53,10 @@
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:gravity="center"
-                        android:padding="8dp"
+                        android:padding="@dimen/paddingMarginNormal"
                         android:text="@string/text_sample"
                         android:textColor="@color/white"
-                        android:textSize="20sp"
+                        android:textSize="@dimen/textSizeNormal"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/login_text_image"

@@ -9,11 +9,11 @@
         android:id="@+id/dialogTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="@dimen/paddingMarginNormal"
         android:gravity="center_horizontal"
         android:text="@string/app_name"
         android:textColor="?textColor"
-        android:textSize="24sp"
+        android:textSize="@dimen/textSizeLarge"
         android:textStyle="bold" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -21,15 +21,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:padding="8dp"
+        android:padding="@dimen/paddingMarginNormal"
         android:text="@string/text_sample"
         android:textColor="?textColor"
-        android:textSize="20sp" />
+        android:textSize="@dimen/textSizeNormal" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp">
+        android:layout_margin="@dimen/paddingMarginNormal">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/dialogConfirmButton"

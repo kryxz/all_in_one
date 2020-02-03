@@ -9,14 +9,14 @@
         android:id="@+id/faq_question"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
+        android:layout_margin="@dimen/paddingMarginSmall"
         android:background="?backgroundColor"
         android:drawableStart="@drawable/ic_help"
-        android:drawablePadding="8dp"
-        android:padding="8dp"
+        android:drawablePadding="@dimen/paddingMarginNormal"
+        android:padding="@dimen/paddingMarginNormal"
         android:text="@string/text_sample"
         android:textColor="?textColor"
-        android:textSize="22sp" />
+        android:textSize="@dimen/textSizeNormal" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/faq_answer"
@@ -24,11 +24,11 @@
         android:layout_height="wrap_content"
         android:background="?backgroundColor"
         android:drawableStart="@drawable/ic_info"
-        android:drawablePadding="8dp"
-        android:padding="4dp"
+        android:drawablePadding="@dimen/paddingMarginNormal"
+        android:padding="@dimen/paddingMarginSmall"
         android:text="@string/text_sample"
         android:textColor="?textColor"
-        android:textSize="20sp"
+        android:textSize="@dimen/textSizeNormal"
         android:textStyle="bold"
         android:visibility="gone" />
 

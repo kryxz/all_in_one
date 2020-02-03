@@ -27,9 +27,9 @@
                 style="@style/Widget.MaterialComponents.CardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:minHeight="220dp"
-                android:padding="8dp"
+                android:layout_margin="@dimen/paddingMarginNormal"
+                android:minHeight="@dimen/categoryViewHeight"
+                android:padding="@dimen/paddingMarginNormal"
                 app:cardBackgroundColor="?backgroundColor"
                 app:cardCornerRadius="16dp"
                 app:strokeColor="?colorOnSurface"
@@ -46,11 +46,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="start"
-                        android:padding="8dp"
+                        android:padding="@dimen/paddingMarginNormal"
                         android:text="@string/app_name"
                         android:textColor="?textColor"
                         android:textDirection="rtl"
-                        android:textSize="26sp"
+                        android:textSize="@dimen/textSizeLarge"
                         android:textStyle="bold" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -58,11 +58,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="start"
-                        android:padding="8dp"
+                        android:padding="@dimen/paddingMarginNormal"
                         android:text="@string/text_sample"
                         android:textColor="?textColor"
                         android:textDirection="rtl"
-                        android:textSize="20sp" />
+                        android:textSize="@dimen/textSizeNormal" />
 
                     <View style="@style/view_divider_style" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -80,14 +80,14 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="top"
                         android:layoutDirection="rtl"
-                        android:padding="8dp">
+                        android:padding="@dimen/paddingMarginNormal">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/view_post_postedBy"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_margin="4dp"
+                            android:layout_margin="@dimen/paddingMarginSmall"
                             android:layout_weight="1"
                             android:gravity="start"
                             android:text="@string/app_name"
@@ -101,10 +101,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:padding="4dp"
+                            android:padding="@dimen/paddingMarginSmall"
                             android:text="@string/date_sample"
                             android:textColor="?textColor"
-                            android:textSize="15sp"
+                            android:textSize="@dimen/textSizeSmall"
                             android:textStyle="bold" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -118,11 +118,11 @@
                             android:id="@+id/view_post_delete"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
+                            android:layout_margin="@dimen/paddingMarginNormal"
                             android:layout_weight="1"
-                            android:drawablePadding="8dp"
-                            android:paddingStart="8dp"
-                            android:paddingEnd="8dp"
+                            android:drawablePadding="@dimen/paddingMarginNormal"
+                            android:paddingStart="@dimen/paddingMarginNormal"
+                            android:paddingEnd="@dimen/paddingMarginNormal"
                             android:src="@drawable/ic_delete_x"
                             android:tint="?iconColor"
                             android:visibility="gone" />
@@ -132,11 +132,11 @@
                             android:id="@+id/view_post_report"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
+                            android:layout_margin="@dimen/paddingMarginNormal"
                             android:layout_weight="1"
-                            android:drawablePadding="8dp"
-                            android:paddingStart="8dp"
-                            android:paddingEnd="8dp"
+                            android:drawablePadding="@dimen/paddingMarginNormal"
+                            android:paddingStart="@dimen/paddingMarginNormal"
+                            android:paddingEnd="@dimen/paddingMarginNormal"
                             android:src="@drawable/ic_report"
                             android:tint="?iconColor" />
 
@@ -145,12 +145,12 @@
                             android:id="@+id/view_post_dislike"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
+                            android:layout_margin="@dimen/paddingMarginNormal"
                             android:layout_weight="1"
                             android:background="@null"
                             android:cursorVisible="false"
                             android:drawableStart="@drawable/ic_arrow_downward"
-                            android:drawablePadding="8dp"
+                            android:drawablePadding="@dimen/paddingMarginNormal"
                             android:focusable="false"
                             android:inputType="none"
                             android:textColor="?textColor" />
@@ -159,12 +159,12 @@
                             android:id="@+id/view_post_like"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
+                            android:layout_margin="@dimen/paddingMarginNormal"
                             android:layout_weight="1"
                             android:background="@null"
                             android:cursorVisible="false"
                             android:drawableStart="@drawable/ic_arrow_upward"
-                            android:drawablePadding="8dp"
+                            android:drawablePadding="@dimen/paddingMarginNormal"
                             android:focusable="false"
                             android:inputType="none"
                             android:textColor="?textColor" />
@@ -174,11 +174,11 @@
                             android:id="@+id/view_post_save"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
+                            android:layout_margin="@dimen/paddingMarginNormal"
                             android:layout_weight="1"
-                            android:drawablePadding="8dp"
-                            android:paddingStart="8dp"
-                            android:paddingEnd="8dp"
+                            android:drawablePadding="@dimen/paddingMarginNormal"
+                            android:paddingStart="@dimen/paddingMarginNormal"
+                            android:paddingEnd="@dimen/paddingMarginNormal"
                             android:src="@drawable/ic_bookmark_border"
                             android:tint="?iconColor" />
 
@@ -200,19 +200,19 @@
                     android:layout_width="wrap_content"
                     android:background="?buttonColor"
                     android:drawableStart="@drawable/ic_textsms"
-                    android:drawablePadding="8dp"
+                    android:drawablePadding="@dimen/paddingMarginNormal"
                     android:text="@string/post" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/view_post_comment_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:layout_margin="@dimen/paddingMarginNormal"
                     android:background="@drawable/edit_text_rounded"
-                    android:drawablePadding="8dp"
+                    android:drawablePadding="@dimen/paddingMarginNormal"
                     android:hint="@string/app_name"
-                    android:minHeight="30dp"
-                    android:padding="8dp"
+                    android:minHeight="@dimen/editTextMinHeight"
+                    android:padding="@dimen/paddingMarginNormal"
                     android:textColor="?textColor"
                     android:textColorHint="?textHintColor" />
 
@@ -223,10 +223,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:padding="8dp"
+                android:padding="@dimen/paddingMarginNormal"
                 android:text="@string/comments"
                 android:textColor="?textColor"
-                android:textSize="16sp"
+                android:textSize="@dimen/textSize"
                 android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -240,11 +240,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_horizontal"
-                android:padding="8dp"
+                android:padding="@dimen/paddingMarginNormal"
                 android:text="@string/no_comments"
                 android:textColor="?textColor"
                 android:textDirection="rtl"
-                android:textSize="20sp"
+                android:textSize="@dimen/textSizeNormal"
                 android:textStyle="bold"
                 android:visibility="gone" />
 

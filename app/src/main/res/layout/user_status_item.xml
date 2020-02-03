@@ -6,14 +6,14 @@
     android:layout_height="wrap_content"
     android:background="?backgroundColor"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="@dimen/paddingMarginNormal">
 
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:padding="8dp"
+        android:layout_margin="@dimen/paddingMarginNormal"
+        android:padding="@dimen/paddingMarginNormal"
         app:cardCornerRadius="32dp"
         card_view:cardBackgroundColor="@android:color/transparent">
 
@@ -25,7 +25,7 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/user_status_image"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="@dimen/categoryViewHeight"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -39,10 +39,10 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:gravity="center"
-                android:padding="8dp"
+                android:padding="@dimen/paddingMarginNormal"
                 android:text="@string/text_sample"
                 android:textColor="@color/white"
-                android:textSize="20sp"
+                android:textSize="@dimen/textSizeNormal"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/user_status_image"
@@ -69,38 +69,38 @@
                 android:id="@+id/user_status_username_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
+                android:layout_margin="@dimen/paddingMarginSmall"
                 android:layout_weight="1"
-                android:padding="4dp"
+                android:padding="@dimen/paddingMarginSmall"
                 android:text="@string/app_name"
                 android:textColor="?textColor"
-                android:textSize="15sp"
+                android:textSize="@dimen/textSize"
                 android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/user_status_date_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
+                android:layout_margin="@dimen/paddingMarginSmall"
                 android:layout_weight="1"
-                android:padding="4dp"
+                android:padding="@dimen/paddingMarginSmall"
                 android:text="@string/app_name"
                 android:textColor="?textColor"
-                android:textSize="12sp"
+                android:textSize="@dimen/textSizeSmall"
                 android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/user_status_likes_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
+                android:layout_margin="@dimen/paddingMarginSmall"
                 android:layout_weight="1"
                 android:drawableStart="@drawable/ic_favorite"
-                android:drawablePadding="8dp"
-                android:padding="4dp"
+                android:drawablePadding="@dimen/paddingMarginNormal"
+                android:padding="@dimen/paddingMarginSmall"
                 android:text="@string/app_name"
                 android:textColor="?textColor"
-                android:textSize="15sp"
+                android:textSize="@dimen/textSize"
                 android:textStyle="bold" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -112,7 +112,7 @@
             android:gravity="end"
             android:text="@string/app_name"
             android:textColor="?textColor"
-            android:textSize="13sp" />
+            android:textSize="@dimen/textSizeSmall" />
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -125,7 +125,7 @@
             android:id="@+id/user_status_download_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/paddingMarginNormal"
             android:layout_weight="1"
             android:src="@drawable/ic_arrow_downward"
             android:tint="?colorAccent" />
@@ -134,7 +134,7 @@
             android:id="@+id/user_status_decorate_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/paddingMarginNormal"
             android:layout_weight="1"
             android:src="@drawable/ic_format_paint" />
 
@@ -142,7 +142,7 @@
             android:id="@+id/user_status_whats_share_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/paddingMarginNormal"
             android:layout_weight="1"
             android:src="@drawable/ic_whatsapp"
             android:tint="@color/green" />
@@ -151,7 +151,7 @@
             android:id="@+id/user_status_content_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/paddingMarginNormal"
             android:layout_weight="1"
             android:src="@drawable/ic_copy"
             android:tint="?iconColor" />
@@ -160,7 +160,7 @@
             android:id="@+id/user_status_share_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/paddingMarginNormal"
             android:layout_weight="1"
             android:src="@drawable/ic_share"
             android:tint="?iconColor" />
@@ -169,7 +169,7 @@
             android:id="@+id/user_status_favorite_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/paddingMarginNormal"
             android:layout_weight="1"
             android:src="@drawable/ic_favorite_empty" />
 
@@ -177,7 +177,7 @@
             android:id="@+id/user_status_report_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/paddingMarginNormal"
             android:layout_weight="1"
             android:src="@drawable/ic_report"
             android:tint="?iconColor" />
@@ -186,7 +186,7 @@
             android:id="@+id/user_status_details_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/paddingMarginNormal"
             android:layout_weight="1"
             android:src="@drawable/ic_expand_more"
             android:tint="?iconColor" />

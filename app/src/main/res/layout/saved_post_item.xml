@@ -6,7 +6,7 @@
     android:background="?backgroundColor"
     android:layoutDirection="rtl"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="@dimen/paddingMarginNormal">
 
 
     <com.google.android.material.card.MaterialCardView
@@ -14,8 +14,8 @@
         style="@style/Widget.MaterialComponents.CardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:padding="8dp"
+        android:layout_margin="@dimen/paddingMarginNormal"
+        android:padding="@dimen/paddingMarginNormal"
         app:cardBackgroundColor="?editTextBackgroundColor"
         app:cardCornerRadius="16dp"
         app:strokeColor="?textHintColor"
@@ -34,18 +34,18 @@
                 android:layout_weight="6"
                 android:gravity="start"
                 android:maxLength="64"
-                android:padding="8dp"
+                android:padding="@dimen/paddingMarginNormal"
                 android:text="@string/app_name"
                 android:textColor="?textColor"
                 android:textDirection="rtl"
-                android:textSize="21sp"
+                android:textSize="@dimen/textSize"
                 android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/saved_post_item_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_margin="@dimen/paddingMarginNormal"
                 android:layout_weight="1"
                 android:src="@drawable/ic_delete_x"
                 android:tint="?iconColor" />

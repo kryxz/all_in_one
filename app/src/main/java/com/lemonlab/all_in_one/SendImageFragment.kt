@@ -63,7 +63,9 @@ class SendImageFragment : Fragment() {
     }
 
     private fun init() {
-        val path = SendImageFragmentArgs.fromBundle(arguments!!).image
+        var path: String? = null
+        if (!arguments!!.isEmpty)
+            path = SendImageFragmentArgs.fromBundle(arguments!!).image
 
         if (path != null) {
             val bitmap = FirebaseVisionImage.fromFilePath(context!!, File(path).toUri()).bitmap

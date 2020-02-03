@@ -9,11 +9,11 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="@dimen/paddingMarginNormal"
         android:gravity="center_horizontal"
         android:text="@string/status_color"
         android:textColor="?textColor"
-        android:textSize="23sp"
+        android:textSize="@dimen/textSizeNormal"
         android:textStyle="bold" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -25,16 +25,16 @@
             android:id="@+id/dialog_status_color_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/paddingMarginNormal"
             android:layout_weight="1"
-            android:minHeight="50dp"
-            android:padding="8dp" />
+            android:minHeight="@dimen/editTextMinHeight"
+            android:padding="@dimen/paddingMarginNormal" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/dialog_statusColorImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/paddingMarginNormal"
             android:layout_weight="1"
             android:src="@drawable/ic_check_circle" />
 
@@ -45,6 +45,6 @@
         style="@style/default_button_style"
         android:layout_margin="32dp"
         android:text="@string/okay"
-        android:textSize="24sp" />
+        android:textSize="@dimen/textSizeNormal" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

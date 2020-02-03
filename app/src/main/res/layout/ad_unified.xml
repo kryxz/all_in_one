@@ -7,7 +7,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="?backgroundColor"
-        android:minHeight="50dp"
+        android:minHeight="@dimen/adMinHeight"
         android:orientation="vertical">
 
 
@@ -26,12 +26,12 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ad_app_icon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="@dimen/adMinHeight"
+                    android:layout_height="@dimen/adMinHeight"
                     android:adjustViewBounds="true"
-                    android:paddingStart="5dp"
-                    android:paddingEnd="5dp"
-                    android:paddingBottom="5dp" />
+                    android:paddingStart="@dimen/paddingMarginSmall"
+                    android:paddingEnd="@dimen/paddingMarginSmall"
+                    android:paddingBottom="@dimen/paddingMarginSmall" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -43,7 +43,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="#0000FF"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/textSize"
                         android:textStyle="bold" />
 
                     <LinearLayout
@@ -55,7 +55,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="bottom"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/textSize"
                             android:textStyle="bold" />
 
                         <RatingBar
@@ -82,42 +82,42 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/textSizeSmall" />
 
                 <com.google.android.gms.ads.formats.MediaView
                     android:id="@+id/ad_media"
                     android:layout_width="match_parent"
-                    android:layout_height="175dp"
+                    android:layout_height="@dimen/adMediaViewHeight"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp" />
+                    android:layout_marginTop="@dimen/paddingMarginSmall" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:orientation="horizontal"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp">
+                    android:paddingTop="@dimen/paddingMarginNormal"
+                    android:paddingBottom="@dimen/paddingMarginNormal">
 
                     <TextView
                         android:id="@+id/ad_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingStart="5dp"
-                        android:paddingLeft="5dp"
-                        android:paddingEnd="5dp"
-                        android:paddingRight="5dp"
-                        android:textSize="12sp" />
+                        android:paddingStart="@dimen/paddingMarginSmall"
+                        android:paddingLeft="@dimen/paddingMarginSmall"
+                        android:paddingEnd="@dimen/paddingMarginSmall"
+                        android:paddingRight="@dimen/paddingMarginSmall"
+                        android:textSize="@dimen/textSizeSmall" />
 
                     <TextView
                         android:id="@+id/ad_store"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingStart="5dp"
-                        android:paddingLeft="5dp"
-                        android:paddingEnd="5dp"
-                        android:paddingRight="5dp"
-                        android:textSize="12sp" />
+                        android:paddingStart="@dimen/paddingMarginSmall"
+                        android:paddingLeft="@dimen/paddingMarginSmall"
+                        android:paddingEnd="@dimen/paddingMarginSmall"
+                        android:paddingRight="@dimen/paddingMarginSmall"
+                        android:textSize="@dimen/textSizeSmall" />
 
                     <Button
                         android:id="@+id/ad_call_to_action"
@@ -125,7 +125,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:textSize="12sp" />
+                        android:textSize="@dimen/textSizeSmall" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

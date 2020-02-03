@@ -75,7 +75,6 @@ class MainActivity : AppCompatActivity() {
         val ifFirstUse = sharedPrefs.getBoolean("ifFirstUse", true)
         if (ifFirstUse) {
             setupFireBase()
-            // todo: show prefs dialog
             sharedPrefs.edit().putBoolean("ifFirstUse", false).apply()
         }
 

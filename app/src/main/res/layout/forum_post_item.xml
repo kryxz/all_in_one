@@ -5,20 +5,20 @@
     android:layout_height="wrap_content"
     android:background="?backgroundColor"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="@dimen/paddingMarginNormal">
 
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/forum_post_card"
+        style="@style/Widget.MaterialComponents.CardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:padding="8dp"
-        style="@style/Widget.MaterialComponents.CardView"
+        android:layout_margin="@dimen/paddingMarginNormal"
+        android:padding="@dimen/paddingMarginNormal"
         app:cardBackgroundColor="?editTextBackgroundColor"
+        app:cardCornerRadius="16dp"
         app:strokeColor="?textHintColor"
-        app:strokeWidth="1dp"
-        app:cardCornerRadius="16dp">
+        app:strokeWidth="1dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -36,13 +36,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="4dp"
+                    android:layout_margin="@dimen/paddingMarginSmall"
                     android:layout_weight="1"
-                    android:padding="8dp"
+                    android:padding="@dimen/paddingMarginNormal"
                     android:text="@string/username"
                     android:textColor="?textColor"
                     android:textDirection="rtl"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/textSizeSmall"
                     android:textStyle="bold" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -52,10 +52,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:padding="8dp"
+                android:padding="@dimen/paddingMarginNormal"
                 android:text="@string/app_name"
                 android:textColor="?textColor"
-                android:textSize="24sp"
+                android:textSize="@dimen/textSizeLarge"
                 android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -64,10 +64,10 @@
                 android:layout_height="wrap_content"
                 android:gravity="start"
                 android:maxLength="64"
-                android:padding="8dp"
+                android:padding="@dimen/paddingMarginNormal"
                 android:text="@string/text_sample"
                 android:textColor="?textColor"
-                android:textSize="18sp" />
+                android:textSize="@dimen/textSizeNormal" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -81,7 +81,7 @@
             android:id="@+id/forum_post_item_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/paddingMarginNormal"
             android:layout_weight="1"
             android:src="@drawable/ic_delete_x"
             android:tint="?iconColor"
@@ -91,7 +91,7 @@
             android:id="@+id/forum_post_item_report"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/paddingMarginNormal"
             android:layout_weight="1"
             android:src="@drawable/ic_report"
             android:tint="?iconColor" />
@@ -100,12 +100,12 @@
             android:id="@+id/forum_post_item_dislike"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/paddingMarginNormal"
             android:layout_weight="1"
             android:background="@null"
             android:cursorVisible="false"
             android:drawableStart="@drawable/ic_arrow_downward"
-            android:drawablePadding="8dp"
+            android:drawablePadding="@dimen/paddingMarginNormal"
             android:focusable="false"
             android:inputType="none"
             android:textColor="?textColor" />
@@ -114,12 +114,12 @@
             android:id="@+id/forum_post_item_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/paddingMarginNormal"
             android:layout_weight="1"
             android:background="@null"
             android:cursorVisible="false"
             android:drawableStart="@drawable/ic_arrow_upward"
-            android:drawablePadding="8dp"
+            android:drawablePadding="@dimen/paddingMarginNormal"
             android:focusable="false"
             android:inputType="none"
             android:textColor="?textColor" />
@@ -128,7 +128,7 @@
             android:id="@+id/forum_post_item_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/paddingMarginNormal"
             android:layout_weight="1"
             android:src="@drawable/ic_bookmark_border"
             android:tint="?iconColor" />

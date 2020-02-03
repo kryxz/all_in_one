@@ -6,13 +6,13 @@
     android:layout_margin="2dp"
     android:background="?backgroundColor"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="@dimen/paddingMarginNormal">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/backgroundColor"
-        app:cardCornerRadius="16dp"
+        app:cardCornerRadius="@dimen/paddingMarginLarge"
         app:cardPreventCornerOverlap="true">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -21,8 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
             android:background="?backgroundColor"
-
-            android:minHeight="120dp"
+            android:minHeight="@dimen/categoryViewHeight"
             android:src="@drawable/hourglass" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -30,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|start"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/paddingMarginLarge"
             android:layout_weight="1"
             android:background="?colorOnSurface"
             android:padding="2dp"
@@ -42,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/paddingMarginLarge"
             android:layout_weight="1"
             android:background="?colorOnSurface"
             android:padding="2dp"
@@ -54,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/paddingMarginLarge"
             android:layout_weight="1"
             android:background="?colorOnSurface"
             android:padding="2dp"
