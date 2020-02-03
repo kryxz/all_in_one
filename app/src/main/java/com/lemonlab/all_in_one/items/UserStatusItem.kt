@@ -15,10 +15,7 @@ import com.lemonlab.all_in_one.NotificationSender
 import com.lemonlab.all_in_one.R
 import com.lemonlab.all_in_one.UsersTextsFragment
 import com.lemonlab.all_in_one.UsersTextsFragmentDirections
-import com.lemonlab.all_in_one.extensions.getBitmapFromView
-import com.lemonlab.all_in_one.extensions.getDateAsString
-import com.lemonlab.all_in_one.extensions.highlightTextWithColor
-import com.lemonlab.all_in_one.extensions.showYesNoDialog
+import com.lemonlab.all_in_one.extensions.*
 import com.lemonlab.all_in_one.model.Favorite
 import com.lemonlab.all_in_one.model.UserStatus
 import com.xwray.groupie.Item
@@ -49,6 +46,17 @@ class UserStatusItem(private val userStatus: UserStatus) :
         val view = viewHolder.itemView
         val context = view.context
 
+
+        if (thisUserId == adminUID)
+            view.setOnLongClickListener {
+                context.showYesNoDialog(
+                    { userStatus.delete() },
+                    {},
+                    context.getString(R.string.deleteStatus),
+                    context.getString(R.string.report_status_confirm)
+                )
+                true
+            }
 
         if (showImage) {
             view.user_status_image.setImageResource(randomPic)

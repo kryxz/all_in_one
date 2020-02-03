@@ -301,3 +301,5 @@ class Ads {
         }
     }
 }
+
+val adminUID = "d2I64q3CgwcUAaRVoYaepDNEHpu1"

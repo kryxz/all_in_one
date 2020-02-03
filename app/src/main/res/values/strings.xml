@@ -459,5 +459,6 @@
     <string name="image_not_allowed">لا يمكنك نشر هذه الصّورة!</string>
     <string name="cannot_process_image">تعذّر نشر الصّورة، حاول مجددًا</string>
 
+    <string name="deleteStatus">حذف الحالة</string>
 
 </resources>
