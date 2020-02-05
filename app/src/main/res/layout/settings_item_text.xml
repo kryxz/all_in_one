@@ -29,9 +29,9 @@
             android:id="@+id/settingsSwitch"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/paddingMarginNormal"
+            android:layout_margin="@dimen/paddingMarginSmall"
             android:layout_weight="5"
-            android:padding="@dimen/paddingMarginNormal"
+            android:padding="@dimen/paddingMarginSmall"
             android:visibility="gone" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

@@ -80,7 +80,7 @@
                 android:layout_margin="@dimen/paddingMarginLarge"
                 android:background="@drawable/edit_text_rounded"
                 android:hint="@string/email"
-                android:inputType="textPersonName"
+                android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:minHeight="@dimen/editTextMinHeight"
                 android:paddingStart="@dimen/paddingMarginNormal"

@@ -78,7 +78,7 @@
                 android:background="@drawable/edit_text_rounded"
                 android:ems="10"
                 android:hint="@string/email"
-                android:inputType="textPersonName"
+                android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:minHeight="50dp"
                 android:paddingStart="10dp"
