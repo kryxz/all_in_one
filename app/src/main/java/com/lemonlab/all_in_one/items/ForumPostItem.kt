@@ -12,6 +12,7 @@ import androidx.navigation.findNavController
 import com.lemonlab.all_in_one.ForumFragment
 import com.lemonlab.all_in_one.ForumFragmentDirections
 import com.lemonlab.all_in_one.R
+import com.lemonlab.all_in_one.extensions.adminUID
 import com.lemonlab.all_in_one.extensions.showMessage
 import com.lemonlab.all_in_one.extensions.showYesNoDialog
 import com.lemonlab.all_in_one.model.ForumPost
@@ -112,7 +113,7 @@ class ForumPostItem(private val forumPost: ForumPost) :
             // delete function logic
             forum_post_item_delete.apply {
                 // return if user isn't the owner of post.
-                if (thisUserID != forumPost.userID) return@apply
+                if (thisUserID != forumPost.userID && thisUserID != adminUID) return@apply
 
                 this.visibility = View.VISIBLE
 

@@ -29,15 +29,15 @@
                 android:id="@+id/send_status_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_margin="@dimen/paddingMarginLarge"
                 android:background="@drawable/edit_text_rounded"
                 android:gravity="center"
                 android:hint="@string/text_sample"
-                android:minHeight="120dp"
-                android:padding="8dp"
+                android:minHeight="@dimen/sendStatusEditText"
+                android:padding="@dimen/paddingMarginNormal"
                 android:textColor="?textColor"
                 android:textColorHint="?textHintColor"
-                android:textSize="20sp" />
+                android:textSize="@dimen/textSizeNormal" />
 
             <View style="@style/view_divider_style" />
 
@@ -47,29 +47,29 @@
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatButton
-                    style="@style/default_button_style"
                     android:id="@+id/send_status_image_btn"
+                    style="@style/default_button_style"
                     android:layout_weight="1"
                     android:drawableStart="@drawable/ic_image"
                     android:text="@string/statusImage"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/textSizeSmall" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    style="@style/default_button_style"
                     android:id="@+id/send_status_send_btn"
+                    style="@style/default_button_style"
                     android:layout_weight="1"
                     android:drawableStart="@drawable/ic_send"
                     android:text="@string/sendStatus"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/textSizeSmall" />
 
 
                 <androidx.appcompat.widget.AppCompatButton
-                    style="@style/default_button_style"
                     android:id="@+id/send_status_preview_status"
+                    style="@style/default_button_style"
                     android:layout_weight="1"
                     android:drawableStart="@drawable/ic_eye"
                     android:text="@string/showStatus"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/textSizeSmall" />
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -85,22 +85,22 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:layout_margin="@dimen/paddingMarginNormal"
                     android:layout_weight="2"
-                    android:padding="8dp"
+                    android:padding="@dimen/paddingMarginNormal"
                     android:text="@string/statusCategory"
                     android:textColor="?textColor"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/textSize"
                     android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/send_status_category"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:layout_margin="@dimen/paddingMarginNormal"
                     android:layout_weight="1"
-                    android:minHeight="40dp"
-                    android:padding="8dp"
+                    android:minHeight="@dimen/editTextMinHeight"
+                    android:padding="@dimen/paddingMarginNormal"
                     android:prompt="@string/app_name" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -113,12 +113,12 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:layout_margin="@dimen/paddingMarginNormal"
                     android:layout_weight="2"
-                    android:padding="8dp"
+                    android:padding="@dimen/paddingMarginNormal"
                     android:text="@string/status_color"
                     android:textColor="?textColor"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/textSizeSmall"
                     android:textStyle="bold" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -131,16 +131,16 @@
                         android:id="@+id/status_color_spinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
+                        android:layout_margin="@dimen/paddingMarginNormal"
                         android:layout_weight="1"
-                        android:minHeight="40dp"
-                        android:padding="8dp" />
+                        android:minHeight="@dimen/editTextMinHeight"
+                        android:padding="@dimen/paddingMarginNormal" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/statusColorImage"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="8dp"
+                        android:layout_margin="@dimen/paddingMarginNormal"
                         android:layout_weight="1"
                         android:src="@drawable/ic_check_circle" />
 
@@ -161,26 +161,24 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@null"
                     android:drawableEnd="@drawable/ic_info"
-                    android:drawablePadding="8dp"
-                    android:padding="8dp"
+                    android:drawablePadding="@dimen/paddingMarginNormal"
+                    android:padding="@dimen/paddingMarginNormal"
                     android:text="@string/send_text_tip1"
                     android:textColor="?textColor"
                     android:textIsSelectable="false"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/textSizeNormal" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@null"
                     android:drawableEnd="@drawable/ic_info"
-                    android:drawablePadding="8dp"
-                    android:padding="8dp"
+                    android:drawablePadding="@dimen/paddingMarginNormal"
+                    android:padding="@dimen/paddingMarginNormal"
                     android:text="@string/send_text_tip2"
                     android:textColor="?textColor"
                     android:textIsSelectable="false"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/textSizeNormal" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

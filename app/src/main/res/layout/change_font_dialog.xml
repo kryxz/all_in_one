@@ -10,11 +10,11 @@
         android:id="@+id/dialogTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="@dimen/paddingMarginNormal"
         android:gravity="center_horizontal"
         android:text="@string/fontChange"
         android:textColor="?textColor"
-        android:textSize="26sp"
+        android:textSize="@dimen/textSizeTitle"
         android:textStyle="bold" />
 
 

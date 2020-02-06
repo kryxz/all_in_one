@@ -8,14 +8,14 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/sort_dialog_likes"
         style="@style/default_button_style"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/paddingMarginLarge"
         android:text="@string/sortByLikes" />
 
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/sort_dialog_time"
         style="@style/default_button_style"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/paddingMarginLarge"
         android:text="@string/sortByTime" />
 
 

@@ -35,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?backgroundColor"
-        android:paddingTop="4dp"
+        android:paddingTop="@dimen/paddingMarginSmall"
         android:weightSum="6"
         app:layout_constraintBottom_toTopOf="@+id/photoEditorBottomBar"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,55 +43,39 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/undo_btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/editorButtonWidthHeight"
+            android:layout_height="@dimen/editorButtonWidthHeight"
             android:layout_weight="1"
             android:src="@drawable/ic_undo"
             android:tint="@color/black" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/redo_btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/editorButtonWidthHeight"
+            android:layout_height="@dimen/editorButtonWidthHeight"
             android:layout_weight="1"
             android:src="@drawable/ic_redo"
             android:tint="@color/black" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/increment_brush_size_btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
             android:src="@drawable/ic_plus_2"
-            android:tint="@color/black"
-            android:visibility="visible" />
+            style="@style/editorButtonStyle" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/decrement_brush_size_btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
             android:src="@drawable/ic_mins_2"
-            android:tint="@color/black"
-            android:visibility="visible" />
+            style="@style/editorButtonStyle" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/fonts_btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
             android:src="@drawable/ic_fonts"
-            android:tint="@color/black"
-            android:visibility="visible" />
+            style="@style/editorButtonStyle" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/filter_btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
             android:src="@drawable/ic_photo_library"
-            android:tint="@color/black"
-            android:visibility="visible" />
+            style="@style/editorButtonStyle" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

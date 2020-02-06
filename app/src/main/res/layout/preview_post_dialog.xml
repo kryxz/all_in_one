@@ -5,15 +5,15 @@
     android:layout_height="wrap_content"
     android:background="?backgroundColor"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="@dimen/paddingMarginNormal">
 
 
     <com.google.android.material.card.MaterialCardView
         style="@style/Widget.MaterialComponents.CardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:padding="8dp"
+        android:layout_margin="@dimen/paddingMarginNormal"
+        android:padding="@dimen/paddingMarginNormal"
         app:cardBackgroundColor="?editTextBackgroundColor"
         app:cardCornerRadius="16dp"
         app:strokeColor="?textHintColor"
@@ -30,10 +30,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:padding="8dp"
+                android:padding="@dimen/paddingMarginNormal"
                 android:text="@string/app_name"
                 android:textColor="?textColor"
-                android:textSize="21sp"
+                android:textSize="@dimen/textSizeNormal"
                 android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -42,10 +42,10 @@
                 android:layout_height="wrap_content"
                 android:gravity="start"
                 android:maxLength="64"
-                android:padding="8dp"
+                android:padding="@dimen/paddingMarginNormal"
                 android:text="@string/text_sample"
                 android:textColor="?textColor"
-                android:textSize="16sp" />
+                android:textSize="@dimen/textSize" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -58,7 +58,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/paddingMarginNormal"
             android:layout_weight="1"
             android:src="@drawable/ic_delete_x"
             android:tint="?iconColor"
@@ -67,7 +67,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/paddingMarginNormal"
             android:layout_weight="1"
             android:src="@drawable/ic_report"
             android:tint="?iconColor" />
@@ -75,21 +75,21 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/paddingMarginNormal"
             android:layout_weight="1"
             android:src="@drawable/ic_arrow_downward" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/paddingMarginNormal"
             android:layout_weight="1"
             android:src="@drawable/ic_arrow_upward" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/paddingMarginNormal"
             android:layout_weight="1"
             android:src="@drawable/ic_bookmark_border"
             android:tint="?iconColor" />
@@ -109,7 +109,7 @@
             android:id="@+id/preview_post_done_btn"
             style="@style/default_button_style"
             android:text="@string/okay"
-            android:textSize="24sp" />
+            android:textSize="@dimen/textSizeLarge" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

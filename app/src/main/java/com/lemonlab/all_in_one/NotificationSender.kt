@@ -55,7 +55,7 @@ class NotificationSender {
             PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
 
         val icon =
-            R.drawable.ic_info // TODO set app icon here.
+            R.mipmap.ic_launcher
 
         val builder = NotificationCompat.Builder(context, context.getString(R.string.app_name))
             .setSmallIcon(icon)

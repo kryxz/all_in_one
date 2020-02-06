@@ -16,10 +16,10 @@
             android:id="@+id/settingsTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+            android:layout_margin="@dimen/paddingMarginSmall"
             android:layout_weight="1"
-            android:drawablePadding="8dp"
-            android:padding="8dp"
+            android:drawablePadding="@dimen/paddingMarginNormal"
+            android:padding="@dimen/paddingMarginNormal"
             android:text="@string/app_name"
             android:textColor="?textColor"
             android:textSize="20sp"
@@ -29,9 +29,9 @@
             android:id="@+id/settingsSwitch"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/paddingMarginSmall"
             android:layout_weight="5"
-            android:padding="8dp"
+            android:padding="@dimen/paddingMarginSmall"
             android:visibility="gone" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

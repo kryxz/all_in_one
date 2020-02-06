@@ -1,12 +1,12 @@
 package com.lemonlab.all_in_one.extensions
 
+import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
-import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
@@ -29,6 +29,13 @@ import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.single.PermissionListener
+import com.lemonlab.all_in_one.MainActivity
 import com.lemonlab.all_in_one.R
 import com.lemonlab.all_in_one.items.UnifiedAd
 import com.lemonlab.all_in_one.model.StatusColor
@@ -238,16 +245,9 @@ fun Context.getImageUriFromBitmap(bitmap: Bitmap): Uri {
         contentResolver,
         bitmap, getString(R.string.app_name), null
     )
-    scanFile(path)
     return Uri.parse(path.toString())
 }
 
-fun Context.scanFile(filePath: String) {
-    val path = arrayOf(filePath)
-    MediaScannerConnection.scanFile(this, path, null)
-    { _, _ -> }
-
-}
 
 fun addAd(index: Int, adapter: GroupAdapter<ViewHolder>) {
     if (index % 5 == 0)
@@ -300,4 +300,38 @@ class Ads {
             adLoader.loadAd(PublisherAdRequest.Builder().build())
         }
     }
+}
+
+const val adminUID = "d2I64q3CgwcUAaRVoYaepDNEHpu1"
+
+
+fun Context.askThenSave(bitmap: Bitmap) {
+
+    val uuid = UUID.randomUUID().toString().substring(0, 8)
+
+    Dexter.withActivity(MainActivity.instance!!)
+
+        .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+        .withListener(object : PermissionListener {
+            override fun onPermissionGranted(response: PermissionGrantedResponse) {
+                MediaStore.Images.Media.insertImage(
+                    contentResolver,
+                    bitmap,
+                    uuid,
+                    uuid + getString(R.string.app_name)
+                )
+
+            }
+
+            override fun onPermissionDenied(response: PermissionDeniedResponse) {}
+
+            override fun onPermissionRationaleShouldBeShown(
+                permission: PermissionRequest?,
+                token: PermissionToken?
+            ) {
+            }
+
+        }).check()
+
 }

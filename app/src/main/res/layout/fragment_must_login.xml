@@ -16,10 +16,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:padding="16dp"
+            android:padding="@dimen/paddingMarginLarge"
             android:text="@string/mustLogin"
             android:textColor="?textColor"
-            android:textSize="30sp"
+            android:textSize="@dimen/textSizeTitle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,8 +29,8 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:padding="8dp"
+            android:layout_margin="@dimen/paddingMarginNormal"
+            android:padding="@dimen/paddingMarginNormal"
             app:cardCornerRadius="32dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,10 +42,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?buttonColor"
-                android:padding="16dp"
+                android:padding="@dimen/paddingMarginLarge"
                 android:text="@string/loginOrRegister"
                 android:textColor="@color/white"
-                android:textSize="26sp"
+                android:textSize="@dimen/textSizeLarge"
                 android:textStyle="bold" />
 
 

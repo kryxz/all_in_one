@@ -19,3 +19,14 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keepclassmembers class com.lemonlab.all_in_one.** { *; }
+-keepclassmembers class com.lemonlab.all_in_one.items.** { *; }
+-keep public class * {
+    public protected *;
+}
+-keepclassmembernames class * {
+    java.lang.Class class$(java.lang.String);
+    java.lang.Class class$(java.lang.Long);
+    java.lang.Class class$(java.lang.String, boolean);
+}

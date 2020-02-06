@@ -4,7 +4,6 @@ import android.content.*
 import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import android.os.Handler
-import android.provider.MediaStore
 import android.view.View
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
@@ -12,9 +11,9 @@ import androidx.navigation.findNavController
 import com.lemonlab.all_in_one.LocalQuotesFragment
 import com.lemonlab.all_in_one.LocalQuotesFragmentDirections
 import com.lemonlab.all_in_one.R
+import com.lemonlab.all_in_one.extensions.askThenSave
 import com.lemonlab.all_in_one.extensions.getBitmapFromView
 import com.lemonlab.all_in_one.extensions.highlightText
-import com.lemonlab.all_in_one.extensions.scanFile
 import com.lemonlab.all_in_one.extensions.showMessage
 import com.lemonlab.all_in_one.items.CategoryPics.Companion.getPics
 import com.lemonlab.all_in_one.items.CategoryPics.Companion.getRandomColor
@@ -23,7 +22,6 @@ import com.lemonlab.all_in_one.model.StatusColor
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.quote_item.view.*
-import java.util.*
 import kotlin.random.Random
 
 
@@ -372,15 +370,9 @@ class QuoteItem(
         }
 
 
+
         fun saveImage(bitmap: Bitmap, context: Context) {
-            val uuid = UUID.randomUUID().toString().subSequence(0, 10)
-            val path = MediaStore.Images.Media.insertImage(
-                context.contentResolver,
-                bitmap,
-                context.getString(R.string.app_name) + uuid,
-                context.getString(R.string.app_name)
-            )
-            context.scanFile(path)
+            context.askThenSave(bitmap)
             context.showMessage(context.getString(R.string.image_saved))
         }
 

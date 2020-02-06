@@ -110,7 +110,7 @@ data class UserStatus(
             delete()
     }
 
-    private fun delete() {
+    fun delete() {
         FirebaseFirestore.getInstance()
             .collection("statuses")
             .document(this.statusID).delete()

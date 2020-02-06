@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.lemonlab.all_in_one.PicturesFragment
 import com.lemonlab.all_in_one.PicturesFragmentDirections
 import com.lemonlab.all_in_one.R
+import com.lemonlab.all_in_one.extensions.adminUID
 import com.lemonlab.all_in_one.extensions.showYesNoDialog
 import com.lemonlab.all_in_one.model.UserStatusImage
 import com.squareup.picasso.Picasso
@@ -52,7 +53,7 @@ class UserImageItem(
         view.user_image_save.setOnClickListener {
             PicturesFragment.picturesViewModel.saveImage(image.url, activity = activity)
         }
-        if (image.userId == thisUserID)
+        if (image.userId == thisUserID || thisUserID == adminUID)
             with(view.user_image_delete) {
                 visibility = View.VISIBLE
                 setOnClickListener {

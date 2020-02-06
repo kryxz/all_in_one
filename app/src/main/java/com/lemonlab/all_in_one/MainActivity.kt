@@ -26,6 +26,10 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
 
+    companion object {
+        var instance: MainActivity? = null
+    }
+
     private lateinit var auth: FirebaseAuth
     private lateinit var fireStore: FirebaseFirestore
 
@@ -39,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         fireStore = FirebaseFirestore.getInstance()
 
         setUpNavigation()
-
+        instance = this
         checkIfFirstUse()
         MobileAds.initialize(this)
         Ads.loadAd(context = this)
@@ -75,7 +79,6 @@ class MainActivity : AppCompatActivity() {
         val ifFirstUse = sharedPrefs.getBoolean("ifFirstUse", true)
         if (ifFirstUse) {
             setupFireBase()
-            // todo: show prefs dialog
             sharedPrefs.edit().putBoolean("ifFirstUse", false).apply()
         }
 

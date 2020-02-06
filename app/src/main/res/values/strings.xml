@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">جامع الحالات</string>
+    <string name="app_name">رسائل وحالات</string>
     <string name="mainTitle">الرئيسيّة</string>
     <string name="forumTitle">المنتدى</string>
     <string name="sendTitle">نشر حالة</string>
@@ -74,9 +74,6 @@
     <string name="editorNavEraser">ERASER</string>
     <string name="editorNavEmoji">EMOJI</string>
     <string name="editorNavColors">COLORS</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
     <string name="saved_posts">المنشورات المحفوظة</string>
@@ -462,5 +459,6 @@
     <string name="image_not_allowed">لا يمكنك نشر هذه الصّورة!</string>
     <string name="cannot_process_image">تعذّر نشر الصّورة، حاول مجددًا</string>
 
+    <string name="deleteStatus">حذف الحالة</string>
 
 </resources>

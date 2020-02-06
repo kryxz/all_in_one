@@ -10,11 +10,11 @@
         android:id="@+id/font_item_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
+        android:layout_margin="@dimen/paddingMarginSmall"
         android:gravity="center_horizontal"
-        android:padding="8dp"
+        android:padding="@dimen/paddingMarginNormal"
         android:text="@string/app_name"
         android:textColor="?textColor"
-        android:textSize="22sp" />
+        android:textSize="@dimen/textSizeLarge" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
