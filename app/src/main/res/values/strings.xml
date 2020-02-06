@@ -81,7 +81,7 @@
 
     <string name="saved_posts">المنشورات المحفوظة</string>
     <string name="select_fonts">اختر أحد الخطوط التالية</string>
-    <string name="select_emoji">اختصر ملصقًا لإضافته إلى الصورة</string>
+    <string name="select_emoji">اختر ملصقًا لإضافته إلى الصورة</string>
     <string name="text_sample">عندما انطفأت شعلة النار، بدأ يحدِّق في النجوم عبر النافذة. كانت رحلة العودة ستتم من غير رفاق طريق.</string>
     <string name="couldnt_save_image">تعذر حفظ الصورة</string>
     <string name="image_saved">تم حفظ الصورة بنجاح</string>

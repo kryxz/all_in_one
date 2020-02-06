@@ -54,7 +54,7 @@ class CreateFragment : Fragment() {
 
     private lateinit var photoEditor: PhotoEditor
     private var currentEditorBackground: Int = R.drawable.editor_image0
-    private var currentFontTypeFace: Typeface? = null // TODO:: Change the first color
+    private var currentFontTypeFace: Typeface? = null
     private var imageUri: Uri? = null
 
     enum class PhotoTool {
