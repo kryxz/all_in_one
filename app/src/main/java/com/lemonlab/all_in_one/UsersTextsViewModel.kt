@@ -263,8 +263,7 @@ class UsersTextsViewModel(application: Application) : AndroidViewModel(applicati
             comments.value!!.sortedByDescending {
                 it.timestamp.time
             }
-            comments.value = comments.value!!.asReversed()
-
+            comments.value = comments.value!!
         }
 
         return comments
