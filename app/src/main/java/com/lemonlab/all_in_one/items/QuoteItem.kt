@@ -373,7 +373,6 @@ class QuoteItem(
 
         fun saveImage(bitmap: Bitmap, context: Context) {
             context.askThenSave(bitmap)
-            context.showMessage(context.getString(R.string.image_saved))
         }
 
         fun tintFavIcon(imageView: AppCompatImageView) {

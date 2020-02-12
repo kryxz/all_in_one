@@ -7,6 +7,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
@@ -254,6 +255,13 @@ fun addAd(index: Int, adapter: GroupAdapter<ViewHolder>) {
         Ads.addAd(adapter)
 }
 
+fun Context.scanFile(filePath: String) {
+    val path = arrayOf(filePath)
+    MediaScannerConnection.scanFile(this, path, null)
+    { _, _ -> }
+
+}
+
 // handles ads in app
 class Ads {
 
@@ -315,13 +323,16 @@ fun Context.askThenSave(bitmap: Bitmap) {
 
         .withListener(object : PermissionListener {
             override fun onPermissionGranted(response: PermissionGrantedResponse) {
-                MediaStore.Images.Media.insertImage(
+                val path = MediaStore.Images.Media.insertImage(
                     contentResolver,
                     bitmap,
                     uuid,
                     uuid + getString(R.string.app_name)
                 )
+                if (path != null)
+                    scanFile(path)
 
+                showMessage(getString(R.string.image_saved))
             }
 
             override fun onPermissionDenied(response: PermissionDeniedResponse) {}
